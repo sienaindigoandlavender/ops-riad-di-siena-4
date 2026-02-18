@@ -51,6 +51,20 @@ function fmtDate(d: string): string {
   return new Date(d+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
 }
 function eur(n: number): string { return new Intl.NumberFormat("en-US",{style:"currency",currency:"EUR",minimumFractionDigits:2}).format(n); }
+function fmtShort(a: string, b: string): string {
+  if(!a&&!b) return "";
+  const dA=a?new Date(a+"T12:00:00"):null;
+  const dB=b?new Date(b+"T12:00:00"):null;
+  const mo=(d:Date)=>d.toLocaleDateString("en-US",{month:"short"});
+  const dy=(d:Date)=>d.getDate();
+  const yr=(d:Date)=>d.getFullYear();
+  if(dA&&dB&&dA.getMonth()===dB.getMonth()&&dA.getFullYear()===dB.getFullYear()){
+    return `${mo(dA)} ${dy(dA)}-${dy(dB)}, ${yr(dA)}`;
+  }
+  if(dA&&dB) return `${mo(dA)} ${dy(dA)} - ${mo(dB)} ${dy(dB)}, ${yr(dB)}`;
+  if(dA) return `${mo(dA)} ${dy(dA)}, ${yr(dA)}`;
+  return "";
+}
 function newRoom(): RoomEntry { return { id: genId(), property: "The Riad", room: "", checkIn: "", checkOut: "", guestCount: 2, rate: 0 }; }
 function roomsForProp(p: string) { return p==="The Riad"?RIAD_ROOMS:p==="The Douaria"?DOUARIA_ROOMS:[]; }
 
@@ -228,39 +242,31 @@ function InvoicePage() {
 
     y+=8; doc.setDrawColor(42,37,32); doc.setLineWidth(0.15); doc.line(M,y,W-M,y); y+=10;
 
-    const c2=W/2+8;
+    // Billed To — single column
     doc.setFontSize(7.5); doc.setTextColor(160,155,148);
-    doc.text("BILLED TO",M,y); doc.text("STAY DETAILS",c2,y); y+=5;
+    doc.text("BILLED TO",M,y); y+=5;
 
     const fullN=[fName,lName].filter(Boolean).join(" ")||"Guest";
     doc.setFontSize(10); doc.setFont("helvetica","bold"); doc.setTextColor(42,37,32);
-    doc.text(fullN,M,y);
-
-    // Stay details — show rooms summary
-    const propNames = Array.from(new Set(rooms.map(r=>r.property))).join(" / ");
-    doc.text(propNames||"—",c2,y);
+    doc.text(fullN,M,y); y+=5;
 
     doc.setFont("helvetica","normal"); doc.setFontSize(8.5); doc.setTextColor(100,95,88);
-    let yL=y+5;
-    if(email){doc.text(email,M,yL);yL+=4;}
-    if(phone){doc.text(phone,M,yL);yL+=4;}
-    if(country){doc.text(country,M,yL);yL+=4;}
+    if(email){doc.text(email,M,y);y+=4;}
+    if(phone){doc.text(phone,M,y);y+=4;}
+    if(country){doc.text(country,M,y);y+=4;}
+    if(bookRef){doc.setFontSize(7.5);doc.setTextColor(170,165,158);doc.text(`Ref: ${bookRef}`,M,y);y+=4;}
 
-    let yR=y+5;
-    for(const rc of roomCalcs){
-      if(rc.room){doc.text(rc.room,c2,yR);yR+=4;}
-      if(rc.checkIn||rc.checkOut){doc.text(`${fmtDate(rc.checkIn)}  to  ${fmtDate(rc.checkOut)}`,c2,yR);yR+=4;}
-      doc.text(`${rc.nights} night${rc.nights!==1?"s":""} · ${rc.guestCount} guest${rc.guestCount!==1?"s":""}`,c2,yR);yR+=4;
-      if(rooms.length>1) yR+=1; // spacing between rooms
-    }
-    if(bookRef){doc.setFontSize(7.5);doc.setTextColor(170,165,158);doc.text(`Ref: ${bookRef}`,c2,yR);yR+=4;}
+    y+=6;
 
-    y=Math.max(yL,yR)+6;
-
-    // Table rows
+    // Table rows — room details embedded in description
     const rows: (string|number)[][]=[];
     for(const rc of roomCalcs){
-      if(rc.nights>0&&rc.rate>0) rows.push([`Accommodation — ${rc.room||rc.property}`,`${rc.nights}`,eur(rc.rate),eur(rc.total)]);
+      if(rc.nights>0&&rc.rate>0){
+        const label = rc.room||rc.property;
+        const dates = fmtShort(rc.checkIn,rc.checkOut);
+        const desc = `${label}: ${dates}. ${rc.guestCount} guest${rc.guestCount!==1?"s":""}.`;
+        rows.push([desc,`${rc.nights}`,eur(rc.rate),eur(rc.total)]);
+      }
     }
     if(taxTot>0){
       const taxDesc = rooms.length===1
@@ -565,24 +571,14 @@ function InvoicePage() {
 
           <div className="mx-10 border-t border-[#2a2520]/8"/>
 
-          <div className="px-10 py-6 grid grid-cols-2 gap-8">
+          <div className="px-10 py-6">
             <div>
               <p className="text-[7.5px] tracking-[0.2em] uppercase text-[#2a2520]/20 mb-2">Billed To</p>
               <p className="text-[12px] font-medium text-[#2a2520]">{[fName,lName].filter(Boolean).join(" ")||"—"}</p>
               {email&&<p className="text-[10px] text-[#2a2520]/35 mt-0.5">{email}</p>}
               {phone&&<p className="text-[10px] text-[#2a2520]/35">{phone}</p>}
               {country&&<p className="text-[10px] text-[#2a2520]/35">{country}</p>}
-            </div>
-            <div>
-              <p className="text-[7.5px] tracking-[0.2em] uppercase text-[#2a2520]/20 mb-2">Stay</p>
-              {roomCalcs.map((rc,i)=>(
-                <div key={rc.id} className={`${i>0?"mt-3 pt-3 border-t border-[#2a2520]/[0.04]":""}`}>
-                  <p className="text-[12px] font-medium text-[#2a2520]">{rc.property}{rc.room?` — ${rc.room}`:""}</p>
-                  <p className="text-[10px] text-[#2a2520]/35">{fmtDate(rc.checkIn)} → {fmtDate(rc.checkOut)}</p>
-                  <p className="text-[10px] text-[#2a2520]/35">{rc.nights} night{rc.nights!==1?"s":""} · {rc.guestCount} guest{rc.guestCount!==1?"s":""}</p>
-                </div>
-              ))}
-              {bookRef&&<p className="text-[8px] text-[#2a2520]/15 mt-2 font-mono">{bookRef}</p>}
+              {bookRef&&<p className="text-[8px] text-[#2a2520]/15 mt-1.5 font-mono">{bookRef}</p>}
             </div>
           </div>
 
@@ -595,7 +591,7 @@ function InvoicePage() {
                 <th className="py-2 text-right font-normal text-[7.5px] tracking-[0.15em] uppercase text-[#2a2520]/20 w-18">Amount</th>
               </tr></thead>
               <tbody className="text-[#2a2520]/60">
-                {roomCalcs.map(rc=>rc.nights>0&&rc.rate>0&&<tr key={rc.id} className="border-b border-[#2a2520]/[0.04]"><td className="py-2">Accommodation — {rc.room||rc.property}</td><td className="py-2 text-center">{rc.nights}</td><td className="py-2 text-right">{eur(rc.rate)}</td><td className="py-2 text-right text-[#2a2520] font-medium">{eur(rc.total)}</td></tr>)}
+                {roomCalcs.map(rc=>rc.nights>0&&rc.rate>0&&<tr key={rc.id} className="border-b border-[#2a2520]/[0.04]"><td className="py-2">{rc.room||rc.property}: {fmtShort(rc.checkIn,rc.checkOut)}. {rc.guestCount} guest{rc.guestCount!==1?"s":""}.</td><td className="py-2 text-center">{rc.nights}</td><td className="py-2 text-right">{eur(rc.rate)}</td><td className="py-2 text-right text-[#2a2520] font-medium">{eur(rc.total)}</td></tr>)}
                 {taxTot>0&&<tr className="border-b border-[#2a2520]/[0.04]"><td className="py-2">City Tax (€{CITY_TAX.toFixed(2)}/person/night)</td><td className="py-2 text-center">1</td><td className="py-2 text-right">{eur(taxTot)}</td><td className="py-2 text-right text-[#2a2520] font-medium">{eur(taxTot)}</td></tr>}
                 {lines.filter(l=>l.description).map(l=><tr key={l.id} className="border-b border-[#2a2520]/[0.04]"><td className="py-2">{l.description}</td><td className="py-2 text-center">{l.quantity}</td><td className="py-2 text-right">{eur(l.unitPrice)}</td><td className="py-2 text-right text-[#2a2520] font-medium">{eur(l.quantity*l.unitPrice)}</td></tr>)}
               </tbody>
