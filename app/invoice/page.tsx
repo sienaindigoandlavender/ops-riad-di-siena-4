@@ -219,7 +219,7 @@ function InvoicePage() {
     doc.text("Riad di Siena",M,y);
     doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(130,125,118);
     y+=6; doc.text("37 Derb Fhal Zefriti, Laksour · Marrakech Medina 40000 · Morocco",M,y);
-    y+=3.5; doc.text("happy@riaddisiena.com · +212 524 391723 · riaddisiena.com",M,y);
+    y+=3.5; doc.text("happy@riaddisiena.com · +212 618 070 450 · riaddisiena.com",M,y);
 
     doc.setFont("helvetica","bold"); doc.setFontSize(10); doc.setTextColor(42,37,32);
     doc.text(invNo,W-M,24,{align:"right"});
@@ -554,7 +554,7 @@ function InvoicePage() {
             <div className="flex justify-between items-start">
               <div>
                 <h2 className="font-serif text-[24px] tracking-tight text-[#2a2520]">Riad di Siena</h2>
-                <p className="text-[9px] text-[#2a2520]/30 mt-1.5 leading-[1.6]">37 Derb Fhal Zefriti, Laksour<br/>Marrakech Medina 40000 · Morocco<br/>happy@riaddisiena.com · +212 524 391723</p>
+                <p className="text-[9px] text-[#2a2520]/30 mt-1.5 leading-[1.6]">37 Derb Fhal Zefriti, Laksour<br/>Marrakech Medina 40000 · Morocco<br/>happy@riaddisiena.com · +212 618 070 450</p>
               </div>
               <div className="text-right">
                 <p className="text-[12px] font-medium text-[#2a2520]">{invNo}</p>
