@@ -237,7 +237,7 @@ function InvoicePage() {
     doc.text(fullN,M,y);
 
     // Stay details — show rooms summary
-    const propNames = [...new Set(rooms.map(r=>r.property))].join(" / ");
+    const propNames = Array.from(new Set(rooms.map(r=>r.property))).join(" / ");
     doc.text(propNames||"—",c2,y);
 
     doc.setFont("helvetica","normal"); doc.setFontSize(8.5); doc.setTextColor(100,95,88);
