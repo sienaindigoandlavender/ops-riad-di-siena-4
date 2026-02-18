@@ -249,7 +249,7 @@ function InvoicePage() {
     let yR=y+5;
     for(const rc of roomCalcs){
       if(rc.room){doc.text(rc.room,c2,yR);yR+=4;}
-      if(rc.checkIn||rc.checkOut){doc.text(`${fmtDate(rc.checkIn)} → ${fmtDate(rc.checkOut)}`,c2,yR);yR+=4;}
+      if(rc.checkIn||rc.checkOut){doc.text(`${fmtDate(rc.checkIn)}  to  ${fmtDate(rc.checkOut)}`,c2,yR);yR+=4;}
       doc.text(`${rc.nights} night${rc.nights!==1?"s":""} · ${rc.guestCount} guest${rc.guestCount!==1?"s":""}`,c2,yR);yR+=4;
       if(rooms.length>1) yR+=1; // spacing between rooms
     }
@@ -285,14 +285,14 @@ function InvoicePage() {
 
     doc.setFontSize(8.5);doc.setTextColor(130,125,118);
     doc.text("Subtotal",tL,y);doc.setTextColor(42,37,32);doc.text(eur(sub),tR,y,{align:"right"});y+=5;
-    if(disc>0){doc.setTextColor(130,125,118);doc.text(dType==="percent"?`Discount (${dVal}%)`:"Discount",tL,y);doc.setTextColor(180,60,60);doc.text(`−${eur(disc)}`,tR,y,{align:"right"});y+=5;}
+    if(disc>0){doc.setTextColor(130,125,118);doc.text(dType==="percent"?`Discount (${dVal}%)`:"Discount",tL,y);doc.setTextColor(180,60,60);doc.text(`-${eur(disc)}`,tR,y,{align:"right"});y+=5;}
 
     doc.setDrawColor(42,37,32);doc.setLineWidth(0.4);doc.line(tL-2,y,tR,y);y+=6;
     doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(42,37,32);
     doc.text("Total",tL,y);doc.text(eur(total),tR,y,{align:"right"});y+=7;
     doc.setFont("helvetica","normal");doc.setFontSize(8);
-    if(payStatus==="Paid"){doc.setTextColor(60,130,60);doc.text(`✓ ${payStatus} via ${payMethod}`,tL,y);}
-    else{doc.setTextColor(180,130,40);doc.text(`○ ${payStatus}`,tL,y);}
+    if(payStatus==="Paid"){doc.setTextColor(60,130,60);doc.text(`PAID via ${payMethod}`,tL,y);}
+    else{doc.setTextColor(180,130,40);doc.text(payStatus,tL,y);}
 
     if(notes){y+=12;doc.setFontSize(7.5);doc.setTextColor(160,155,148);doc.text("NOTES",M,y);y+=5;doc.setFontSize(8.5);doc.setTextColor(100,95,88);doc.text(doc.splitTextToSize(notes,W-M*2),M,y);}
 
