@@ -1,15 +1,8 @@
 import { NextResponse } from "next/server";
-import { getSheetData, rowsToObjects } from "@/lib/sheets";
+import { supabase } from "@/lib/supabase";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
-
-interface Room {
-  room_id: string;
-  name: string;
-  ical_url: string;
-  [key: string]: string;
-}
 
 interface BookedRange {
   start: string;
@@ -37,17 +30,11 @@ async function fetchIcalData(url: string): Promise<{ bookedDates: BookedRange[];
       signal: AbortSignal.timeout(10000),
     });
 
-    if (!response.ok) {
-      return { bookedDates: [], error: `HTTP ${response.status}` };
-    }
+    if (!response.ok) return { bookedDates: [], error: `HTTP ${response.status}` };
 
     const icalData = await response.text();
-    
-    if (!icalData.includes("BEGIN:VCALENDAR")) {
-      return { bookedDates: [], error: "Invalid iCal format" };
-    }
+    if (!icalData.includes("BEGIN:VCALENDAR")) return { bookedDates: [], error: "Invalid iCal format" };
 
-    // Parse iCal data
     const bookedDates: BookedRange[] = [];
     const lines = icalData.split(/\r?\n/);
     let inEvent = false;
@@ -57,17 +44,13 @@ async function fetchIcalData(url: string): Promise<{ bookedDates: BookedRange[];
 
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i].trim();
-      
       while (i + 1 < lines.length && (lines[i + 1].startsWith(" ") || lines[i + 1].startsWith("\t"))) {
         i++;
         line += lines[i].trim();
       }
-      
+
       if (line === "BEGIN:VEVENT") {
-        inEvent = true;
-        startDate = "";
-        endDate = "";
-        summary = "";
+        inEvent = true; startDate = ""; endDate = ""; summary = "";
       } else if (line === "END:VEVENT") {
         if (startDate) {
           if (!endDate) {
@@ -81,14 +64,10 @@ async function fetchIcalData(url: string): Promise<{ bookedDates: BookedRange[];
       } else if (inEvent) {
         if (line.startsWith("DTSTART")) {
           const match = line.match(/(\d{4})(\d{2})(\d{2})/);
-          if (match) {
-            startDate = `${match[1]}-${match[2]}-${match[3]}`;
-          }
+          if (match) startDate = `${match[1]}-${match[2]}-${match[3]}`;
         } else if (line.startsWith("DTEND")) {
           const match = line.match(/(\d{4})(\d{2})(\d{2})/);
-          if (match) {
-            endDate = `${match[1]}-${match[2]}-${match[3]}`;
-          }
+          if (match) endDate = `${match[1]}-${match[2]}-${match[3]}`;
         } else if (line.startsWith("SUMMARY")) {
           summary = line.replace(/^SUMMARY:?/, "").trim();
         }
@@ -97,47 +76,23 @@ async function fetchIcalData(url: string): Promise<{ bookedDates: BookedRange[];
 
     return { bookedDates };
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return { bookedDates: [], error: message };
+    return { bookedDates: [], error: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
 export async function GET() {
   try {
-    // Fetch rooms from both properties - may not exist yet
-    let riadRooms: Room[] = [];
-    let douariaRooms: Room[] = [];
-    
-    try {
-      const riadRows = await getSheetData("Rooms");
-      riadRooms = rowsToObjects<Room>(riadRows);
-    } catch {
-      // Rooms tab doesn't exist yet
+    const { data: riadRooms } = await supabase.from("rooms").select("room_id, name, ical_url").order("order", { ascending: true });
+    const { data: douariaRooms } = await supabase.from("douaria_rooms").select("room_id, name, ical_url").order("order", { ascending: true });
+
+    const roomsWithIcal: { room: any; property: string }[] = [];
+    for (const room of (riadRooms || [])) {
+      if (room.ical_url) roomsWithIcal.push({ room, property: "riad" });
     }
-    
-    try {
-      const douariaRows = await getSheetData("Douaria_Rooms");
-      douariaRooms = rowsToObjects<Room>(douariaRows);
-    } catch {
-      // Douaria_Rooms tab doesn't exist yet
+    for (const room of (douariaRooms || [])) {
+      if (room.ical_url) roomsWithIcal.push({ room, property: "douaria" });
     }
 
-    // Build list of rooms with iCal URLs
-    const roomsWithIcal: { room: Room; property: string }[] = [];
-    
-    for (const room of riadRooms) {
-      if (room.ical_url) {
-        roomsWithIcal.push({ room, property: "riad" });
-      }
-    }
-    
-    for (const room of douariaRooms) {
-      if (room.ical_url) {
-        roomsWithIcal.push({ room, property: "douaria" });
-      }
-    }
-
-    // Fetch iCal data for each room in parallel
     const results: RoomAvailability[] = await Promise.all(
       roomsWithIcal.map(async ({ room, property }) => {
         const { bookedDates, error } = await fetchIcalData(room.ical_url!);
@@ -152,31 +107,13 @@ export async function GET() {
       })
     );
 
-    // Also include rooms without iCal URLs (for completeness)
+    // Include rooms without iCal
     const allResults: RoomAvailability[] = [...results];
-    
-    for (const room of riadRooms) {
-      if (!room.ical_url) {
-        allResults.push({
-          roomId: room.room_id,
-          roomName: room.name,
-          property: "riad",
-          icalUrl: null,
-          blockedDates: [],
-        });
-      }
+    for (const room of (riadRooms || [])) {
+      if (!room.ical_url) allResults.push({ roomId: room.room_id, roomName: room.name, property: "riad", icalUrl: null, blockedDates: [] });
     }
-    
-    for (const room of douariaRooms) {
-      if (!room.ical_url) {
-        allResults.push({
-          roomId: room.room_id,
-          roomName: room.name,
-          property: "douaria",
-          icalUrl: null,
-          blockedDates: [],
-        });
-      }
+    for (const room of (douariaRooms || [])) {
+      if (!room.ical_url) allResults.push({ roomId: room.room_id, roomName: room.name, property: "douaria", icalUrl: null, blockedDates: [] });
     }
 
     return NextResponse.json({
@@ -188,10 +125,6 @@ export async function GET() {
     });
   } catch (error) {
     console.error("Error fetching iCal feeds:", error);
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : "Unknown error",
-      rooms: [],
-    }, { status: 500 });
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : "Unknown error", rooms: [] }, { status: 500 });
   }
 }
