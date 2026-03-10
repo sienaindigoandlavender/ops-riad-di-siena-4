@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-// Service-role client for server-side operations (full CRUD)
+// Single service-role client — ops and riad data now live in the same project
 export const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // ============================================================
