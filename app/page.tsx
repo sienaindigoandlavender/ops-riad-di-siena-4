@@ -36,19 +36,19 @@ interface ImportResults {
 // Helper to get color with flexible matching
 const getSourceColor = (source: string): string => {
   const s = (source || "").trim().toLowerCase();
-  if (s.includes("blackout") || s.includes("blocked")) return "bg-[#4a4a4a]";
-  if (s.includes("airbnb")) return "bg-[#E8A9A9]";
-  if (s.includes("booking")) return "bg-[#89CFF0]";
+  if (s.includes("blackout") || s.includes("blocked")) return "bg-[#5C4F45]";
+  if (s.includes("airbnb")) return "bg-[#C9A5A0]";
+  if (s.includes("booking")) return "bg-[#A8BDC8]";
   // Website, WhatsApp, Direct, Email, Other all get olive green
-  return "bg-[#A3B18A]";
+  return "bg-[#9DA88F]";
 };
 
 const getSourceTextColor = (source: string): string => {
   const s = (source || "").trim().toLowerCase();
-  if (s.includes("blackout") || s.includes("blocked")) return "text-white/70";
-  if (s.includes("airbnb")) return "text-[#6b3a3a]";
-  if (s.includes("booking")) return "text-[#1a4a6e]";
-  return "text-[#3a4a34]";
+  if (s.includes("blackout") || s.includes("blocked")) return "text-ink-inverse";
+  if (s.includes("airbnb")) return "text-[#6B4E3D]";
+  if (s.includes("booking")) return "text-[#4A5C66]";
+  return "text-[#4A5440]";
 };
 
 // Parse individual room names from a booking
@@ -637,29 +637,29 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
-        <div className="text-black/40 text-[13px]">Loading calendar...</div>
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <div className="text-ink-tertiary text-[13px]">Loading calendar...</div>
       </div>
     );
   }
 
   return (
     <PasswordGate>
-    <div className="min-h-screen bg-[#fafafa]">
+    <div className="min-h-screen bg-cream">
       {/* Header */}
-      <div className="bg-white border-b border-black/[0.06]">
+      <div className="bg-cream border-b border-border-subtle">
         <div className="px-4 py-4 md:px-8 md:py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="font-serif text-[18px] md:text-[22px] text-black/90">Riad di Siena</h1>
-              <p className="text-[11px] text-black/40 mt-0.5">Operations Dashboard</p>
+              <h1 className="font-serif text-[18px] md:text-[22px] text-ink-primary">Riad di Siena</h1>
+              <p className="text-[11px] text-ink-tertiary mt-0.5">Operations Dashboard</p>
             </div>
 
             {/* Import Buttons */}
             <div className="flex items-center gap-2 md:gap-3">
               <button
                 onClick={() => openImportModal("booking")}
-                className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 bg-[#89CFF0]/20 hover:bg-[#89CFF0]/30 text-[#1a4a6e] rounded-lg transition-colors text-[12px] md:text-[13px] font-medium"
+                className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 bg-[#A8BDC8]/20 hover:bg-[#A8BDC8]/30 text-[#4A5C66] rounded-lg transition-colors text-[12px] md:text-[13px] font-medium"
               >
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -668,7 +668,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => openImportModal("airbnb")}
-                className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 bg-[#E8A9A9]/20 hover:bg-[#E8A9A9]/30 text-[#6b3a3a] rounded-lg transition-colors text-[12px] md:text-[13px] font-medium"
+                className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 bg-[#C9A5A0]/20 hover:bg-[#C9A5A0]/30 text-[#6B4E3D] rounded-lg transition-colors text-[12px] md:text-[13px] font-medium"
               >
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -681,7 +681,7 @@ export default function HomePage() {
       </div>
 
       {/* Calendar Navigation */}
-      <div className="bg-white border-b border-black/[0.06] px-4 md:px-8 py-3 md:py-4">
+      <div className="bg-cream border-b border-border-subtle px-4 md:px-8 py-3 md:py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-3">
             {/* Month dropdown - Airbnb style */}
@@ -693,12 +693,12 @@ export default function HomePage() {
                   }
                   setShowDatePicker(!showDatePicker);
                 }}
-                className="flex items-center gap-2 px-3 py-2 border border-black/[0.1] rounded-lg hover:bg-black/[0.02] transition-colors"
+                className="flex items-center gap-2 px-3 py-2 border border-border-subtle rounded-lg hover:bg-bone transition-colors"
               >
-                <span className="text-[14px] font-medium text-black/80">
+                <span className="text-[14px] font-medium text-ink-primary">
                   {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
                 </span>
-                <svg className={`w-3.5 h-3.5 text-black/40 transition-transform ${showDatePicker ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className={`w-3.5 h-3.5 text-ink-tertiary transition-transform ${showDatePicker ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -706,7 +706,7 @@ export default function HomePage() {
               {/* Month list dropdown */}
               {showDatePicker && (
                 <div
-                  className="absolute top-full left-0 mt-2 bg-white rounded-xl border border-black/[0.1] shadow-xl z-50 py-2"
+                  className="absolute top-full left-0 mt-2 bg-white rounded-xl border border-border-subtle shadow-xl z-50 py-2"
                   style={{ width: '200px', maxHeight: '280px', overflowY: 'auto' }}
                 >
                   {Array.from({ length: 24 }, (_, i) => {
@@ -724,7 +724,7 @@ export default function HomePage() {
                           jumpToDate(target);
                           setShowDatePicker(false);
                         }}
-                        className={`w-full text-left px-4 py-2 text-[13px] transition-colors hover:bg-black/[0.04] ${isSelected ? "bg-blue-50 text-blue-600 font-medium" : "text-black/70"}`}
+                        className={`w-full text-left px-4 py-2 text-[13px] transition-colors hover:bg-parchment ${isSelected ? "bg-accent-soft text-accent-strong font-medium" : "text-ink-body"}`}
                       >
                         {label}
                       </button>
@@ -737,7 +737,7 @@ export default function HomePage() {
             {/* Today button */}
             <button
               onClick={goToToday}
-              className="px-4 py-2 text-[13px] font-medium text-black/70 border border-black/[0.1] rounded-lg hover:bg-black/[0.04] transition-colors"
+              className="px-4 py-2 text-[13px] font-medium text-ink-body border border-border-subtle rounded-lg hover:bg-parchment transition-colors"
             >
               Today
             </button>
@@ -746,17 +746,17 @@ export default function HomePage() {
             <div className="hidden md:flex items-center">
               <button
                 onClick={() => navigateWeek(-1)}
-                className="p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
+                className="p-2 hover:bg-parchment rounded-lg transition-colors"
               >
-                <svg className="w-5 h-5 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <button
                 onClick={() => navigateWeek(1)}
-                className="p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
+                className="p-2 hover:bg-parchment rounded-lg transition-colors"
               >
-                <svg className="w-5 h-5 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
@@ -768,7 +768,7 @@ export default function HomePage() {
                 setLoading(true);
                 fetchBookings().finally(() => setLoading(false));
               }}
-              className="p-2 text-black/50 hover:bg-black/[0.04] rounded-lg transition-colors"
+              className="p-2 text-ink-secondary hover:bg-parchment rounded-lg transition-colors"
               title="Refresh bookings"
             >
               <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -780,20 +780,20 @@ export default function HomePage() {
           {/* Legend - hidden on mobile */}
           <div className="hidden md:flex items-center gap-4 text-[11px]">
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#89CFF0]"></div>
-              <span className="text-black/50">Booking.com</span>
+              <div className="w-3 h-3 rounded bg-[#A8BDC8]"></div>
+              <span className="text-ink-secondary">Booking.com</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#E8A9A9]"></div>
-              <span className="text-black/50">Airbnb</span>
+              <div className="w-3 h-3 rounded bg-[#C9A5A0]"></div>
+              <span className="text-ink-secondary">Airbnb</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#A3B18A]"></div>
-              <span className="text-black/50">Direct</span>
+              <div className="w-3 h-3 rounded bg-[#9DA88F]"></div>
+              <span className="text-ink-secondary">Direct</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#4a4a4a]"></div>
-              <span className="text-black/50">Blocked</span>
+              <div className="w-3 h-3 rounded bg-[#5C4F45]"></div>
+              <span className="text-ink-secondary">Blocked</span>
             </div>
           </div>
         </div>
@@ -812,11 +812,11 @@ export default function HomePage() {
             })}
             className="p-2 -ml-2"
           >
-            <svg className="w-5 h-5 text-black/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <span className="text-[16px] font-medium text-black/80">
+          <span className="text-[16px] font-medium text-ink-primary">
             {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
           </span>
           <button
@@ -828,7 +828,7 @@ export default function HomePage() {
             })}
             className="p-2 -mr-2"
           >
-            <svg className="w-5 h-5 text-black/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -840,7 +840,7 @@ export default function HomePage() {
           { label: "The Douaria", rooms: DOUARIA_ROOMS },
         ].map((group) => (
           <div key={group.label} className="mb-4">
-            <div className="text-[10px] font-medium text-black/50 uppercase tracking-wide mb-2 px-1">{group.label}</div>
+            <div className="text-[10px] font-medium text-ink-secondary uppercase tracking-wide mb-2 px-1">{group.label}</div>
             <div className="grid grid-cols-2 gap-3">
               {group.rooms.map((room) => {
                 // Build calendar cells for this month
@@ -856,12 +856,12 @@ export default function HomePage() {
                 const todayStr = toDateStr(new Date());
 
                 return (
-                  <div key={room} className="bg-white rounded-xl border border-black/[0.06] overflow-hidden">
+                  <div key={room} className="bg-cream rounded-xl border border-border-subtle overflow-hidden">
                     {/* Mini calendar grid */}
                     <div className="p-2.5">
                       <div className="grid grid-cols-7 text-center gap-y-0.5">
                         {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-                          <div key={i} className="text-[9px] text-black/30 font-medium leading-5">{d}</div>
+                          <div key={i} className="text-[9px] text-ink-tertiary font-medium leading-5">{d}</div>
                         ))}
                         {cells.map((dayNum, idx) => {
                           if (dayNum === null) return <div key={idx} className="w-full aspect-square" />;
@@ -872,21 +872,21 @@ export default function HomePage() {
 
                           // Determine background color
                           let bgClass = "";
-                          let textClass = "text-black/60";
+                          let textClass = "text-ink-secondary";
                           if (booking) {
                             const s = (booking.source || "").trim().toLowerCase();
                             if (s.includes("blackout") || s.includes("blocked")) {
-                              bgClass = "bg-[#4a4a4a]/20";
-                              textClass = "text-black/50";
+                              bgClass = "bg-[#5C4F45]/20";
+                              textClass = "text-ink-secondary";
                             } else if (s.includes("airbnb")) {
-                              bgClass = "bg-[#E8A9A9]/40";
-                              textClass = "text-[#6b3a3a]";
+                              bgClass = "bg-[#C9A5A0]/40";
+                              textClass = "text-[#6B4E3D]";
                             } else if (s.includes("booking")) {
-                              bgClass = "bg-[#89CFF0]/40";
-                              textClass = "text-[#1a4a6e]";
+                              bgClass = "bg-[#A8BDC8]/40";
+                              textClass = "text-[#4A5C66]";
                             } else {
-                              bgClass = "bg-[#A3B18A]/40";
-                              textClass = "text-[#3a4a34]";
+                              bgClass = "bg-[#9DA88F]/40";
+                              textClass = "text-[#4A5440]";
                             }
                           }
 
@@ -902,8 +902,8 @@ export default function HomePage() {
                               className={`
                                 w-full aspect-square flex items-center justify-center text-[11px] rounded-sm
                                 ${bgClass} ${textClass}
-                                ${isToday && !booking ? "ring-1 ring-blue-500 text-blue-600 font-bold" : ""}
-                                ${isToday && booking ? "ring-1 ring-blue-500 font-bold" : ""}
+                                ${isToday && !booking ? "ring-1 ring-accent text-accent-strong font-bold" : ""}
+                                ${isToday && booking ? "ring-1 ring-accent font-bold" : ""}
                                 ${booking ? "font-medium" : ""}
                               `}
                             >
@@ -915,7 +915,7 @@ export default function HomePage() {
                     </div>
                     {/* Room name */}
                     <div className="px-2.5 pb-2.5">
-                      <div className="text-[12px] font-medium text-black/70">{room}</div>
+                      <div className="text-[12px] font-medium text-ink-body">{room}</div>
                     </div>
                   </div>
                 );
@@ -926,34 +926,34 @@ export default function HomePage() {
 
         {/* Mobile legend */}
         <div className="flex items-center justify-center gap-3 pt-2 text-[10px]">
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#89CFF0]/40"></div><span className="text-black/40">Booking</span></div>
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#E8A9A9]/40"></div><span className="text-black/40">Airbnb</span></div>
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#A3B18A]/40"></div><span className="text-black/40">Direct</span></div>
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#4a4a4a]/20"></div><span className="text-black/40">Blocked</span></div>
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#A8BDC8]/40"></div><span className="text-ink-tertiary">Booking</span></div>
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#C9A5A0]/40"></div><span className="text-ink-tertiary">Airbnb</span></div>
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#9DA88F]/40"></div><span className="text-ink-tertiary">Direct</span></div>
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#5C4F45]/20"></div><span className="text-ink-tertiary">Blocked</span></div>
         </div>
       </div>
 
       {/* Calendar Grid - Desktop only */}
       <div className="hidden md:block p-8">
-        <div className="bg-white rounded-xl border border-black/[0.06] overflow-hidden">
+        <div className="bg-cream rounded-xl border border-border-subtle shadow-sm overflow-hidden">
           <div ref={scrollRef} className="overflow-x-auto">
             <table className="w-full border-collapse min-w-[1400px] table-fixed">
               <thead>
                 <tr>
-                  <th className="sticky left-0 z-10 bg-white border-b border-r border-black/[0.06] p-3 text-left text-[11px] font-medium text-black/50 uppercase tracking-wide w-32">
+                  <th className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-left text-[11px] font-medium text-ink-secondary uppercase tracking-wide w-32">
                     Room
                   </th>
                   {dates.map((date, idx) => (
                     <th
                       key={idx}
-                      className={`border-b border-r border-black/[0.06] p-2 text-center w-[80px] ${
-                        isToday(date) ? "bg-black/[0.04]" : isWeekend(date) ? "bg-black/[0.02]" : ""
+                      className={`border-b border-r border-border-subtle p-2 text-center w-[80px] ${
+                        isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : ""
                       }`}
                     >
-                      <div className="text-[10px] text-black/40 uppercase">
+                      <div className="text-[10px] text-ink-tertiary uppercase">
                         {date.toLocaleDateString("en-US", { weekday: "short" })}
                       </div>
-                      <div className={`text-[13px] font-medium ${isToday(date) ? "text-black" : "text-black/70"}`}>
+                      <div className={`text-[13px] font-medium ${isToday(date) ? "text-ink-primary" : "text-ink-body"}`}>
                         {date.getDate()}
                       </div>
                     </th>
@@ -963,13 +963,13 @@ export default function HomePage() {
               <tbody>
                 {/* The Riad */}
                 <tr>
-                  <td colSpan={dates.length + 1} className="bg-black/[0.02] px-3 py-2 border-b border-black/[0.06]">
-                    <span className="text-[10px] font-medium text-black/50 uppercase tracking-wide">The Riad</span>
+                  <td colSpan={dates.length + 1} className="bg-bone px-3 py-2 border-b border-border-subtle">
+                    <span className="text-[10px] font-medium text-ink-secondary uppercase tracking-wide">The Riad</span>
                   </td>
                 </tr>
                 {RIAD_ROOMS.map((room) => (
                   <tr key={room}>
-                    <td className="sticky left-0 z-10 bg-white border-b border-r border-black/[0.06] p-3 text-[13px] font-medium text-black/80">
+                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-[13px] font-medium text-ink-primary">
                       {room}
                     </td>
                     {(() => {
@@ -994,9 +994,9 @@ export default function HomePage() {
                           <td
                             key={idx}
                             colSpan={isStart ? span : 1}
-                            className={`border-b border-r border-black/[0.06] p-1 h-14 ${
-                              isToday(date) ? "bg-black/[0.04]" : isWeekend(date) ? "bg-black/[0.02]" : ""
-                            } ${!booking ? "cursor-pointer hover:bg-black/[0.04] group" : ""}`}
+                            className={`border-b border-r border-border-subtle p-1 h-14 ${
+                              isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : ""
+                            } ${!booking ? "cursor-pointer hover:bg-parchment group" : ""}`}
                             onClick={() => !booking && handleCellClick(room, date)}
                           >
                             {isStart && booking ? (
@@ -1014,7 +1014,7 @@ export default function HomePage() {
                               </div>
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-black/30">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink-tertiary">
                                   <path d="M8 3v10M3 8h10" />
                                 </svg>
                               </div>
@@ -1030,13 +1030,13 @@ export default function HomePage() {
 
                 {/* The Douaria */}
                 <tr>
-                  <td colSpan={dates.length + 1} className="bg-black/[0.02] px-3 py-2 border-b border-black/[0.06]">
-                    <span className="text-[10px] font-medium text-black/50 uppercase tracking-wide">The Douaria</span>
+                  <td colSpan={dates.length + 1} className="bg-bone px-3 py-2 border-b border-border-subtle">
+                    <span className="text-[10px] font-medium text-ink-secondary uppercase tracking-wide">The Douaria</span>
                   </td>
                 </tr>
                 {DOUARIA_ROOMS.map((room) => (
                   <tr key={room}>
-                    <td className="sticky left-0 z-10 bg-white border-b border-r border-black/[0.06] p-3 text-[13px] font-medium text-black/80">
+                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-[13px] font-medium text-ink-primary">
                       {room}
                     </td>
                     {(() => {
@@ -1061,9 +1061,9 @@ export default function HomePage() {
                           <td
                             key={idx}
                             colSpan={isStart ? span : 1}
-                            className={`border-b border-r border-black/[0.06] p-1 h-14 ${
-                              isToday(date) ? "bg-black/[0.04]" : isWeekend(date) ? "bg-black/[0.02]" : ""
-                            } ${!booking ? "cursor-pointer hover:bg-black/[0.04] group" : ""}`}
+                            className={`border-b border-r border-border-subtle p-1 h-14 ${
+                              isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : ""
+                            } ${!booking ? "cursor-pointer hover:bg-parchment group" : ""}`}
                             onClick={() => !booking && handleCellClick(room, date)}
                           >
                             {isStart && booking ? (
@@ -1081,7 +1081,7 @@ export default function HomePage() {
                               </div>
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-black/30">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink-tertiary">
                                   <path d="M8 3v10M3 8h10" />
                                 </svg>
                               </div>
@@ -1102,11 +1102,11 @@ export default function HomePage() {
 
       {/* View/Edit Booking Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
-            <div className="p-6 border-b border-black/[0.06]">
+            <div className="p-6 border-b border-border-subtle">
               <div className="flex items-center justify-between">
-                <h2 className="font-serif text-[18px] text-black/90">
+                <h2 className="font-serif text-[18px] text-ink-primary">
                   {isEditing ? "Edit Booking" : "Booking Details"}
                 </h2>
                 <button
@@ -1114,9 +1114,9 @@ export default function HomePage() {
                     setSelectedBooking(null);
                     setIsEditing(false);
                   }}
-                  className="p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
+                  className="p-2 hover:bg-parchment rounded-lg transition-colors"
                 >
-                  <svg className="w-5 h-5 text-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -1129,37 +1129,37 @@ export default function HomePage() {
                   {/* Edit Form */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                         First Name *
                       </label>
                       <input
                         type="text"
                         value={editForm.firstName}
                         onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                         Last Name
                       </label>
                       <input
                         type="text"
                         value={editForm.lastName}
                         onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                    <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                       Room
                     </label>
                     <select
                       value={editForm.room}
                       onChange={(e) => setEditForm({ ...editForm, room: e.target.value })}
-                      className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                      className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                     >
                       {ALL_ROOMS.map((room) => (
                         <option key={room} value={room}>{room}</option>
@@ -1168,13 +1168,13 @@ export default function HomePage() {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                    <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                       Source
                     </label>
                     <select
                       value={editForm.source}
                       onChange={(e) => setEditForm({ ...editForm, source: e.target.value })}
-                      className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                      className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                     >
                       {BOOKING_SOURCES.map((src) => (
                         <option key={src} value={src}>{src}</option>
@@ -1187,50 +1187,50 @@ export default function HomePage() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                         Check-in *
                       </label>
                       <input
                         type="date"
                         value={editForm.checkIn}
                         onChange={(e) => setEditForm({ ...editForm, checkIn: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                         Check-out *
                       </label>
                       <input
                         type="date"
                         value={editForm.checkOut}
                         onChange={(e) => setEditForm({ ...editForm, checkOut: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                         Email
                       </label>
                       <input
                         type="email"
                         value={editForm.email}
                         onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                         Phone
                       </label>
                       <input
                         type="tel"
                         value={editForm.phone}
                         onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                       />
                     </div>
                   </div>
@@ -1238,39 +1238,39 @@ export default function HomePage() {
                   {/* Country & Language */}
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                         Country
                       </label>
                       <input
                         type="text"
                         value={editForm.country}
                         onChange={(e) => setEditForm({ ...editForm, country: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                         Language
                       </label>
                       <input
                         type="text"
                         value={editForm.language}
                         onChange={(e) => setEditForm({ ...editForm, language: e.target.value })}
-                        className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
                       />
                     </div>
                   </div>
                   
                   {/* Notes */}
                   <div>
-                    <label className="block text-[11px] font-medium text-black/50 uppercase tracking-wide mb-1.5">
+                    <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
                       Notes
                     </label>
                     <textarea
                       value={editForm.notes}
                       onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
                       rows={3}
-                      className="w-full px-3 py-2 border border-black/[0.1] rounded-lg text-[13px] focus:outline-none focus:border-black/30 resize-none"
+                      className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong resize-none"
                     />
                   </div>
                 </>
@@ -1284,56 +1284,56 @@ export default function HomePage() {
                       </span>
                     </div>
                     <div>
-                      <h3 className="text-[15px] font-medium text-black/90">{selectedBooking.guestName}</h3>
-                      <p className="text-[13px] text-black/50">{selectedBooking.room}</p>
+                      <h3 className="text-[15px] font-medium text-ink-primary">{selectedBooking.guestName}</h3>
+                      <p className="text-[13px] text-ink-secondary">{selectedBooking.room}</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 pt-2">
                     <div>
-                      <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Check-in</div>
-                      <div className="text-[13px] text-black/80">{selectedBooking.checkIn}</div>
+                      <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Check-in</div>
+                      <div className="text-[13px] text-ink-primary">{selectedBooking.checkIn}</div>
                     </div>
                     <div>
-                      <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Check-out</div>
-                      <div className="text-[13px] text-black/80">{selectedBooking.checkOut}</div>
+                      <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Check-out</div>
+                      <div className="text-[13px] text-ink-primary">{selectedBooking.checkOut}</div>
                     </div>
                     <div>
-                      <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Nights</div>
-                      <div className="text-[13px] text-black/80">{selectedBooking.nights}</div>
+                      <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Nights</div>
+                      <div className="text-[13px] text-ink-primary">{selectedBooking.nights}</div>
                     </div>
                     <div>
-                      <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Source</div>
-                      <div className="text-[13px] text-black/80">{selectedBooking.source}</div>
+                      <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Source</div>
+                      <div className="text-[13px] text-ink-primary">{selectedBooking.source}</div>
                     </div>
                     {selectedBooking.email && (
                       <div className="col-span-2">
-                        <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Email</div>
-                        <div className="text-[13px] text-black/80">{selectedBooking.email}</div>
+                        <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Email</div>
+                        <div className="text-[13px] text-ink-primary">{selectedBooking.email}</div>
                       </div>
                     )}
                     {selectedBooking.phone && (
                       <div className="col-span-2">
-                        <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Phone</div>
-                        <div className="text-[13px] text-black/80">{selectedBooking.phone}</div>
+                        <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Phone</div>
+                        <div className="text-[13px] text-ink-primary">{selectedBooking.phone}</div>
                       </div>
                     )}
                     {selectedBooking.country && (
                       <div>
-                        <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Country</div>
-                        <div className="text-[13px] text-black/80">{selectedBooking.country}</div>
+                        <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Country</div>
+                        <div className="text-[13px] text-ink-primary">{selectedBooking.country}</div>
                       </div>
                     )}
                     {selectedBooking.language && (
                       <div>
-                        <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Language</div>
-                        <div className="text-[13px] text-black/80">{selectedBooking.language}</div>
+                        <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Language</div>
+                        <div className="text-[13px] text-ink-primary">{selectedBooking.language}</div>
                       </div>
                     )}
                     {selectedBooking.notes && (
                       <div className="col-span-2">
-                        <div className="text-[11px] text-black/40 uppercase tracking-wide mb-1">Notes</div>
-                        <div className="text-[13px] text-black/80 whitespace-pre-wrap">{selectedBooking.notes}</div>
+                        <div className="text-[11px] text-ink-tertiary uppercase tracking-wide mb-1">Notes</div>
+                        <div className="text-[13px] text-ink-primary whitespace-pre-wrap">{selectedBooking.notes}</div>
                       </div>
                     )}
                   </div>
@@ -1343,8 +1343,8 @@ export default function HomePage() {
                    selectedBooking.status !== "blocked" && 
                    !selectedBooking.source.toLowerCase().includes("booking") &&
                    !selectedBooking.source.toLowerCase().includes("airbnb") && (
-                    <div className="mt-4 pt-4 border-t border-black/[0.06]">
-                      <div className="text-[11px] font-medium text-black/50 uppercase tracking-wide mb-3">
+                    <div className="mt-4 pt-4 border-t border-border-subtle">
+                      <div className="text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-3">
                         Send Confirmation
                       </div>
                       
@@ -1354,9 +1354,9 @@ export default function HomePage() {
                           type="checkbox"
                           checked={includePaymentLink}
                           onChange={(e) => setIncludePaymentLink(e.target.checked)}
-                          className="w-4 h-4 rounded border-black/20 text-black focus:ring-black/20"
+                          className="w-4 h-4 rounded border-border text-ink-primary focus:ring-accent/20"
                         />
-                        <span className="text-[12px] text-black/60">Include PayPal payment link</span>
+                        <span className="text-[12px] text-ink-secondary">Include PayPal payment link</span>
                       </label>
                       
                       <div className="flex gap-2">
@@ -1387,12 +1387,12 @@ Riad di Siena`
                               );
                               window.open(`mailto:${selectedBooking.email}?subject=${subject}&body=${body}`, '_blank');
                             }}
-                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-black/[0.04] hover:bg-black/[0.08] rounded-lg transition-colors"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-parchment hover:bg-linen rounded-lg transition-colors"
                           >
-                            <svg className="w-4 h-4 text-black/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <span className="text-[12px] font-medium text-black/60">Email</span>
+                            <span className="text-[12px] font-medium text-ink-secondary">Email</span>
                           </button>
                         )}
 
@@ -1417,12 +1417,12 @@ We look forward to welcoming you! ✨`
                               );
                               window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
                             }}
-                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 rounded-lg transition-colors"
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-[#6B7B6E]/10 hover:bg-[#6B7B6E]/20 rounded-lg transition-colors"
                           >
-                            <svg className="w-4 h-4 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 text-[#6B7B6E]" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                             </svg>
-                            <span className="text-[12px] font-medium text-[#25D366]">WhatsApp</span>
+                            <span className="text-[12px] font-medium text-[#6B7B6E]">WhatsApp</span>
                           </button>
                         )}
                       </div>
@@ -1432,19 +1432,19 @@ We look forward to welcoming you! ✨`
               )}
             </div>
 
-            <div className="p-6 border-t border-black/[0.06] flex justify-between">
+            <div className="p-6 border-t border-border-subtle flex justify-between">
               {isEditing ? (
                 <>
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="px-4 py-2 text-[13px] font-medium text-black/60 hover:bg-black/[0.04] rounded-lg transition-colors"
+                    className="px-4 py-2 text-[13px] font-medium text-ink-secondary hover:bg-parchment rounded-lg transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={saveEditedBooking}
                     disabled={savingBooking}
-                    className="px-6 py-2 bg-black text-white text-[13px] font-medium rounded-lg hover:bg-black/80 transition-colors disabled:opacity-50"
+                    className="px-6 py-2 bg-accent text-cream text-[13px] font-medium rounded-lg hover:bg-accent-strong transition-colors disabled:opacity-50"
                   >
                     {savingBooking ? "Saving..." : "Save Changes"}
                   </button>
@@ -1454,13 +1454,13 @@ We look forward to welcoming you! ✨`
                   <button
                     onClick={deleteBooking}
                     disabled={deletingBooking}
-                    className="px-4 py-2 text-[13px] font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                    className="px-4 py-2 text-[13px] font-medium text-brick hover:bg-brick/10 rounded-lg transition-colors disabled:opacity-50"
                   >
                     {deletingBooking ? "Deleting..." : "Delete"}
                   </button>
                   <button
                     onClick={startEditing}
-                    className="px-6 py-2 bg-black text-white text-[13px] font-medium rounded-lg hover:bg-black/80 transition-colors"
+                    className="px-6 py-2 bg-accent text-cream text-[13px] font-medium rounded-lg hover:bg-accent-strong transition-colors"
                   >
                     Edit
                   </button>
@@ -1473,8 +1473,8 @@ We look forward to welcoming you! ✨`
 
       {/* New Booking Modal - Riad Brand Design */}
       {newBooking && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#f8f5f0] shadow-2xl w-full max-w-md mx-4 max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 bg-[#2B2623]/40 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-parchment shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col">
             {/* Header - Fixed */}
             <div className="p-6 border-b border-foreground/10 flex-shrink-0">
               <div className="flex items-center justify-between">
@@ -1763,7 +1763,7 @@ We look forward to welcoming you! ✨`
                         }}
                         className={`h-10 flex items-center justify-center text-[13px] border-b border-r border-foreground/10 transition-colors
                           ${isPast ? "text-foreground/20 cursor-not-allowed" : "hover:bg-foreground/5 cursor-pointer text-foreground/70"}
-                          ${isSelected ? "bg-foreground text-[#f8f5f0]" : ""}
+                          ${isSelected ? "bg-foreground text-cream" : ""}
                           ${isInRange ? "bg-foreground/10" : ""}
                         `}
                       >
@@ -1808,7 +1808,7 @@ We look forward to welcoming you! ✨`
               <button
                 onClick={saveNewBooking}
                 disabled={savingBooking}
-                className="flex-1 py-3 text-[11px] uppercase tracking-[0.08em] font-medium bg-foreground text-[#f8f5f0] hover:bg-foreground/90 transition-colors disabled:opacity-50"
+                className="flex-1 py-3 text-[11px] uppercase tracking-[0.08em] font-medium bg-foreground text-cream hover:bg-foreground/90 transition-colors disabled:opacity-50"
               >
                 {savingBooking ? "Saving..." : newBookingForm.isBlackout ? "Block Dates" : "Add Booking"}
               </button>
@@ -1820,18 +1820,18 @@ We look forward to welcoming you! ✨`
       {/* Send Confirmation Modal */}
       {/* Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
-            <div className="p-6 border-b border-black/[0.06]">
+            <div className="p-6 border-b border-border-subtle">
               <div className="flex items-center justify-between">
-                <h2 className="font-serif text-[18px] text-black/90">
+                <h2 className="font-serif text-[18px] text-ink-primary">
                   Import {importSource === "booking" ? "Booking.com" : "Airbnb"} Export
                 </h2>
                 <button
                   onClick={() => setShowImportModal(false)}
-                  className="p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
+                  className="p-2 hover:bg-parchment rounded-lg transition-colors"
                 >
-                  <svg className="w-5 h-5 text-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -1847,28 +1847,28 @@ We look forward to welcoming you! ✨`
                 className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors ${
                   isDragging
                     ? importSource === "booking"
-                      ? "border-[#89CFF0] bg-[#89CFF0]/10"
-                      : "border-[#E8A9A9] bg-[#E8A9A9]/10"
-                    : "border-black/[0.1] hover:border-black/20"
+                      ? "border-[#A8BDC8] bg-[#A8BDC8]/10"
+                      : "border-[#C9A5A0] bg-[#C9A5A0]/10"
+                    : "border-border-subtle hover:border-border"
                 }`}
               >
                 {isUploading ? (
-                  <div className="text-[13px] text-black/60">Uploading...</div>
+                  <div className="text-[13px] text-ink-secondary">Uploading...</div>
                 ) : importResults ? (
                   <div className="space-y-3">
-                    <div className="text-[15px] font-medium text-black/90">Import Complete</div>
+                    <div className="text-[15px] font-medium text-ink-primary">Import Complete</div>
                     <div className="grid grid-cols-2 gap-2 text-[13px]">
-                      <div className="text-emerald-600">Added: {importResults.added}</div>
-                      <div className="text-amber-600">Updated: {importResults.updated}</div>
-                      <div className="text-black/50">Unchanged: {importResults.unchanged}</div>
-                      <div className="text-red-600">Cancelled: {importResults.cancelled}</div>
+                      <div className="text-sage">Added: {importResults.added}</div>
+                      <div className="text-gold">Updated: {importResults.updated}</div>
+                      <div className="text-ink-secondary">Unchanged: {importResults.unchanged}</div>
+                      <div className="text-brick">Cancelled: {importResults.cancelled}</div>
                     </div>
                     <button
                       onClick={() => {
                         setImportResults(null);
                         setShowImportModal(false);
                       }}
-                      className="mt-4 px-4 py-2 bg-black text-white text-[13px] font-medium rounded-lg"
+                      className="mt-4 px-4 py-2 bg-accent text-cream text-[13px] font-medium rounded-lg"
                     >
                       Done
                     </button>
@@ -1876,20 +1876,20 @@ We look forward to welcoming you! ✨`
                 ) : (
                   <>
                     <div className={`w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center ${
-                      importSource === "booking" ? "bg-[#89CFF0]/20" : "bg-[#E8A9A9]/20"
+                      importSource === "booking" ? "bg-[#A8BDC8]/20" : "bg-[#C9A5A0]/20"
                     }`}>
                       <svg className={`w-6 h-6 ${
-                        importSource === "booking" ? "text-[#1a4a6e]" : "text-[#6b3a3a]"
+                        importSource === "booking" ? "text-[#4A5C66]" : "text-[#6B4E3D]"
                       }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                       </svg>
                     </div>
-                    <p className="text-[13px] text-black/60 mb-2">Drag and drop your file here</p>
-                    <p className="text-[11px] text-black/40 mb-4">CSV, XLS, or XLSX</p>
+                    <p className="text-[13px] text-ink-secondary mb-2">Drag and drop your file here</p>
+                    <p className="text-[11px] text-ink-tertiary mb-4">CSV, XLS, or XLSX</p>
                     <label className={`inline-block px-4 py-2 rounded-lg text-[13px] font-medium cursor-pointer ${
                       importSource === "booking"
-                        ? "bg-[#89CFF0]/20 text-[#1a4a6e] hover:bg-[#89CFF0]/30"
-                        : "bg-[#E8A9A9]/20 text-[#6b3a3a] hover:bg-[#E8A9A9]/30"
+                        ? "bg-[#A8BDC8]/20 text-[#4A5C66] hover:bg-[#A8BDC8]/30"
+                        : "bg-[#C9A5A0]/20 text-[#6B4E3D] hover:bg-[#C9A5A0]/30"
                     }`}>
                       Browse Files
                       <input
@@ -1903,7 +1903,7 @@ We look forward to welcoming you! ✨`
                 )}
 
                 {importError && (
-                  <div className="mt-4 p-3 bg-red-50 rounded-lg text-[13px] text-red-600">
+                  <div className="mt-4 p-3 bg-brick/10 rounded-lg text-[13px] text-brick">
                     {importError}
                   </div>
                 )}

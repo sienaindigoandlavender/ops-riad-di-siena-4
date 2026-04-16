@@ -195,7 +195,7 @@ export default function InsightsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#faf9f7] flex items-center justify-center">
-        <div className="animate-pulse text-stone-500">Loading insights...</div>
+        <div className="animate-pulse text-ink-secondary">Loading insights...</div>
       </div>
     );
   }
@@ -203,7 +203,7 @@ export default function InsightsPage() {
   if (!stats) {
     return (
       <div className="min-h-screen bg-[#faf9f7] flex items-center justify-center">
-        <div className="text-red-500">Failed to load review data</div>
+        <div className="text-brick">Failed to load review data</div>
       </div>
     );
   }
@@ -224,21 +224,21 @@ export default function InsightsPage() {
       />
 
       {/* Header */}
-      <header className="bg-white border-b border-stone-200">
+      <header className="bg-cream border-b border-border-subtle">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <Link href="/admin" className="text-[11px] uppercase tracking-[0.1em] text-stone-400 hover:text-stone-600">
+              <Link href="/admin" className="text-[11px] uppercase tracking-[0.1em] text-ink-tertiary hover:text-ink-secondary">
                 ← Back to Admin
               </Link>
-              <h1 className="text-[28px] font-serif text-stone-800 mt-1">Review Insights</h1>
+              <h1 className="text-[28px] font-serif text-ink-primary mt-1">Review Insights</h1>
             </div>
             <div className="flex items-center gap-6">
               {/* Upload button */}
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="flex items-center gap-2 px-4 py-2 text-[12px] tracking-[0.02em] text-stone-600 hover:text-stone-800 border border-stone-300 hover:border-stone-400 rounded transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 text-[12px] tracking-[0.02em] text-ink-secondary hover:text-ink-primary border border-border hover:border-border-strong rounded transition-colors disabled:opacity-50"
               >
                 {uploading ? (
                   <>
@@ -258,14 +258,14 @@ export default function InsightsPage() {
                 )}
               </button>
               <div className="text-right">
-                <p className="text-[32px] font-serif text-amber-600">{stats.overallAverage.toFixed(1)}</p>
-                <p className="text-[11px] uppercase tracking-[0.08em] text-stone-500">{stats.totalReviews} reviews</p>
+                <p className="text-[32px] font-serif text-gold">{stats.overallAverage.toFixed(1)}</p>
+                <p className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary">{stats.totalReviews} reviews</p>
               </div>
             </div>
           </div>
           {/* Upload message */}
           {uploadMessage && (
-            <div className={`mt-3 text-[12px] ${uploadMessage.type === "success" ? "text-emerald-600" : "text-red-600"}`}>
+            <div className={`mt-3 text-[12px] ${uploadMessage.type === "success" ? "text-sage" : "text-brick"}`}>
               {uploadMessage.text}
             </div>
           )}
@@ -273,7 +273,7 @@ export default function InsightsPage() {
       </header>
 
       {/* Tabs */}
-      <div className="bg-white border-b border-stone-200">
+      <div className="bg-cream border-b border-border-subtle">
         <div className="max-w-7xl mx-auto px-6">
           <nav className="flex gap-8">
             {[
@@ -288,8 +288,8 @@ export default function InsightsPage() {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`py-4 text-[13px] tracking-[0.02em] border-b-2 transition-colors ${
                   activeTab === tab.id
-                    ? "border-amber-500 text-amber-700"
-                    : "border-transparent text-stone-500 hover:text-stone-700"
+                    ? "border-gold text-gold"
+                    : "border-transparent text-ink-secondary hover:text-ink-body"
                 }`}
               >
                 {tab.label}
@@ -304,24 +304,24 @@ export default function InsightsPage() {
         {activeTab === "overview" && (
           <div className="space-y-8">
             {/* Score Distribution */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">Score Distribution</h2>
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Score Distribution</h2>
               <div className="flex items-end gap-2 h-32">
                 {Object.entries(stats.distribution).map(([score, count]) => {
                   const percentage = (count / stats.totalReviews) * 100;
                   const label = score === "below7" ? "<7" : score;
-                  const color = score === "10" ? "bg-emerald-500" : score === "9" ? "bg-emerald-400" : score === "8" ? "bg-amber-400" : score === "7" ? "bg-amber-500" : "bg-red-400";
+                  const color = score === "10" ? "bg-sage" : score === "9" ? "bg-sage" : score === "8" ? "bg-gold" : score === "7" ? "bg-gold/100" : "bg-brick";
                   return (
                     <div key={score} className="flex-1 flex flex-col items-center">
                       <div className="w-full flex flex-col items-center">
-                        <span className="text-[11px] text-stone-500 mb-1">{percentage.toFixed(0)}%</span>
+                        <span className="text-[11px] text-ink-secondary mb-1">{percentage.toFixed(0)}%</span>
                         <div
                           className={`w-full ${color} rounded-t transition-all`}
                           style={{ height: `${Math.max(4, percentage * 1.2)}px` }}
                         />
                       </div>
-                      <span className="text-[13px] font-medium text-stone-700 mt-2">{label}</span>
-                      <span className="text-[11px] text-stone-400">{count}</span>
+                      <span className="text-[13px] font-medium text-ink-body mt-2">{label}</span>
+                      <span className="text-[11px] text-ink-tertiary">{count}</span>
                     </div>
                   );
                 })}
@@ -329,27 +329,27 @@ export default function InsightsPage() {
             </section>
 
             {/* Sentiment Analysis */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">Sentiment Analysis</h2>
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Sentiment Analysis</h2>
               <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center p-4 bg-emerald-50 rounded-lg">
-                  <p className="text-[28px] font-serif text-emerald-600">{stats.sentiment.positive}</p>
-                  <p className="text-[11px] uppercase tracking-[0.08em] text-emerald-700">Positive (9-10)</p>
-                  <p className="text-[13px] text-emerald-600 mt-1">
+                <div className="text-center p-4 bg-sage/10 rounded-lg">
+                  <p className="text-[28px] font-serif text-sage">{stats.sentiment.positive}</p>
+                  <p className="text-[11px] uppercase tracking-[0.08em] text-forest">Positive (9-10)</p>
+                  <p className="text-[13px] text-sage mt-1">
                     {((stats.sentiment.positive / stats.totalReviews) * 100).toFixed(0)}%
                   </p>
                 </div>
-                <div className="text-center p-4 bg-amber-50 rounded-lg">
-                  <p className="text-[28px] font-serif text-amber-600">{stats.sentiment.neutral}</p>
-                  <p className="text-[11px] uppercase tracking-[0.08em] text-amber-700">Neutral (7-8)</p>
-                  <p className="text-[13px] text-amber-600 mt-1">
+                <div className="text-center p-4 bg-gold/10 rounded-lg">
+                  <p className="text-[28px] font-serif text-gold">{stats.sentiment.neutral}</p>
+                  <p className="text-[11px] uppercase tracking-[0.08em] text-gold">Neutral (7-8)</p>
+                  <p className="text-[13px] text-gold mt-1">
                     {((stats.sentiment.neutral / stats.totalReviews) * 100).toFixed(0)}%
                   </p>
                 </div>
-                <div className="text-center p-4 bg-red-50 rounded-lg">
-                  <p className="text-[28px] font-serif text-red-600">{stats.sentiment.negative}</p>
-                  <p className="text-[11px] uppercase tracking-[0.08em] text-red-700">Negative (&lt;7)</p>
-                  <p className="text-[13px] text-red-600 mt-1">
+                <div className="text-center p-4 bg-brick/10 rounded-lg">
+                  <p className="text-[28px] font-serif text-brick">{stats.sentiment.negative}</p>
+                  <p className="text-[11px] uppercase tracking-[0.08em] text-brick">Negative (&lt;7)</p>
+                  <p className="text-[13px] text-brick mt-1">
                     {((stats.sentiment.negative / stats.totalReviews) * 100).toFixed(0)}%
                   </p>
                 </div>
@@ -357,15 +357,15 @@ export default function InsightsPage() {
               
               {/* Keywords */}
               <div>
-                <h3 className="text-[11px] uppercase tracking-[0.08em] text-stone-400 mb-3">Frequent Keywords</h3>
+                <h3 className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mb-3">Frequent Keywords</h3>
                 <div className="flex flex-wrap gap-2">
                   {stats.sentiment.keywords.slice(0, 15).map(kw => (
                     <span
                       key={kw.word}
                       className={`px-3 py-1 rounded-full text-[12px] ${
                         kw.sentiment === "positive"
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-red-100 text-red-700"
+                          ? "bg-sage/20 text-forest"
+                          : "bg-brick/15 text-brick"
                       }`}
                     >
                       {kw.word} ({kw.count})
@@ -376,12 +376,12 @@ export default function InsightsPage() {
             </section>
 
             {/* Top Issues Preview */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500">Top Issues to Address</h2>
+                <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary">Top Issues to Address</h2>
                 <button
                   onClick={() => setActiveTab("issues")}
-                  className="text-[12px] text-amber-600 hover:text-amber-700"
+                  className="text-[12px] text-gold hover:text-gold"
                 >
                   View All →
                 </button>
@@ -390,14 +390,14 @@ export default function InsightsPage() {
                 {stats.issues.slice(0, 5).map((issue, idx) => (
                   <div key={idx} className="flex items-center gap-3">
                     <span className={`w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-medium ${
-                      isResolved(issue.issue) ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
+                      isResolved(issue.issue) ? "bg-sage/20 text-forest" : "bg-gold/20 text-gold"
                     }`}>
                       {isResolved(issue.issue) ? "✓" : issue.count}
                     </span>
-                    <span className={`flex-1 text-[14px] ${isResolved(issue.issue) ? "text-stone-400 line-through" : "text-stone-700"}`}>
+                    <span className={`flex-1 text-[14px] ${isResolved(issue.issue) ? "text-ink-tertiary line-through" : "text-ink-body"}`}>
                       {issue.issue}
                     </span>
-                    <span className="text-[11px] text-stone-400 uppercase tracking-[0.05em]">{issue.category}</span>
+                    <span className="text-[11px] text-ink-tertiary uppercase tracking-[0.05em]">{issue.category}</span>
                   </div>
                 ))}
               </div>
@@ -408,29 +408,29 @@ export default function InsightsPage() {
         {/* Issues Checklist Tab */}
         {activeTab === "issues" && (
           <div className="space-y-6">
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-              <p className="text-[13px] text-amber-800">
+            <div className="bg-gold/10 border border-gold/30 rounded-lg p-4">
+              <p className="text-[13px] text-gold">
                 <strong>Issues extracted from negative reviews.</strong> Check items when resolved. 
                 The count shows how many reviews mentioned this issue.
               </p>
             </div>
 
-            <div className="bg-white rounded-lg border border-stone-200 divide-y divide-stone-100">
+            <div className="bg-cream rounded-lg border border-border-subtle divide-y divide-border-subtle">
               {stats.issues.map((issue, idx) => {
                 const resolved = isResolved(issue.issue);
                 const resolvedDate = getResolvedDate(issue.issue);
                 const issueId = issue.issue.toLowerCase().replace(/[^a-z0-9]/g, "-");
                 
                 return (
-                  <div key={idx} className={`p-4 ${resolved ? "bg-emerald-50/50" : ""}`}>
+                  <div key={idx} className={`p-4 ${resolved ? "bg-sage/10/50" : ""}`}>
                     <div className="flex items-start gap-4">
                       <button
                         onClick={() => toggleIssue(issue, !resolved)}
                         disabled={updating === issueId}
                         className={`mt-0.5 w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${
                           resolved
-                            ? "bg-emerald-500 border-emerald-500 text-white"
-                            : "border-stone-300 hover:border-amber-500"
+                            ? "bg-sage border-sage text-cream"
+                            : "border-border hover:border-gold"
                         } ${updating === issueId ? "opacity-50" : ""}`}
                       >
                         {resolved && (
@@ -442,28 +442,28 @@ export default function InsightsPage() {
                       
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-1">
-                          <h3 className={`text-[15px] font-medium ${resolved ? "text-stone-400 line-through" : "text-stone-800"}`}>
+                          <h3 className={`text-[15px] font-medium ${resolved ? "text-ink-tertiary line-through" : "text-ink-primary"}`}>
                             {issue.issue}
                           </h3>
                           <span className={`px-2 py-0.5 rounded text-[10px] uppercase tracking-[0.05em] ${
-                            resolved ? "bg-emerald-100 text-emerald-700" : "bg-stone-100 text-stone-600"
+                            resolved ? "bg-sage/20 text-forest" : "bg-linen text-ink-secondary"
                           }`}>
                             {issue.category}
                           </span>
-                          <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-700 text-[10px]">
+                          <span className="px-2 py-0.5 rounded bg-gold/20 text-gold text-[10px]">
                             {issue.count} mentions
                           </span>
                         </div>
                         
                         {resolved && resolvedDate && (
-                          <p className="text-[11px] text-emerald-600 mb-2">Resolved on {resolvedDate}</p>
+                          <p className="text-[11px] text-sage mb-2">Resolved on {resolvedDate}</p>
                         )}
                         
                         {!resolved && issue.examples.length > 0 && (
                           <div className="mt-2">
-                            <p className="text-[10px] uppercase tracking-[0.08em] text-stone-400 mb-1">Example feedback:</p>
+                            <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Example feedback:</p>
                             {issue.examples.map((ex, i) => (
-                              <p key={i} className="text-[12px] text-stone-500 italic pl-3 border-l-2 border-stone-200 mb-1">
+                              <p key={i} className="text-[12px] text-ink-secondary italic pl-3 border-l-2 border-border-subtle mb-1">
                                 "{ex}..."
                               </p>
                             ))}
@@ -482,27 +482,27 @@ export default function InsightsPage() {
         {activeTab === "trends" && (
           <div className="space-y-6">
             {/* Rating Trend Chart */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">Average Rating Over Time</h2>
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Average Rating Over Time</h2>
               <div className="h-64 flex items-end gap-1">
                 {last36Months.map((month, idx) => {
                   const height = ((month.avgScore - 7) / 3) * 100; // Scale 7-10 to 0-100%
-                  const color = month.avgScore >= 9.5 ? "bg-emerald-500" : month.avgScore >= 9 ? "bg-emerald-400" : month.avgScore >= 8.5 ? "bg-amber-400" : "bg-amber-500";
+                  const color = month.avgScore >= 9.5 ? "bg-sage" : month.avgScore >= 9 ? "bg-sage" : month.avgScore >= 8.5 ? "bg-gold" : "bg-gold/100";
                   const isCurrentMonth = idx === last36Months.length - 1;
                   
                   return (
                     <div key={month.month} className="flex-1 flex flex-col items-center group relative">
                       <div
-                        className={`w-full ${color} ${isCurrentMonth ? "ring-2 ring-amber-500" : ""} rounded-t transition-all hover:opacity-80`}
+                        className={`w-full ${color} ${isCurrentMonth ? "ring-2 ring-gold" : ""} rounded-t transition-all hover:opacity-80`}
                         style={{ height: `${Math.max(4, height)}%` }}
                       />
                       {/* Tooltip */}
-                      <div className="absolute bottom-full mb-2 hidden group-hover:block bg-stone-800 text-white text-[11px] px-2 py-1 rounded whitespace-nowrap z-10">
+                      <div className="absolute bottom-full mb-2 hidden group-hover:block bg-ink-primary text-cream text-[11px] px-2 py-1 rounded whitespace-nowrap z-10">
                         {month.month}: {month.avgScore.toFixed(1)} ({month.count} reviews)
                       </div>
                       {/* Show year labels */}
                       {(idx === 0 || month.month.endsWith("-01")) && (
-                        <span className="text-[9px] text-stone-400 mt-1 -rotate-45 origin-left">
+                        <span className="text-[9px] text-ink-tertiary mt-1 -rotate-45 origin-left">
                           {month.month.substring(0, 7)}
                         </span>
                       )}
@@ -510,24 +510,24 @@ export default function InsightsPage() {
                   );
                 })}
               </div>
-              <div className="flex justify-between mt-4 text-[11px] text-stone-400">
+              <div className="flex justify-between mt-4 text-[11px] text-ink-tertiary">
                 <span>Scale: 7.0 - 10.0</span>
                 <span>Hover for details</span>
               </div>
             </section>
 
             {/* Category Trends */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">Category Averages (Last 12 Months)</h2>
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Category Averages (Last 12 Months)</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {["staff", "cleanliness", "location", "facilities", "comfort", "value"].map(cat => {
                   const recent = last36Months.slice(-12);
                   const avg = recent.reduce((sum, m) => sum + (m.categories[cat] || 0), 0) / recent.filter(m => m.categories[cat] > 0).length;
-                  const color = avg >= 9.5 ? "text-emerald-600" : avg >= 9 ? "text-emerald-500" : avg >= 8.5 ? "text-amber-500" : "text-amber-600";
+                  const color = avg >= 9.5 ? "text-sage" : avg >= 9 ? "text-sage" : avg >= 8.5 ? "text-gold" : "text-gold";
                   
                   return (
-                    <div key={cat} className="p-4 bg-stone-50 rounded-lg">
-                      <p className="text-[11px] uppercase tracking-[0.08em] text-stone-500 mb-1 capitalize">{cat}</p>
+                    <div key={cat} className="p-4 bg-parchment rounded-lg">
+                      <p className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary mb-1 capitalize">{cat}</p>
                       <p className={`text-[24px] font-serif ${color}`}>
                         {isNaN(avg) ? "-" : avg.toFixed(1)}
                       </p>
@@ -538,8 +538,8 @@ export default function InsightsPage() {
             </section>
 
             {/* Year-over-Year Comparison */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">Year-over-Year Comparison</h2>
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Year-over-Year Comparison</h2>
               <div className="grid grid-cols-3 gap-6">
                 {[2023, 2024, 2025].map(year => {
                   const yearMonths = stats.monthlyRatings.filter(m => m.month.startsWith(year.toString()));
@@ -549,10 +549,10 @@ export default function InsightsPage() {
                   const count = yearMonths.reduce((sum, m) => sum + m.count, 0);
                   
                   return (
-                    <div key={year} className="text-center p-4 bg-stone-50 rounded-lg">
-                      <p className="text-[13px] text-stone-500 mb-2">{year}</p>
-                      <p className="text-[32px] font-serif text-stone-800">{avg > 0 ? avg.toFixed(1) : "-"}</p>
-                      <p className="text-[11px] text-stone-400">{count} reviews</p>
+                    <div key={year} className="text-center p-4 bg-parchment rounded-lg">
+                      <p className="text-[13px] text-ink-secondary mb-2">{year}</p>
+                      <p className="text-[32px] font-serif text-ink-primary">{avg > 0 ? avg.toFixed(1) : "-"}</p>
+                      <p className="text-[11px] text-ink-tertiary">{count} reviews</p>
                     </div>
                   );
                 })}
@@ -567,42 +567,42 @@ export default function InsightsPage() {
             {/* Key Finding */}
             <div className={`p-6 rounded-lg border ${
               Math.abs(stats.correlation.coefficient) < 0.3
-                ? "bg-emerald-50 border-emerald-200"
-                : "bg-amber-50 border-amber-200"
+                ? "bg-sage/10 border-sage/30"
+                : "bg-gold/10 border-gold/30"
             }`}>
-              <h2 className="text-[15px] font-medium text-stone-800 mb-2">Key Finding</h2>
-              <p className="text-[14px] text-stone-700 mb-3">
+              <h2 className="text-[15px] font-medium text-ink-primary mb-2">Key Finding</h2>
+              <p className="text-[14px] text-ink-body mb-3">
                 The correlation between your review ratings and occupancy is{" "}
-                <strong className={Math.abs(stats.correlation.coefficient) < 0.3 ? "text-emerald-700" : "text-amber-700"}>
+                <strong className={Math.abs(stats.correlation.coefficient) < 0.3 ? "text-forest" : "text-gold"}>
                   {stats.correlation.interpretation}
                 </strong>{" "}
                 (r = {stats.correlation.coefficient.toFixed(3)}).
               </p>
               {Math.abs(stats.correlation.coefficient) < 0.3 && (
-                <p className="text-[13px] text-emerald-700">
+                <p className="text-[13px] text-forest">
                   ✓ <strong>This proves that small rating fluctuations do NOT significantly impact your bookings.</strong>{" "}
                   Your occupancy is driven by other factors like seasonality, pricing, and location — not minor review variations.
                 </p>
               )}
               {Math.abs(stats.correlation.coefficient) >= 0.3 && Math.abs(stats.correlation.coefficient) < 0.7 && (
-                <p className="text-[13px] text-amber-700">
+                <p className="text-[13px] text-gold">
                   There is some relationship between ratings and occupancy, but other factors play a larger role.
                 </p>
               )}
             </div>
 
             {/* Scatter Plot Visualization */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">
                 Rating vs Occupancy (Monthly Data)
               </h2>
-              <div className="relative h-80 border-l-2 border-b-2 border-stone-300 ml-8 mb-8">
+              <div className="relative h-80 border-l-2 border-b-2 border-border ml-8 mb-8">
                 {/* Y-axis label */}
-                <span className="absolute -left-8 top-1/2 -rotate-90 text-[10px] text-stone-400 whitespace-nowrap">
+                <span className="absolute -left-8 top-1/2 -rotate-90 text-[10px] text-ink-tertiary whitespace-nowrap">
                   Nights Booked
                 </span>
                 {/* X-axis label */}
-                <span className="absolute bottom-[-24px] left-1/2 text-[10px] text-stone-400">
+                <span className="absolute bottom-[-24px] left-1/2 text-[10px] text-ink-tertiary">
                   Average Rating
                 </span>
                 
@@ -614,13 +614,13 @@ export default function InsightsPage() {
                   return (
                     <div
                       key={idx}
-                      className="absolute w-3 h-3 bg-amber-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 hover:bg-amber-600 hover:scale-150 transition-all group"
+                      className="absolute w-3 h-3 bg-gold/100 rounded-full transform -translate-x-1/2 -translate-y-1/2 hover:bg-gold hover:scale-150 transition-all group"
                       style={{
                         left: `${x}%`,
                         bottom: `${y}%`,
                       }}
                     >
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-stone-800 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10">
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-ink-primary text-cream text-[10px] px-2 py-1 rounded whitespace-nowrap z-10">
                         {point.month}: {point.avgRating.toFixed(1)} rating, {point.occupancyNights} nights
                       </div>
                     </div>
@@ -630,12 +630,12 @@ export default function InsightsPage() {
                 {/* Grid lines */}
                 <div className="absolute inset-0 grid grid-cols-4 grid-rows-4">
                   {[...Array(16)].map((_, i) => (
-                    <div key={i} className="border-r border-t border-stone-100" />
+                    <div key={i} className="border-r border-t border-border-subtle" />
                   ))}
                 </div>
                 
                 {/* X-axis ticks */}
-                <div className="absolute -bottom-5 left-0 right-0 flex justify-between text-[10px] text-stone-400">
+                <div className="absolute -bottom-5 left-0 right-0 flex justify-between text-[10px] text-ink-tertiary">
                   <span>7.0</span>
                   <span>8.0</span>
                   <span>9.0</span>
@@ -645,23 +645,23 @@ export default function InsightsPage() {
             </section>
 
             {/* Data Table */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">Monthly Data</h2>
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Monthly Data</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-[13px]">
                   <thead>
-                    <tr className="border-b border-stone-200">
-                      <th className="text-left py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-stone-500">Month</th>
-                      <th className="text-right py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-stone-500">Avg Rating</th>
-                      <th className="text-right py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-stone-500">Nights Booked</th>
+                    <tr className="border-b border-border-subtle">
+                      <th className="text-left py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-ink-secondary">Month</th>
+                      <th className="text-right py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-ink-secondary">Avg Rating</th>
+                      <th className="text-right py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-ink-secondary">Nights Booked</th>
                     </tr>
                   </thead>
                   <tbody>
                     {stats.correlation.data.slice(-12).map((row, idx) => (
-                      <tr key={idx} className="border-b border-stone-100 hover:bg-stone-50">
-                        <td className="py-2 px-3 text-stone-700">{row.month}</td>
-                        <td className="py-2 px-3 text-right text-stone-700">{row.avgRating.toFixed(2)}</td>
-                        <td className="py-2 px-3 text-right text-stone-700">{row.occupancyNights}</td>
+                      <tr key={idx} className="border-b border-border-subtle hover:bg-parchment">
+                        <td className="py-2 px-3 text-ink-body">{row.month}</td>
+                        <td className="py-2 px-3 text-right text-ink-body">{row.avgRating.toFixed(2)}</td>
+                        <td className="py-2 px-3 text-right text-ink-body">{row.occupancyNights}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -670,9 +670,9 @@ export default function InsightsPage() {
             </section>
 
             {/* Statistical Explanation */}
-            <section className="bg-stone-50 rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-3">Understanding the Correlation</h2>
-              <div className="text-[13px] text-stone-600 space-y-2">
+            <section className="bg-parchment rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-3">Understanding the Correlation</h2>
+              <div className="text-[13px] text-ink-secondary space-y-2">
                 <p>
                   <strong>Correlation coefficient (r):</strong> {stats.correlation.coefficient.toFixed(3)}
                 </p>
@@ -685,7 +685,7 @@ export default function InsightsPage() {
                   <li>0.3 ≤ |r| &lt; 0.7: Moderate relationship</li>
                   <li>|r| ≥ 0.7: Strong relationship</li>
                 </ul>
-                <p className="mt-3 text-stone-500 italic">
+                <p className="mt-3 text-ink-secondary italic">
                   A weak correlation suggests that other factors (seasonality, pricing, marketing, overall market conditions) 
                   drive your occupancy more than review ratings.
                 </p>
@@ -699,41 +699,41 @@ export default function InsightsPage() {
           <div className="space-y-8">
             {/* ADR Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-white rounded-lg border border-stone-200 p-5">
-                <p className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-1">Overall ADR</p>
-                <p className="text-[28px] font-serif text-amber-600">€{adrStats.overall.adr.toFixed(0)}</p>
-                <p className="text-[12px] text-stone-500 mt-1">per night</p>
+              <div className="bg-cream rounded-lg border border-border-subtle p-5">
+                <p className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-1">Overall ADR</p>
+                <p className="text-[28px] font-serif text-gold">€{adrStats.overall.adr.toFixed(0)}</p>
+                <p className="text-[12px] text-ink-secondary mt-1">per night</p>
               </div>
-              <div className="bg-white rounded-lg border border-stone-200 p-5">
-                <p className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-1">6-Month Trend</p>
-                <p className={`text-[28px] font-serif ${adrStats.trend.percentChange >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+              <div className="bg-cream rounded-lg border border-border-subtle p-5">
+                <p className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-1">6-Month Trend</p>
+                <p className={`text-[28px] font-serif ${adrStats.trend.percentChange >= 0 ? "text-sage" : "text-brick"}`}>
                   {adrStats.trend.percentChange >= 0 ? "+" : ""}{adrStats.trend.percentChange.toFixed(1)}%
                 </p>
-                <p className="text-[12px] text-stone-500 mt-1">vs previous 6 months</p>
+                <p className="text-[12px] text-ink-secondary mt-1">vs previous 6 months</p>
               </div>
-              <div className="bg-white rounded-lg border border-stone-200 p-5">
-                <p className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-1">Total Nights</p>
-                <p className="text-[28px] font-serif text-stone-700">{adrStats.overall.totalNights.toLocaleString()}</p>
-                <p className="text-[12px] text-stone-500 mt-1">booked</p>
+              <div className="bg-cream rounded-lg border border-border-subtle p-5">
+                <p className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-1">Total Nights</p>
+                <p className="text-[28px] font-serif text-ink-body">{adrStats.overall.totalNights.toLocaleString()}</p>
+                <p className="text-[12px] text-ink-secondary mt-1">booked</p>
               </div>
-              <div className="bg-white rounded-lg border border-stone-200 p-5">
-                <p className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-1">Total Revenue</p>
-                <p className="text-[28px] font-serif text-stone-700">€{(adrStats.overall.totalRevenue / 1000).toFixed(0)}k</p>
-                <p className="text-[12px] text-stone-500 mt-1">{adrStats.overall.bookingCount} bookings</p>
+              <div className="bg-cream rounded-lg border border-border-subtle p-5">
+                <p className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-1">Total Revenue</p>
+                <p className="text-[28px] font-serif text-ink-body">€{(adrStats.overall.totalRevenue / 1000).toFixed(0)}k</p>
+                <p className="text-[12px] text-ink-secondary mt-1">{adrStats.overall.bookingCount} bookings</p>
               </div>
             </div>
 
             {/* Monthly ADR Chart */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500">Monthly Average Daily Rate</h2>
-                <div className="flex items-center gap-4 text-[11px] text-stone-500">
+                <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary">Monthly Average Daily Rate</h2>
+                <div className="flex items-center gap-4 text-[11px] text-ink-secondary">
                   <span className="flex items-center gap-1">
-                    <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                    <span className="w-3 h-3 rounded-full bg-gold/100"></span>
                     ADR (€)
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="w-3 h-0.5 bg-emerald-500"></span>
+                    <span className="w-3 h-0.5 bg-sage"></span>
                     Trend Line
                   </span>
                 </div>
@@ -743,7 +743,7 @@ export default function InsightsPage() {
               <div className="relative h-72">
                 {(() => {
                   const data = adrStats.monthly.slice(-24); // Last 24 months
-                  if (data.length === 0) return <p className="text-stone-500">No data available</p>;
+                  if (data.length === 0) return <p className="text-ink-secondary">No data available</p>;
                   
                   const maxADR = Math.max(...data.map(d => d.adr));
                   const minADR = Math.min(...data.map(d => d.adr));
@@ -826,17 +826,17 @@ export default function InsightsPage() {
               </div>
               
               {/* Trend indicator */}
-              <div className="mt-4 pt-4 border-t border-stone-100 flex items-center gap-2">
+              <div className="mt-4 pt-4 border-t border-border-subtle flex items-center gap-2">
                 {adrStats.trend.percentChange >= 0 ? (
-                  <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
                 ) : (
-                  <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-brick" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
                   </svg>
                 )}
-                <span className="text-[13px] text-stone-600">
+                <span className="text-[13px] text-ink-secondary">
                   ADR is <strong>{adrStats.trend.percentChange >= 0 ? "increasing" : "decreasing"}</strong> — 
                   Recent 6 months: <strong>€{adrStats.trend.recent6MonthsADR.toFixed(0)}</strong> vs 
                   Previous 6 months: <strong>€{adrStats.trend.previous6MonthsADR.toFixed(0)}</strong>
@@ -845,22 +845,22 @@ export default function InsightsPage() {
             </section>
 
             {/* Yearly ADR Comparison */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">Year-over-Year ADR</h2>
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Year-over-Year ADR</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {adrStats.yearly.map((year, idx) => {
                   const prevYear = adrStats.yearly[idx - 1];
                   const change = prevYear ? ((year.adr - prevYear.adr) / prevYear.adr) * 100 : null;
                   return (
-                    <div key={year.year} className="bg-stone-50 rounded-lg p-4">
-                      <p className="text-[13px] font-medium text-stone-700">{year.year}</p>
-                      <p className="text-[24px] font-serif text-amber-600 mt-1">€{year.adr.toFixed(0)}</p>
+                    <div key={year.year} className="bg-parchment rounded-lg p-4">
+                      <p className="text-[13px] font-medium text-ink-body">{year.year}</p>
+                      <p className="text-[24px] font-serif text-gold mt-1">€{year.adr.toFixed(0)}</p>
                       {change !== null && (
-                        <p className={`text-[12px] mt-1 ${change >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+                        <p className={`text-[12px] mt-1 ${change >= 0 ? "text-sage" : "text-brick"}`}>
                           {change >= 0 ? "↑" : "↓"} {Math.abs(change).toFixed(1)}% vs {adrStats.yearly[idx - 1].year}
                         </p>
                       )}
-                      <p className="text-[11px] text-stone-500 mt-1">{year.totalNights} nights</p>
+                      <p className="text-[11px] text-ink-secondary mt-1">{year.totalNights} nights</p>
                     </div>
                   );
                 })}
@@ -868,12 +868,12 @@ export default function InsightsPage() {
             </section>
 
             {/* Monthly Data Table */}
-            <section className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-stone-500 mb-4">Monthly Detail (Last 12 Months)</h2>
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Monthly Detail (Last 12 Months)</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-[13px]">
                   <thead>
-                    <tr className="border-b border-stone-200 text-stone-500">
+                    <tr className="border-b border-border-subtle text-ink-secondary">
                       <th className="py-2 px-3 text-left font-medium">Month</th>
                       <th className="py-2 px-3 text-right font-medium">ADR</th>
                       <th className="py-2 px-3 text-right font-medium">Revenue</th>
@@ -883,12 +883,12 @@ export default function InsightsPage() {
                   </thead>
                   <tbody>
                     {adrStats.monthly.slice(-12).reverse().map((row, idx) => (
-                      <tr key={idx} className="border-b border-stone-100 hover:bg-stone-50">
-                        <td className="py-2 px-3 text-stone-700">{row.month}</td>
-                        <td className="py-2 px-3 text-right font-medium text-amber-600">€{row.adr.toFixed(0)}</td>
-                        <td className="py-2 px-3 text-right text-stone-700">€{row.totalRevenue.toLocaleString()}</td>
-                        <td className="py-2 px-3 text-right text-stone-700">{row.totalNights}</td>
-                        <td className="py-2 px-3 text-right text-stone-700">{row.bookingCount}</td>
+                      <tr key={idx} className="border-b border-border-subtle hover:bg-parchment">
+                        <td className="py-2 px-3 text-ink-body">{row.month}</td>
+                        <td className="py-2 px-3 text-right font-medium text-gold">€{row.adr.toFixed(0)}</td>
+                        <td className="py-2 px-3 text-right text-ink-body">€{row.totalRevenue.toLocaleString()}</td>
+                        <td className="py-2 px-3 text-right text-ink-body">{row.totalNights}</td>
+                        <td className="py-2 px-3 text-right text-ink-body">{row.bookingCount}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -897,27 +897,27 @@ export default function InsightsPage() {
             </section>
 
             {/* Tips Section */}
-            <section className="bg-amber-50 rounded-lg border border-amber-200 p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-amber-700 mb-3">Strategies to Increase ADR</h2>
-              <ul className="text-[13px] text-amber-800 space-y-2">
+            <section className="bg-gold/10 rounded-lg border border-gold/30 p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-gold mb-3">Strategies to Increase ADR</h2>
+              <ul className="text-[13px] text-gold space-y-2">
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-500 mt-1">•</span>
+                  <span className="text-gold mt-1">•</span>
                   <span><strong>Seasonal pricing:</strong> Increase rates during peak seasons (March-May, Sept-Nov) and major events.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-500 mt-1">•</span>
+                  <span className="text-gold mt-1">•</span>
                   <span><strong>Minimum stay requirements:</strong> Set 2-3 night minimums during high-demand periods.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-500 mt-1">•</span>
+                  <span className="text-gold mt-1">•</span>
                   <span><strong>Value-adds over discounts:</strong> Include breakfast, airport transfers, or experiences instead of lowering price.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-500 mt-1">•</span>
+                  <span className="text-gold mt-1">•</span>
                   <span><strong>Direct booking incentives:</strong> Offer exclusive perks for direct bookings to reduce OTA fees.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-500 mt-1">•</span>
+                  <span className="text-gold mt-1">•</span>
                   <span><strong>Photography refresh:</strong> Update listing photos to justify premium pricing.</span>
                 </li>
               </ul>

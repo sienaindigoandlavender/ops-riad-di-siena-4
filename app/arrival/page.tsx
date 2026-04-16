@@ -94,7 +94,7 @@ function ArrivalFormContent() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f5f0] flex items-center justify-center">
+      <div className="min-h-screen bg-parchment flex items-center justify-center">
         <div className="w-5 h-5 border border-[#1a1a1a]/20 border-t-[#1a1a1a]/60 rounded-full animate-spin" />
       </div>
     );
@@ -103,7 +103,7 @@ function ArrivalFormContent() {
   // Invalid link state
   if (!bookingId || !booking) {
     return (
-      <div className="min-h-screen bg-[#f8f5f0] flex flex-col">
+      <div className="min-h-screen bg-parchment flex flex-col">
         <header className="py-8 text-center">
           <p className="text-[10px] uppercase tracking-[0.15em] text-[#1a1a1a]/40 mb-2">
             Riad di Siena
@@ -124,7 +124,7 @@ function ArrivalFormContent() {
   // Success state
   if (submitted) {
     return (
-      <div className="min-h-screen bg-[#f8f5f0] flex flex-col">
+      <div className="min-h-screen bg-parchment flex flex-col">
         <header className="py-8 text-center">
           <p className="text-[10px] uppercase tracking-[0.15em] text-[#1a1a1a]/40 mb-2">
             Riad di Siena
@@ -153,7 +153,7 @@ function ArrivalFormContent() {
 
   // Main form
   return (
-    <div className="min-h-screen bg-[#f8f5f0] flex flex-col">
+    <div className="min-h-screen bg-parchment flex flex-col">
       {/* Header */}
       <header className="py-8 text-center border-b border-[#1a1a1a]/10">
         <p className="text-[10px] uppercase tracking-[0.15em] text-[#1a1a1a]/40 mb-2">
@@ -244,14 +244,14 @@ function ArrivalFormContent() {
 
             {/* Error */}
             {error && (
-              <p className="text-[13px] text-red-700/80 mb-6">{error}</p>
+              <p className="text-[13px] text-brick/80 mb-6">{error}</p>
             )}
 
             {/* Submit Button */}
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-[#1a1a1a] text-[#f8f5f0] py-4 text-[11px] uppercase tracking-[0.1em] font-medium hover:bg-[#1a1a1a]/90 transition-colors disabled:opacity-50"
+              className="w-full bg-[#1a1a1a] text-cream py-4 text-[11px] uppercase tracking-[0.1em] font-medium hover:bg-[#1a1a1a]/90 transition-colors disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Confirm Arrival Time"}
             </button>
@@ -270,7 +270,7 @@ function ArrivalFormContent() {
 export default function ArrivalPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#f8f5f0] flex items-center justify-center">
+      <div className="min-h-screen bg-parchment flex items-center justify-center">
         <div className="w-5 h-5 border border-[#1a1a1a]/20 border-t-[#1a1a1a]/60 rounded-full animate-spin" />
       </div>
     }>

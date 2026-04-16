@@ -151,25 +151,25 @@ export default function GuestsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa]">
+    <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="border-b border-black/[0.06] py-5 px-6">
+      <header className="border-b border-border-subtle py-5 px-6">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               href="/"
-              className="text-[13px] font-medium text-black/40 hover:text-black transition-colors"
+              className="text-[13px] font-medium text-ink-tertiary hover:text-ink-primary transition-colors"
             >
               ← Back
             </Link>
             <div>
-              <h1 className="font-serif text-[22px] font-medium tracking-[-0.01em] text-black">Guest Dashboard</h1>
-              <p className="text-[13px] text-black/50 mt-0.5 font-medium">Track arrivals and confirmations</p>
+              <h1 className="font-serif text-[22px] font-medium tracking-[-0.01em] text-ink-primary">Guest Dashboard</h1>
+              <p className="text-[13px] text-ink-secondary mt-0.5 font-medium">Track arrivals and confirmations</p>
             </div>
           </div>
           <Link
             href="/import"
-            className="text-[13px] font-medium text-black/40 hover:text-black transition-colors"
+            className="text-[13px] font-medium text-ink-tertiary hover:text-ink-primary transition-colors"
           >
             Import Bookings →
           </Link>
@@ -179,74 +179,74 @@ export default function GuestsPage() {
       <main className="max-w-5xl mx-auto px-6 py-8">
         {loading ? (
           <div className="flex justify-center py-24">
-            <div className="w-6 h-6 border-2 border-black/10 border-t-black/40 rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-border-subtle border-t-black/40 rounded-full animate-spin" />
           </div>
         ) : (
           <>
             {/* Tabs */}
-            <div className="flex gap-1 mb-8 border-b border-black/[0.06]">
+            <div className="flex gap-1 mb-8 border-b border-border-subtle">
               <button
                 onClick={() => setActiveTab("today")}
                 className={`px-4 py-3 text-[13px] font-medium transition-colors relative ${
                   activeTab === "today"
-                    ? "text-black"
-                    : "text-black/40 hover:text-black/70"
+                    ? "text-ink-primary"
+                    : "text-ink-tertiary hover:text-ink-body"
                 }`}
               >
                 Today
                 {todayGuests.length > 0 && (
-                  <span className="ml-2 px-2 py-0.5 bg-blue-50 text-blue-700 text-[11px] font-semibold rounded-full">
+                  <span className="ml-2 px-2 py-0.5 bg-dusty/10 text-dusty text-[11px] font-semibold rounded-full">
                     {todayGuests.length}
                   </span>
                 )}
                 {activeTab === "today" && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-black" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent" />
                 )}
               </button>
               <button
                 onClick={() => setActiveTab("need-action")}
                 className={`px-4 py-3 text-[13px] font-medium transition-colors relative ${
                   activeTab === "need-action"
-                    ? "text-black"
-                    : "text-black/40 hover:text-black/70"
+                    ? "text-ink-primary"
+                    : "text-ink-tertiary hover:text-ink-body"
                 }`}
               >
                 Need Action
                 {needActionGuests.length > 0 && (
-                  <span className="ml-2 px-2 py-0.5 bg-amber-50 text-amber-700 text-[11px] font-semibold rounded-full">
+                  <span className="ml-2 px-2 py-0.5 bg-gold/10 text-gold text-[11px] font-semibold rounded-full">
                     {needActionGuests.length}
                   </span>
                 )}
                 {activeTab === "need-action" && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-black" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent" />
                 )}
               </button>
               <button
                 onClick={() => setActiveTab("next-7-days")}
                 className={`px-4 py-3 text-[13px] font-medium transition-colors relative ${
                   activeTab === "next-7-days"
-                    ? "text-black"
-                    : "text-black/40 hover:text-black/70"
+                    ? "text-ink-primary"
+                    : "text-ink-tertiary hover:text-ink-body"
                 }`}
               >
                 Next 7 Days
-                <span className="ml-2 text-black/30">{next7DaysGuests.length}</span>
+                <span className="ml-2 text-ink-tertiary">{next7DaysGuests.length}</span>
                 {activeTab === "next-7-days" && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-black" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent" />
                 )}
               </button>
               <button
                 onClick={() => setActiveTab("all")}
                 className={`px-4 py-3 text-[13px] font-medium transition-colors relative ${
                   activeTab === "all"
-                    ? "text-black"
-                    : "text-black/40 hover:text-black/70"
+                    ? "text-ink-primary"
+                    : "text-ink-tertiary hover:text-ink-body"
                 }`}
               >
                 All Upcoming
-                <span className="ml-2 text-black/30">{upcomingGuests.length}</span>
+                <span className="ml-2 text-ink-tertiary">{upcomingGuests.length}</span>
                 {activeTab === "all" && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-black" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent" />
                 )}
               </button>
             </div>
@@ -254,7 +254,7 @@ export default function GuestsPage() {
             {/* Guest List */}
             <div className="space-y-3">
               {getFilteredGuests().length === 0 ? (
-                <div className="text-center py-16 text-[14px] text-black/40">
+                <div className="text-center py-16 text-[14px] text-ink-tertiary">
                   {activeTab === "need-action" 
                     ? "No guests need action right now" 
                     : "No upcoming guests"}
@@ -269,38 +269,38 @@ export default function GuestsPage() {
                   return (
                     <div
                       key={guest.booking_id}
-                      className={`p-5 bg-white border rounded-lg transition-all ${
+                      className={`p-5 bg-cream border rounded-lg transition-all ${
                         isUrgent
-                          ? "border-red-200 bg-red-50/50"
+                          ? "border-brick/30 bg-brick/10/50"
                           : isConfirmed
-                          ? "border-emerald-200 bg-emerald-50/30"
-                          : "border-black/[0.06]"
+                          ? "border-sage/30 bg-sage/10/30"
+                          : "border-border-subtle"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2.5 mb-1.5">
-                            <h3 className="text-[15px] font-semibold text-black truncate">{guest.guest_name || "Unknown Guest"}</h3>
+                            <h3 className="text-[15px] font-semibold text-ink-primary truncate">{guest.guest_name || "Unknown Guest"}</h3>
                             {guest.country && (
-                              <span className="text-[13px] text-black/40">{guest.country}</span>
+                              <span className="text-[13px] text-ink-tertiary">{guest.country}</span>
                             )}
                             {needsAttention && !isConfirmed && (
-                              <span className="px-2 py-0.5 bg-amber-50 text-amber-700 text-[11px] font-semibold rounded">
+                              <span className="px-2 py-0.5 bg-gold/10 text-gold text-[11px] font-semibold rounded">
                                 {daysUntil} day{daysUntil !== 1 ? "s" : ""}
                               </span>
                             )}
                             {isConfirmed && (
-                              <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[11px] font-semibold rounded">
+                              <span className="px-2 py-0.5 bg-sage/10 text-forest text-[11px] font-semibold rounded">
                                 Confirmed
                               </span>
                             )}
                           </div>
-                          <div className="flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-black/50">
-                            <span className="font-medium text-black/70">
+                          <div className="flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-ink-secondary">
+                            <span className="font-medium text-ink-body">
                               {guest.room_type || guest.property}
                             </span>
                             {guest.room_type && guest.property && (
-                              <span className="text-black/35">({guest.property})</span>
+                              <span className="text-ink-tertiary">({guest.property})</span>
                             )}
                             <span>
                               {formatDate(guest.check_in)} → {formatDate(guest.check_out)}
@@ -312,12 +312,12 @@ export default function GuestsPage() {
                           {(guest.stated_arrival_time || guest.arrival_time_confirmed) && (
                             <div className="mt-2.5 text-[13px]">
                               {guest.stated_arrival_time && (
-                                <span className="text-black/40">
+                                <span className="text-ink-tertiary">
                                   Stated: {guest.stated_arrival_time}
                                 </span>
                               )}
                               {guest.arrival_time_confirmed && (
-                                <span className="ml-3 text-emerald-700 font-medium">
+                                <span className="ml-3 text-forest font-medium">
                                   Confirmed: {guest.arrival_time_confirmed}
                                 </span>
                               )}
@@ -330,7 +330,7 @@ export default function GuestsPage() {
                             <button
                               onClick={() => handleSendWhatsApp(guest)}
                               disabled={updating === guest.booking_id}
-                              className="px-3.5 py-2 text-[12px] font-semibold border border-emerald-600 text-emerald-700 rounded-lg hover:bg-emerald-50 transition-colors disabled:opacity-50"
+                              className="px-3.5 py-2 text-[12px] font-semibold border border-forest text-forest rounded-lg hover:bg-sage/10 transition-colors disabled:opacity-50"
                             >
                               WhatsApp
                             </button>
@@ -340,8 +340,8 @@ export default function GuestsPage() {
                             disabled={updating === guest.booking_id}
                             className={`px-3.5 py-2 text-[12px] font-semibold rounded-lg transition-colors disabled:opacity-50 ${
                               isConfirmed
-                                ? "border border-emerald-600 bg-emerald-600 text-white hover:bg-emerald-700"
-                                : "border border-black/15 text-black/70 hover:border-black/30 hover:bg-black/[0.02]"
+                                ? "border border-forest bg-sage text-cream hover:bg-forest"
+                                : "border border-border text-ink-body hover:border-border-strong hover:bg-bone"
                             }`}
                           >
                             {updating === guest.booking_id ? "..." : isConfirmed ? "✓ Confirmed" : "Mark Confirmed"}
@@ -350,7 +350,7 @@ export default function GuestsPage() {
                       </div>
 
                       {guest.arrival_request_sent && (
-                        <p className="mt-3 text-[11px] text-black/35 font-medium">
+                        <p className="mt-3 text-[11px] text-ink-tertiary font-medium">
                           Request sent: {new Date(guest.arrival_request_sent).toLocaleString()}
                         </p>
                       )}

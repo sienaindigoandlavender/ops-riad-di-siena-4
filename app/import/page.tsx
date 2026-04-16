@@ -117,37 +117,37 @@ export default function ImportPage() {
   const errorsList = results?.errors || [];
 
   return (
-    <div className="min-h-screen bg-[#fafafa]">
+    <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="border-b border-black/[0.06] py-5 px-6">
+      <header className="border-b border-border-subtle py-5 px-6">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               href="/"
-              className="text-black/40 hover:text-black transition-colors text-[13px]"
+              className="text-ink-tertiary hover:text-ink-primary transition-colors text-[13px]"
             >
               ← Back
             </Link>
             <div>
               <h1 className="font-serif text-[22px] tracking-[-0.02em]">Import Bookings</h1>
-              <p className="text-[11px] text-black/40">Booking.com & Airbnb imports</p>
+              <p className="text-[11px] text-ink-tertiary">Booking.com & Airbnb imports</p>
             </div>
           </div>
           
           {/* Auth status indicator */}
           <div className="flex items-center gap-2">
             {authStatus.status === "checking" && (
-              <span className="text-[11px] text-black/35">Checking connection...</span>
+              <span className="text-[11px] text-ink-tertiary">Checking connection...</span>
             )}
             {authStatus.status === "ok" && (
-              <span className="flex items-center gap-1.5 text-[11px] text-emerald-700">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span className="flex items-center gap-1.5 text-[11px] text-forest">
+                <span className="w-1.5 h-1.5 rounded-full bg-sage"></span>
                 Connected
               </span>
             )}
             {authStatus.status === "error" && (
-              <span className="flex items-center gap-1.5 text-[11px] text-red-600">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+              <span className="flex items-center gap-1.5 text-[11px] text-brick">
+                <span className="w-1.5 h-1.5 rounded-full bg-brick"></span>
                 Auth Error
               </span>
             )}
@@ -158,15 +158,15 @@ export default function ImportPage() {
       <main className="max-w-4xl mx-auto px-6 py-10">
         {/* Auth Error Banner */}
         {authStatus.status === "error" && (
-          <div className="mb-8 p-5 bg-red-50 border border-red-200 rounded-lg text-red-800">
+          <div className="mb-8 p-5 bg-brick/10 border border-brick/30 rounded-lg text-brick">
             <p className="font-semibold text-[13px] mb-2">⚠️ Authentication Error: {authStatus.error}</p>
             {authStatus.details && (
-              <p className="text-[13px] mb-4 text-red-700">{authStatus.details}</p>
+              <p className="text-[13px] mb-4 text-brick">{authStatus.details}</p>
             )}
             {helpSteps.length > 0 && (
               <div className="text-[13px] space-y-1">
                 <p className="font-semibold">How to fix:</p>
-                <ol className="list-decimal list-inside space-y-1 text-red-700">
+                <ol className="list-decimal list-inside space-y-1 text-brick">
                   {helpSteps.map((step, i) => (
                     <li key={i}>{step}</li>
                   ))}
@@ -177,13 +177,13 @@ export default function ImportPage() {
         )}
 
         {/* Tab Switcher */}
-        <div className="flex border-b border-black/[0.06] mb-8">
+        <div className="flex border-b border-border-subtle mb-8">
           <button
             onClick={() => setActiveTab("booking")}
             className={`px-5 py-3 text-[13px] font-medium border-b-2 transition-colors ${
               activeTab === "booking"
-                ? "border-black text-black"
-                : "border-transparent text-black/40 hover:text-black/70"
+                ? "border-border text-ink-primary"
+                : "border-transparent text-ink-tertiary hover:text-ink-body"
             }`}
           >
             Booking.com
@@ -192,8 +192,8 @@ export default function ImportPage() {
             onClick={() => setActiveTab("airbnb")}
             className={`px-5 py-3 text-[13px] font-medium border-b-2 transition-colors ${
               activeTab === "airbnb"
-                ? "border-black text-black"
-                : "border-transparent text-black/40 hover:text-black/70"
+                ? "border-border text-ink-primary"
+                : "border-transparent text-ink-tertiary hover:text-ink-body"
             }`}
           >
             Airbnb
@@ -202,9 +202,9 @@ export default function ImportPage() {
 
         {/* Instructions - Booking.com */}
         {activeTab === "booking" && (
-          <div className="mb-8 p-5 bg-white border border-black/[0.06] rounded-lg">
-            <p className="text-[11px] uppercase tracking-[0.12em] text-black/35 mb-4">How to Export from Booking.com</p>
-            <ol className="space-y-2 text-[13px] text-black/70">
+          <div className="mb-8 p-5 bg-cream border border-border-subtle rounded-lg">
+            <p className="text-[11px] uppercase tracking-[0.12em] text-ink-tertiary mb-4">How to Export from Booking.com</p>
+            <ol className="space-y-2 text-[13px] text-ink-body">
               <li>1. Go to Booking.com Extranet → Reservations</li>
               <li>2. Set date range: Today → 6 months out</li>
               <li>3. Click Export → Select &quot;Check-in with contact details&quot;</li>
@@ -216,16 +216,16 @@ export default function ImportPage() {
 
         {/* Instructions - Airbnb */}
         {activeTab === "airbnb" && (
-          <div className="mb-8 p-5 bg-white border border-black/[0.06] rounded-lg">
-            <p className="text-[11px] uppercase tracking-[0.12em] text-black/35 mb-4">How to Export from Airbnb</p>
-            <ol className="space-y-2 text-[13px] text-black/70">
+          <div className="mb-8 p-5 bg-cream border border-border-subtle rounded-lg">
+            <p className="text-[11px] uppercase tracking-[0.12em] text-ink-tertiary mb-4">How to Export from Airbnb</p>
+            <ol className="space-y-2 text-[13px] text-ink-body">
               <li>1. Go to Airbnb Host → Reservations</li>
               <li>2. Click the &quot;Export&quot; button (top right)</li>
               <li>3. Select date range (e.g., next 6 months)</li>
               <li>4. Download the CSV file</li>
               <li>5. Drop it below</li>
             </ol>
-            <p className="mt-4 text-[11px] text-black/40">
+            <p className="mt-4 text-[11px] text-ink-tertiary">
               The system will automatically detect Airbnb format and map columns correctly.
             </p>
           </div>
@@ -239,8 +239,8 @@ export default function ImportPage() {
           className={`
             border-2 border-dashed rounded-lg p-12 text-center transition-all cursor-pointer
             ${isDragging 
-              ? "border-black bg-black/[0.02]" 
-              : "border-black/15 hover:border-black/30"
+              ? "border-border bg-bone" 
+              : "border-border hover:border-border-strong"
             }
             ${authStatus.status === "error" ? "opacity-50 pointer-events-none" : ""}
           `}
@@ -257,32 +257,32 @@ export default function ImportPage() {
 
           {isUploading ? (
             <div className="flex flex-col items-center gap-4">
-              <div className="w-8 h-8 border-2 border-black/15 border-t-black rounded-full animate-spin" />
-              <p className="text-black/50 text-[13px]">Processing...</p>
+              <div className="w-8 h-8 border-2 border-border border-t-black rounded-full animate-spin" />
+              <p className="text-ink-secondary text-[13px]">Processing...</p>
             </div>
           ) : (
             <>
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full border border-black/15 flex items-center justify-center">
-                <svg className="w-6 h-6 text-black/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-full border border-border flex items-center justify-center">
+                <svg className="w-6 h-6 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
               </div>
-              <p className="text-[15px] text-black/70 mb-2">
+              <p className="text-[15px] text-ink-body mb-2">
                 Drop {activeTab === "booking" ? "Booking.com" : "Airbnb"} export here
               </p>
-              <p className="text-[13px] text-black/40">or click to select file</p>
-              <p className="text-[11px] text-black/30 mt-4">Supports CSV and Excel files • Auto-detects source</p>
+              <p className="text-[13px] text-ink-tertiary">or click to select file</p>
+              <p className="text-[11px] text-ink-tertiary mt-4">Supports CSV and Excel files • Auto-detects source</p>
             </>
           )}
         </div>
 
         {/* Error */}
         {error && (
-          <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+          <div className="mt-6 p-4 bg-brick/10 border border-brick/30 rounded-lg text-brick">
             <p className="font-semibold text-[13px]">Error</p>
             <p className="text-[13px]">{error}</p>
             {errorDetails && (
-              <p className="text-[13px] mt-2 text-red-600">{errorDetails}</p>
+              <p className="text-[13px] mt-2 text-brick">{errorDetails}</p>
             )}
           </div>
         )}
@@ -291,16 +291,16 @@ export default function ImportPage() {
         {results && (
           <div className="mt-8 space-y-6">
             {/* Success Banner */}
-            <div className="p-5 bg-emerald-50 border border-emerald-200 rounded-lg">
+            <div className="p-5 bg-sage/10 border border-sage/30 rounded-lg">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 rounded-full bg-sage/20 flex items-center justify-center">
+                  <svg className="w-5 h-5 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <div>
-                  <p className="font-semibold text-[13px] text-emerald-900">Upload successful</p>
-                  <p className="text-[13px] text-emerald-700">
+                  <p className="font-semibold text-[13px] text-forest">Upload successful</p>
+                  <p className="text-[13px] text-forest">
                     {results.added + results.updated + results.unchanged + results.cancelled} entries processed
                     {results.added > 0 && ` · ${results.added} new`}
                     {results.updated > 0 && ` · ${results.updated} updated`}
@@ -313,8 +313,8 @@ export default function ImportPage() {
             {/* Source indicator */}
             {results.source && (
               <div className="flex items-center gap-2 text-[13px]">
-                <span className="text-black/40">Detected source:</span>
-                <span className="px-2 py-1 bg-black/[0.03] border border-black/[0.06] rounded font-medium text-[12px]">
+                <span className="text-ink-tertiary">Detected source:</span>
+                <span className="px-2 py-1 bg-parchment border border-border-subtle rounded font-medium text-[12px]">
                   {results.source === "airbnb" ? "Airbnb" : "Booking.com"}
                 </span>
               </div>
@@ -322,33 +322,33 @@ export default function ImportPage() {
 
             {/* Summary */}
             <div className="grid grid-cols-4 gap-3">
-              <div className="p-4 bg-white border border-black/[0.06] rounded-lg text-center">
-                <p className="text-[28px] font-serif text-emerald-600 tracking-[-0.02em]">{results.added}</p>
-                <p className="text-[11px] text-black/40 uppercase tracking-[0.08em]">Added</p>
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg text-center">
+                <p className="text-[28px] font-serif text-sage tracking-[-0.02em]">{results.added}</p>
+                <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em]">Added</p>
               </div>
-              <div className="p-4 bg-white border border-black/[0.06] rounded-lg text-center">
-                <p className="text-[28px] font-serif text-blue-600 tracking-[-0.02em]">{results.updated}</p>
-                <p className="text-[11px] text-black/40 uppercase tracking-[0.08em]">Updated</p>
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg text-center">
+                <p className="text-[28px] font-serif text-accent-strong tracking-[-0.02em]">{results.updated}</p>
+                <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em]">Updated</p>
               </div>
-              <div className="p-4 bg-white border border-black/[0.06] rounded-lg text-center">
-                <p className="text-[28px] font-serif text-black/30 tracking-[-0.02em]">{results.unchanged}</p>
-                <p className="text-[11px] text-black/40 uppercase tracking-[0.08em]">Unchanged</p>
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg text-center">
+                <p className="text-[28px] font-serif text-ink-tertiary tracking-[-0.02em]">{results.unchanged}</p>
+                <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em]">Unchanged</p>
               </div>
-              <div className="p-4 bg-white border border-black/[0.06] rounded-lg text-center">
-                <p className="text-[28px] font-serif text-amber-600 tracking-[-0.02em]">{results.cancelled}</p>
-                <p className="text-[11px] text-black/40 uppercase tracking-[0.08em]">Cancelled</p>
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg text-center">
+                <p className="text-[28px] font-serif text-gold tracking-[-0.02em]">{results.cancelled}</p>
+                <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em]">Cancelled</p>
               </div>
             </div>
 
             {/* Changes log */}
             {changesList.length > 0 && (
-              <div className="bg-white border border-black/[0.06] rounded-lg overflow-hidden">
-                <div className="p-4 border-b border-black/[0.06]">
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-black/35">Change Log</p>
+              <div className="bg-cream border border-border-subtle rounded-lg overflow-hidden">
+                <div className="p-4 border-b border-border-subtle">
+                  <p className="text-[11px] uppercase tracking-[0.12em] text-ink-tertiary">Change Log</p>
                 </div>
                 <div className="max-h-64 overflow-y-auto">
                   {changesList.map((change, i) => (
-                    <div key={i} className="px-4 py-2.5 border-b border-black/[0.03] text-[13px] text-black/70">
+                    <div key={i} className="px-4 py-2.5 border-b border-border-subtle text-[13px] text-ink-body">
                       {change}
                     </div>
                   ))}
@@ -358,33 +358,33 @@ export default function ImportPage() {
 
             {/* Errors */}
             {errorsList.length > 0 && (
-              <div className="bg-red-50 border border-red-200 rounded-lg overflow-hidden">
-                <div className="p-4 border-b border-red-200">
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-red-600">Errors</p>
+              <div className="bg-brick/10 border border-brick/30 rounded-lg overflow-hidden">
+                <div className="p-4 border-b border-brick/30">
+                  <p className="text-[11px] uppercase tracking-[0.12em] text-brick">Errors</p>
                 </div>
                 <div className="p-4 space-y-1">
                   {errorsList.map((err, i) => (
-                    <p key={i} className="text-[13px] text-red-700">{err}</p>
+                    <p key={i} className="text-[13px] text-brick">{err}</p>
                   ))}
                 </div>
               </div>
             )}
 
             {/* Next steps */}
-            <div className="flex justify-between items-center pt-4 border-t border-black/[0.06]">
+            <div className="flex justify-between items-center pt-4 border-t border-border-subtle">
               <button
                 onClick={() => {
                   setResults(null);
                   setError(null);
                   setErrorDetails(null);
                 }}
-                className="text-[13px] text-black/40 hover:text-black transition-colors"
+                className="text-[13px] text-ink-tertiary hover:text-ink-primary transition-colors"
               >
                 Import another file
               </button>
               <Link
                 href="/guests"
-                className="px-5 py-2.5 bg-black text-white text-[12px] font-semibold rounded-lg hover:bg-black/90 transition-colors"
+                className="px-5 py-2.5 bg-accent text-cream text-[12px] font-semibold rounded-lg hover:bg-accent-strong transition-colors"
               >
                 View Guest Dashboard →
               </Link>

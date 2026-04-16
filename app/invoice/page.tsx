@@ -75,9 +75,9 @@ function loadSaved(): InvoiceData[] {
 function saveDrafts(drafts: InvoiceData[]) { localStorage.setItem(STORAGE_KEY, JSON.stringify(drafts)); }
 
 // ─── Styles ─────────────────────────────────────────────────
-const inp = "w-full px-0 py-2.5 text-[13px] bg-transparent border-b border-black/10 focus:border-black/35 focus:outline-none transition-colors placeholder:text-black/18";
-const sel = "w-full px-0 py-2.5 text-[13px] bg-transparent border-b border-black/10 focus:border-black/35 focus:outline-none transition-colors appearance-none";
-function Lbl({ children }: { children: string }) { return <label className="block text-[9.5px] font-medium tracking-[0.16em] uppercase text-black/30 mb-1">{children}</label>; }
+const inp = "w-full px-0 py-2.5 text-[13px] bg-transparent border-b border-border-subtle focus:border-border-strong focus:outline-none transition-colors placeholder:text-ink-tertiary";
+const sel = "w-full px-0 py-2.5 text-[13px] bg-transparent border-b border-border-subtle focus:border-border-strong focus:outline-none transition-colors appearance-none";
+function Lbl({ children }: { children: string }) { return <label className="block text-[9.5px] font-medium tracking-[0.16em] uppercase text-ink-tertiary mb-1">{children}</label>; }
 
 // ═════════════════════════════════════════════════════════════
 function InvoicePage() {
@@ -315,57 +315,57 @@ function InvoicePage() {
   // PICK MODE
   // ═══════════════════════════════════════════════════════════
   if(mode==="pick") return(
-    <div className="min-h-screen bg-[#fafafa]">
-      <header className="border-b border-black/[0.06] bg-white">
+    <div className="min-h-screen bg-cream">
+      <header className="border-b border-border-subtle bg-cream">
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
-          <Link href="/" className="text-[13px] text-black/30 hover:text-black/60 transition-colors">← Dashboard</Link>
-          <div className="w-px h-4 bg-black/8" />
+          <Link href="/" className="text-[13px] text-ink-tertiary hover:text-ink-secondary transition-colors">← Dashboard</Link>
+          <div className="w-px h-4 bg-bone" />
           <h1 className="text-[15px] font-medium tracking-tight">Invoice</h1>
         </div>
       </header>
       <div className="max-w-md mx-auto px-6 pt-16 pb-16">
-        <p className="text-[9.5px] tracking-[0.2em] uppercase text-black/25 mb-3">New Invoice</p>
-        <h2 className="font-serif text-[30px] leading-[1.15] text-black/85 mb-10">Import a booking<br/>or start from scratch.</h2>
+        <p className="text-[9.5px] tracking-[0.2em] uppercase text-ink-tertiary mb-3">New Invoice</p>
+        <h2 className="font-serif text-[30px] leading-[1.15] text-ink-primary mb-10">Import a booking<br/>or start from scratch.</h2>
 
         <div className="relative mb-5" ref={ddRef}>
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black/20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           <input type="text" value={searchQ} onChange={e=>{setSearchQ(e.target.value);setShowDD(true);}} onFocus={()=>setShowDD(true)}
             placeholder={loadingApi?"Loading bookings…":"Search name, booking ID, email…"}
-            className="w-full pl-11 pr-4 py-3.5 text-[13px] bg-white border border-black/8 rounded-xl focus:outline-none focus:border-black/18 transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.04)]"/>
+            className="w-full pl-11 pr-4 py-3.5 text-[13px] bg-cream border border-border-subtle rounded-xl focus:outline-none focus:border-border transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.04)]"/>
           {showDD&&searchQ.trim()&&filtered.length>0&&(
-            <div className="absolute z-50 left-0 right-0 mt-1 bg-white border border-black/8 rounded-xl shadow-lg max-h-64 overflow-y-auto scrollbar-hide">
+            <div className="absolute z-50 left-0 right-0 mt-1 bg-cream border border-border-subtle rounded-xl shadow-lg max-h-64 overflow-y-auto scrollbar-hide">
               {filtered.map(g=>(
-                <button key={g.booking_id} onClick={()=>fillBooking(g)} className="w-full text-left px-4 py-3 hover:bg-black/[0.015] transition-colors border-b border-black/[0.04] last:border-0">
-                  <div className="flex items-center justify-between"><span className="text-[13px] font-medium text-black/75">{g.guest_name}</span><span className="text-[9px] text-black/20 font-mono">{g.booking_id}</span></div>
-                  <div className="text-[10px] text-black/30 mt-0.5">{g.room}{g.check_in?` · ${fmtDate(g.check_in.split("T")[0])}`:""}{g.source?` · ${g.source}`:""}</div>
+                <button key={g.booking_id} onClick={()=>fillBooking(g)} className="w-full text-left px-4 py-3 hover:bg-bone transition-colors border-b border-border-subtle last:border-0">
+                  <div className="flex items-center justify-between"><span className="text-[13px] font-medium text-ink-primary">{g.guest_name}</span><span className="text-[9px] text-ink-tertiary font-mono">{g.booking_id}</span></div>
+                  <div className="text-[10px] text-ink-tertiary mt-0.5">{g.room}{g.check_in?` · ${fmtDate(g.check_in.split("T")[0])}`:""}{g.source?` · ${g.source}`:""}</div>
                 </button>))}
             </div>
           )}
         </div>
 
-        <div className="flex items-center gap-4 my-7"><div className="flex-1 border-t border-black/6"/><span className="text-[10px] text-black/20">or</span><div className="flex-1 border-t border-black/6"/></div>
+        <div className="flex items-center gap-4 my-7"><div className="flex-1 border-t border-border-subtle"/><span className="text-[10px] text-ink-tertiary">or</span><div className="flex-1 border-t border-border-subtle"/></div>
 
-        <button onClick={()=>setMode("form")} className="w-full py-3.5 text-[12px] font-medium tracking-wide border border-black/10 rounded-xl hover:bg-black hover:text-white transition-all duration-200">Enter manually</button>
-        <p className="text-center text-[10px] text-black/25 mt-2">WhatsApp bookings, direct payments, custom invoices</p>
+        <button onClick={()=>setMode("form")} className="w-full py-3.5 text-[12px] font-medium tracking-wide border border-border-subtle rounded-xl hover:bg-accent hover:text-cream transition-all duration-200">Enter manually</button>
+        <p className="text-center text-[10px] text-ink-tertiary mt-2">WhatsApp bookings, direct payments, custom invoices</p>
 
         {/* Saved drafts */}
         {savedInvoices.length>0&&(
           <div className="mt-12">
-            <p className="text-[9.5px] tracking-[0.2em] uppercase text-black/25 mb-4">Saved Drafts</p>
+            <p className="text-[9.5px] tracking-[0.2em] uppercase text-ink-tertiary mb-4">Saved Drafts</p>
             <div className="space-y-2">
               {savedInvoices.map(d=>(
-                <div key={d.invNo} className="flex items-center justify-between bg-white border border-black/[0.05] rounded-lg px-4 py-3">
+                <div key={d.invNo} className="flex items-center justify-between bg-cream border border-border-subtle rounded-lg px-4 py-3">
                   <button onClick={()=>loadInvoice(d)} className="text-left flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-[12px] font-mono text-black/50">{d.invNo}</span>
-                      <span className="text-[12px] font-medium text-black/70 truncate">{[d.fName,d.lName].filter(Boolean).join(" ")||"—"}</span>
+                      <span className="text-[12px] font-mono text-ink-secondary">{d.invNo}</span>
+                      <span className="text-[12px] font-medium text-ink-body truncate">{[d.fName,d.lName].filter(Boolean).join(" ")||"—"}</span>
                     </div>
-                    <p className="text-[10px] text-black/25 mt-0.5">
+                    <p className="text-[10px] text-ink-tertiary mt-0.5">
                       {d.rooms?.[0]?.room||d.rooms?.[0]?.property||"—"}
                       {d.rooms?.length>1?` + ${d.rooms.length-1} more`:""}
                       {d.savedAt?` · saved ${new Date(d.savedAt).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`:""}</p>
                   </button>
-                  <button onClick={()=>deleteSaved(d.invNo)} className="ml-3 text-black/15 hover:text-red-400 transition-colors p-1">
+                  <button onClick={()=>deleteSaved(d.invNo)} className="ml-3 text-ink-tertiary hover:text-brick transition-colors p-1">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
                 </div>))}
@@ -380,26 +380,26 @@ function InvoicePage() {
   // FORM MODE
   // ═══════════════════════════════════════════════════════════
   if(mode==="form") return(
-    <div className="min-h-screen bg-[#fafafa]">
-      <header className="border-b border-black/[0.06] bg-white sticky top-0 z-30">
+    <div className="min-h-screen bg-cream">
+      <header className="border-b border-border-subtle bg-cream sticky top-0 z-30">
         <div className="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={reset} className="text-[13px] text-black/25 hover:text-black/50 transition-colors">← Back</button>
-            <div className="w-px h-3.5 bg-black/8"/>
-            <span className="text-[12px] text-black/40 font-mono">{invNo}</span>
+            <button onClick={reset} className="text-[13px] text-ink-tertiary hover:text-ink-secondary transition-colors">← Back</button>
+            <div className="w-px h-3.5 bg-bone"/>
+            <span className="text-[12px] text-ink-tertiary font-mono">{invNo}</span>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={saveInvoice} className="px-4 py-2 text-[11px] font-medium border border-black/10 rounded-lg hover:bg-black/[0.03] transition-colors">
+            <button onClick={saveInvoice} className="px-4 py-2 text-[11px] font-medium border border-border-subtle rounded-lg hover:bg-parchment transition-colors">
               {saveMsg||"Save Draft"}
             </button>
-            <button onClick={()=>setMode("preview")} className="px-5 py-2 text-[11px] font-medium bg-black text-white rounded-lg hover:bg-black/80 transition-colors">Preview →</button>
+            <button onClick={()=>setMode("preview")} className="px-5 py-2 text-[11px] font-medium bg-accent text-cream rounded-lg hover:bg-accent-strong transition-colors">Preview →</button>
           </div>
         </div>
       </header>
 
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-5">
         {/* Meta */}
-        <div className="bg-white border border-black/[0.04] rounded-xl p-6">
+        <div className="bg-cream border border-border-subtle rounded-xl p-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div><Lbl>Invoice No.</Lbl><input type="text" value={invNo} onChange={e=>setInvNo(e.target.value)} className={inp}/></div>
             <div><Lbl>Date</Lbl><input type="date" value={invDate} onChange={e=>setInvDate(e.target.value)} className={inp}/></div>
@@ -409,8 +409,8 @@ function InvoicePage() {
         </div>
 
         {/* Guest */}
-        <div className="bg-white border border-black/[0.04] rounded-xl p-6">
-          <p className="text-[9px] tracking-[0.2em] uppercase text-black/25 mb-5">Guest</p>
+        <div className="bg-cream border border-border-subtle rounded-xl p-6">
+          <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary mb-5">Guest</p>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             <div><Lbl>First Name</Lbl><input type="text" value={fName} onChange={e=>setFName(e.target.value)} className={inp}/></div>
             <div><Lbl>Last Name</Lbl><input type="text" value={lName} onChange={e=>setLName(e.target.value)} className={inp}/></div>
@@ -421,21 +421,21 @@ function InvoicePage() {
         </div>
 
         {/* Rooms */}
-        <div className="bg-white border border-black/[0.04] rounded-xl p-6">
+        <div className="bg-cream border border-border-subtle rounded-xl p-6">
           <div className="flex items-center justify-between mb-5">
-            <p className="text-[9px] tracking-[0.2em] uppercase text-black/25">Rooms</p>
-            <button onClick={addRoom} className="text-[10px] text-black/30 hover:text-black/50 transition-colors">+ Add room</button>
+            <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary">Rooms</p>
+            <button onClick={addRoom} className="text-[10px] text-ink-tertiary hover:text-ink-secondary transition-colors">+ Add room</button>
           </div>
 
           <div className="space-y-5">
             {rooms.map((r,idx)=>{
               const rc=roomCalcs[idx];
               return(
-              <div key={r.id} className={`${rooms.length>1?"pb-5 border-b border-black/[0.04] last:border-0 last:pb-0":""}`}>
+              <div key={r.id} className={`${rooms.length>1?"pb-5 border-b border-border-subtle last:border-0 last:pb-0":""}`}>
                 {rooms.length>1&&(
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-medium text-black/40">Room {idx+1}</span>
-                    <button onClick={()=>rmRoom(r.id)} className="text-[10px] text-black/20 hover:text-red-400 transition-colors">Remove</button>
+                    <span className="text-[10px] font-medium text-ink-tertiary">Room {idx+1}</span>
+                    <button onClick={()=>rmRoom(r.id)} className="text-[10px] text-ink-tertiary hover:text-brick transition-colors">Remove</button>
                   </div>
                 )}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-3">
@@ -448,14 +448,14 @@ function InvoicePage() {
                   <div>
                     <Lbl>Guests</Lbl>
                     <div className="flex items-center gap-3 py-1.5">
-                      <button onClick={()=>updRoom(r.id,"guestCount",Math.max(1,r.guestCount-1))} className="w-7 h-7 flex items-center justify-center border border-black/10 rounded text-black/40 hover:text-black transition-colors">−</button>
+                      <button onClick={()=>updRoom(r.id,"guestCount",Math.max(1,r.guestCount-1))} className="w-7 h-7 flex items-center justify-center border border-border-subtle rounded text-ink-tertiary hover:text-ink-primary transition-colors">−</button>
                       <span className="text-[14px] font-medium w-4 text-center">{r.guestCount}</span>
-                      <button onClick={()=>updRoom(r.id,"guestCount",r.guestCount+1)} className="w-7 h-7 flex items-center justify-center border border-black/10 rounded text-black/40 hover:text-black transition-colors">+</button>
+                      <button onClick={()=>updRoom(r.id,"guestCount",r.guestCount+1)} className="w-7 h-7 flex items-center justify-center border border-border-subtle rounded text-ink-tertiary hover:text-ink-primary transition-colors">+</button>
                     </div>
                   </div>
                   <div><Lbl>Nightly Rate (€)</Lbl><input type="number" value={r.rate||""} onChange={e=>updRoom(r.id,"rate",parseFloat(e.target.value)||0)} placeholder="0" className={inp}/></div>
                   <div className="pt-2">
-                    {rc&&rc.nights>0&&rc.rate>0&&<span className="text-[12px] text-black/35">{rc.nights}n × {eur(rc.rate)} = <span className="text-black/70 font-medium">{eur(rc.total)}</span></span>}
+                    {rc&&rc.nights>0&&rc.rate>0&&<span className="text-[12px] text-ink-tertiary">{rc.nights}n × {eur(rc.rate)} = <span className="text-ink-body font-medium">{eur(rc.total)}</span></span>}
                   </div>
                 </div>
               </div>);
@@ -463,10 +463,10 @@ function InvoicePage() {
           </div>
 
           {/* City Tax Toggle */}
-          <div className="mt-4 pt-4 border-t border-black/[0.04] flex items-center gap-2">
-            <button onClick={()=>setInclTax(!inclTax)} className="flex items-center gap-1.5 text-[10px] text-black/35">
-              <span className={`w-3 h-3 rounded-sm border flex items-center justify-center ${inclTax?"bg-black border-black":"border-black/15"}`}>
-                {inclTax&&<svg className="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>}
+          <div className="mt-4 pt-4 border-t border-border-subtle flex items-center gap-2">
+            <button onClick={()=>setInclTax(!inclTax)} className="flex items-center gap-1.5 text-[10px] text-ink-tertiary">
+              <span className={`w-3 h-3 rounded-sm border flex items-center justify-center ${inclTax?"bg-accent border-border":"border-border"}`}>
+                {inclTax&&<svg className="w-2 h-2 text-cream" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>}
               </span>
               Include city tax · {eur(taxTot)}
             </button>
@@ -474,14 +474,14 @@ function InvoicePage() {
         </div>
 
         {/* Extras */}
-        <div className="bg-white border border-black/[0.04] rounded-xl p-6">
+        <div className="bg-cream border border-border-subtle rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-[9px] tracking-[0.2em] uppercase text-black/25">Additional</p>
-            <button onClick={()=>addLine()} className="text-[10px] text-black/30 hover:text-black/50 transition-colors">+ Add</button>
+            <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary">Additional</p>
+            <button onClick={()=>addLine()} className="text-[10px] text-ink-tertiary hover:text-ink-secondary transition-colors">+ Add</button>
           </div>
           <div className="flex flex-wrap gap-1.5 mb-4">
             {([["Airport Transfer",25],["Dinner (pp)",35],["Hammam",45],["Cooking Class (pp)",55],["Medina Tour",40],["Laundry",15],["Late Checkout",30]] as [string,number][]).map(([nm,pr])=>(
-              <button key={nm} onClick={()=>addLine(nm,pr)} className="px-2.5 py-1 text-[9.5px] border border-black/5 rounded hover:border-black/12 transition-colors text-black/40">{nm} <span className="text-black/18">€{pr}</span></button>
+              <button key={nm} onClick={()=>addLine(nm,pr)} className="px-2.5 py-1 text-[9.5px] border border-border-subtle rounded hover:border-border transition-colors text-ink-tertiary">{nm} <span className="text-ink-tertiary">€{pr}</span></button>
             ))}
           </div>
           {lines.length>0&&<div className="space-y-2">{lines.map(l=>(
@@ -489,48 +489,48 @@ function InvoicePage() {
               <input type="text" value={l.description} onChange={e=>updLine(l.id,"description",e.target.value)} placeholder="Description" className={`col-span-6 ${inp}`}/>
               <input type="number" value={l.quantity} onChange={e=>updLine(l.id,"quantity",parseInt(e.target.value)||1)} min={1} className={`col-span-2 text-center ${inp}`}/>
               <input type="number" value={l.unitPrice||""} onChange={e=>updLine(l.id,"unitPrice",parseFloat(e.target.value)||0)} placeholder="€" className={`col-span-2 text-right ${inp}`}/>
-              <span className="col-span-1 text-right text-[11px] font-medium text-black/50">{eur(l.quantity*l.unitPrice)}</span>
-              <button onClick={()=>rmLine(l.id)} className="col-span-1 text-right text-black/12 hover:text-red-400 transition-colors"><svg className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12"/></svg></button>
+              <span className="col-span-1 text-right text-[11px] font-medium text-ink-secondary">{eur(l.quantity*l.unitPrice)}</span>
+              <button onClick={()=>rmLine(l.id)} className="col-span-1 text-right text-ink-tertiary hover:text-brick transition-colors"><svg className="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12"/></svg></button>
             </div>))}</div>}
         </div>
 
         {/* Bottom row */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
           <div className="lg:col-span-3 space-y-5">
-            <div className="bg-white border border-black/[0.04] rounded-xl p-6">
-              <p className="text-[9px] tracking-[0.2em] uppercase text-black/25 mb-3">Discount</p>
+            <div className="bg-cream border border-border-subtle rounded-xl p-6">
+              <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary mb-3">Discount</p>
               <div className="flex gap-1.5 mb-3">
                 {(["none","percent","fixed"] as const).map(t=>(
-                  <button key={t} onClick={()=>setDType(t)} className={`px-3 py-1.5 text-[10px] rounded border transition-all ${dType===t?"bg-black text-white border-black":"border-black/6 text-black/35"}`}>{t==="none"?"None":t==="percent"?"%":"€"}</button>
+                  <button key={t} onClick={()=>setDType(t)} className={`px-3 py-1.5 text-[10px] rounded border transition-all ${dType===t?"bg-accent text-cream border-border":"border-border-subtle text-ink-tertiary"}`}>{t==="none"?"None":t==="percent"?"%":"€"}</button>
                 ))}
               </div>
               {dType!=="none"&&<input type="number" value={dVal} onChange={e=>setDVal(e.target.value)} placeholder={dType==="percent"?"e.g. 10":"e.g. 50"} className={inp+" max-w-[180px]"}/>}
             </div>
-            <div className="bg-white border border-black/[0.04] rounded-xl p-6">
-              <p className="text-[9px] tracking-[0.2em] uppercase text-black/25 mb-3">Notes</p>
-              <textarea value={notes} onChange={e=>setNotes(e.target.value)} rows={3} placeholder="Thank you for staying with us…" className="w-full px-3 py-2.5 text-[13px] bg-transparent border border-black/8 rounded-lg focus:border-black/20 focus:outline-none transition-colors resize-none placeholder:text-black/18"/>
+            <div className="bg-cream border border-border-subtle rounded-xl p-6">
+              <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary mb-3">Notes</p>
+              <textarea value={notes} onChange={e=>setNotes(e.target.value)} rows={3} placeholder="Thank you for staying with us…" className="w-full px-3 py-2.5 text-[13px] bg-transparent border border-border-subtle rounded-lg focus:border-border focus:outline-none transition-colors resize-none placeholder:text-ink-tertiary"/>
             </div>
           </div>
 
-          <div className="lg:col-span-2 bg-white border border-black/[0.04] rounded-xl p-6 flex flex-col">
+          <div className="lg:col-span-2 bg-cream border border-border-subtle rounded-xl p-6 flex flex-col">
             <div className="space-y-2.5 text-[12px] flex-1">
-              {roomsTot>0&&<div className="flex justify-between"><span className="text-black/30">Accommodation{rooms.length>1?` (${rooms.length} rooms)`:""}</span><span>{eur(roomsTot)}</span></div>}
-              {taxTot>0&&<div className="flex justify-between"><span className="text-black/30">City Tax</span><span>{eur(taxTot)}</span></div>}
-              {extrasTot>0&&<div className="flex justify-between"><span className="text-black/30">Extras</span><span>{eur(extrasTot)}</span></div>}
-              <div className="border-t border-black/5 pt-2.5 flex justify-between"><span className="text-black/30">Subtotal</span><span>{eur(sub)}</span></div>
-              {disc>0&&<div className="flex justify-between"><span className="text-black/30">Discount</span><span className="text-red-500/60">−{eur(disc)}</span></div>}
-              <div className="border-t-2 border-black pt-3 flex items-baseline justify-between">
+              {roomsTot>0&&<div className="flex justify-between"><span className="text-ink-tertiary">Accommodation{rooms.length>1?` (${rooms.length} rooms)`:""}</span><span>{eur(roomsTot)}</span></div>}
+              {taxTot>0&&<div className="flex justify-between"><span className="text-ink-tertiary">City Tax</span><span>{eur(taxTot)}</span></div>}
+              {extrasTot>0&&<div className="flex justify-between"><span className="text-ink-tertiary">Extras</span><span>{eur(extrasTot)}</span></div>}
+              <div className="border-t border-border-subtle pt-2.5 flex justify-between"><span className="text-ink-tertiary">Subtotal</span><span>{eur(sub)}</span></div>
+              {disc>0&&<div className="flex justify-between"><span className="text-ink-tertiary">Discount</span><span className="text-brick/60">−{eur(disc)}</span></div>}
+              <div className="border-t-2 border-border pt-3 flex items-baseline justify-between">
                 <span className="font-medium text-[13px]">Total</span>
                 <span className="text-[24px] font-serif font-semibold tracking-tight">{eur(total)}</span>
               </div>
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9.5px] self-start ${payStatus==="Paid"?"bg-green-50 text-green-700":payStatus==="Overdue"?"bg-red-50 text-red-700":"bg-amber-50 text-amber-700"}`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${payStatus==="Paid"?"bg-green-500":payStatus==="Overdue"?"bg-red-500":"bg-amber-500"}`}/>
+              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9.5px] self-start ${payStatus==="Paid"?"bg-sage/10 text-forest":payStatus==="Overdue"?"bg-brick/10 text-brick":"bg-gold/10 text-gold"}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${payStatus==="Paid"?"bg-sage":payStatus==="Overdue"?"bg-brick":"bg-gold/100"}`}/>
                 {payStatus} · {payMethod}
               </span>
             </div>
             <div className="flex gap-2 mt-5">
-              <button onClick={saveInvoice} className="flex-1 py-3 text-[11px] font-medium tracking-wide border border-black/10 rounded-lg hover:bg-black/[0.03] transition-colors">{saveMsg||"Save"}</button>
-              <button onClick={()=>setMode("preview")} className="flex-1 py-3 text-[11px] font-medium tracking-wide bg-black text-white rounded-lg hover:bg-black/80 transition-colors">Preview →</button>
+              <button onClick={saveInvoice} className="flex-1 py-3 text-[11px] font-medium tracking-wide border border-border-subtle rounded-lg hover:bg-parchment transition-colors">{saveMsg||"Save"}</button>
+              <button onClick={()=>setMode("preview")} className="flex-1 py-3 text-[11px] font-medium tracking-wide bg-accent text-cream rounded-lg hover:bg-accent-strong transition-colors">Preview →</button>
             </div>
           </div>
         </div>
@@ -542,20 +542,20 @@ function InvoicePage() {
   // PREVIEW MODE
   // ═══════════════════════════════════════════════════════════
   return(
-    <div className="min-h-screen bg-[#fafafa]">
-      <header className="border-b border-black/[0.06] bg-white sticky top-0 z-30">
+    <div className="min-h-screen bg-cream">
+      <header className="border-b border-border-subtle bg-cream sticky top-0 z-30">
         <div className="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
-          <button onClick={()=>setMode("form")} className="text-[13px] text-black/25 hover:text-black/50 transition-colors">← Edit</button>
+          <button onClick={()=>setMode("form")} className="text-[13px] text-ink-tertiary hover:text-ink-secondary transition-colors">← Edit</button>
           <div className="flex items-center gap-2">
-            <button onClick={saveInvoice} className="px-4 py-2 text-[11px] font-medium border border-black/10 rounded-lg hover:bg-black/[0.03] transition-colors">{saveMsg||"Save"}</button>
-            <button onClick={genPDF} className="px-5 py-2 text-[11px] font-medium bg-black text-white rounded-lg hover:bg-black/80 transition-colors">Download PDF</button>
-            <button onClick={reset} className="px-3 py-2 text-[11px] text-black/25 hover:text-black/50 transition-colors">New</button>
+            <button onClick={saveInvoice} className="px-4 py-2 text-[11px] font-medium border border-border-subtle rounded-lg hover:bg-parchment transition-colors">{saveMsg||"Save"}</button>
+            <button onClick={genPDF} className="px-5 py-2 text-[11px] font-medium bg-accent text-cream rounded-lg hover:bg-accent-strong transition-colors">Download PDF</button>
+            <button onClick={reset} className="px-3 py-2 text-[11px] text-ink-tertiary hover:text-ink-secondary transition-colors">New</button>
           </div>
         </div>
       </header>
 
       <div className="max-w-[620px] mx-auto px-6 py-10 mb-16">
-        <div className="bg-white border border-black/[0.04] rounded-xl shadow-[0_1px_4px_rgba(0,0,0,0.03)] overflow-hidden">
+        <div className="bg-cream border border-border-subtle rounded-xl shadow-[0_1px_4px_rgba(0,0,0,0.03)] overflow-hidden">
           <div className="px-10 pt-10 pb-5">
             <div className="flex justify-between items-start">
               <div>
@@ -601,12 +601,12 @@ function InvoicePage() {
           <div className="px-10 py-5">
             <div className="ml-auto w-52 space-y-1.5 text-[10px]">
               <div className="flex justify-between"><span className="text-[#2a2520]/25">Subtotal</span><span className="text-[#2a2520]/60">{eur(sub)}</span></div>
-              {disc>0&&<div className="flex justify-between"><span className="text-[#2a2520]/25">Discount{dType==="percent"?` (${dVal}%)`:""}</span><span className="text-red-500/60">−{eur(disc)}</span></div>}
+              {disc>0&&<div className="flex justify-between"><span className="text-[#2a2520]/25">Discount{dType==="percent"?` (${dVal}%)`:""}</span><span className="text-brick/60">−{eur(disc)}</span></div>}
               <div className="border-t-2 border-[#2a2520] pt-2.5 flex items-baseline justify-between">
                 <span className="text-[11px] font-medium text-[#2a2520]">Total</span>
                 <span className="text-[18px] font-serif font-semibold tracking-tight text-[#2a2520]">{eur(total)}</span>
               </div>
-              <span className={`text-[9px] ${payStatus==="Paid"?"text-green-600":"text-amber-600"}`}>{payStatus==="Paid"?"✓":"○"} {payStatus} · {payMethod}</span>
+              <span className={`text-[9px] ${payStatus==="Paid"?"text-sage":"text-gold"}`}>{payStatus==="Paid"?"✓":"○"} {payStatus} · {payMethod}</span>
             </div>
           </div>
 
