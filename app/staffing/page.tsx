@@ -50,7 +50,7 @@ export default function StaffingPage() {
     if (status === 'day-off') return isWeekend ? 'bg-sage/10 border-sage/40' : 'bg-bone border-border-subtle';
     if (status === 'extra-help') return 'bg-brick/10 border-brick/40';
     if (status === 'busy') return 'bg-gold/10 border-gold/40';
-    return 'bg-white border-border-subtle';
+    return 'bg-cream border-border-subtle';
   };
 
   const getStatusBadge = (status: DayInfo['status']) => {
@@ -84,7 +84,7 @@ export default function StaffingPage() {
   return (
     <div className="min-h-screen bg-cream">
       {/* Header */}
-      <div className="bg-white border-b border-border-subtle px-4 py-5">
+      <div className="bg-cream border-b border-border-subtle px-4 py-5">
         <div className="max-w-6xl mx-auto">
           <h1 className="font-serif text-[22px] text-ink-primary">Staffing Planner</h1>
           <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">
@@ -94,14 +94,14 @@ export default function StaffingPage() {
       </div>
 
       {/* Legend */}
-      <div className="bg-white border-b border-border-subtle px-4 py-3">
+      <div className="bg-cream border-b border-border-subtle px-4 py-3">
         <div className="max-w-6xl mx-auto flex flex-wrap gap-5 text-[11px]">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-sage/10 border border-sage/40 rounded"></div>
             <span className="text-ink-secondary">Weekend day off OK</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-white border border-border-subtle rounded"></div>
+            <div className="w-4 h-4 bg-cream border border-border-subtle rounded"></div>
             <span className="text-ink-secondary">Normal (1-2 check-ins)</span>
           </div>
           <div className="flex items-center gap-2">
@@ -118,7 +118,7 @@ export default function StaffingPage() {
       {/* Weeks Grid */}
       <div className="max-w-6xl mx-auto p-4 space-y-6">
         {weeks.map((week, weekIdx) => (
-          <div key={week.weekStart} className="bg-white rounded-lg border border-border-subtle overflow-hidden">
+          <div key={week.weekStart} className="bg-cream rounded-lg border border-border-subtle overflow-hidden">
             {/* Week Header */}
             <div className="px-4 py-3 bg-bone border-b border-border-subtle flex items-center justify-between">
               <div>
@@ -208,7 +208,7 @@ export default function StaffingPage() {
           onClick={() => setSelectedDay(null)}
         >
           <div 
-            className="bg-white rounded-lg max-w-md w-full p-6"
+            className="bg-cream rounded-lg max-w-md w-full p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">

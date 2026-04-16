@@ -167,7 +167,7 @@ export default function AddReservationPage() {
       </header>
 
       <main className="container mx-auto px-6 py-12 max-w-2xl">
-        <div className="bg-white rounded-lg border border-border-subtle p-8">
+        <div className="bg-cream rounded-lg border border-border-subtle p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Booking Source */}
             <div>

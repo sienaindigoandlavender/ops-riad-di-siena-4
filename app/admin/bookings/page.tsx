@@ -314,7 +314,7 @@ function BookingsContent() {
                 placeholder="Search by name, email, booking ID, or room..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2.5 pl-10 rounded-lg border border-border-subtle bg-white text-[13px] focus:outline-none focus:border-border"
+                className="w-full px-4 py-2.5 pl-10 rounded-lg border border-border-subtle bg-cream text-[13px] focus:outline-none focus:border-border"
               />
               <svg 
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-tertiary" 
@@ -332,7 +332,7 @@ function BookingsContent() {
             <select
               value={propertyFilter}
               onChange={(e) => setPropertyFilter(e.target.value)}
-              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-white text-[13px] focus:outline-none focus:border-border min-w-[150px]"
+              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-cream text-[13px] focus:outline-none focus:border-border min-w-[150px]"
             >
               <option value="ALL">All Properties</option>
               <option value="riad">The Riad</option>
@@ -343,7 +343,7 @@ function BookingsContent() {
             <select
               value={sourceFilter}
               onChange={(e) => setSourceFilter(e.target.value)}
-              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-white text-[13px] focus:outline-none focus:border-border min-w-[140px]"
+              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-cream text-[13px] focus:outline-none focus:border-border min-w-[140px]"
             >
               <option value="ALL">All Sources</option>
               <option value="paypal">PayPal</option>
@@ -355,7 +355,7 @@ function BookingsContent() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-white text-[13px] focus:outline-none focus:border-border min-w-[130px]"
+              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-cream text-[13px] focus:outline-none focus:border-border min-w-[130px]"
             >
               <option value="ALL">All Status</option>
               <option value="COMPLETED">Confirmed</option>
@@ -402,7 +402,7 @@ function BookingsContent() {
             No bookings found.
           </div>
         ) : (
-          <div className="bg-white rounded-lg border border-border-subtle overflow-hidden">
+          <div className="bg-cream rounded-lg border border-border-subtle overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="border-b border-border-subtle bg-bone">
@@ -479,8 +479,8 @@ function BookingsContent() {
       {selectedBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-[#2B2623]/40" onClick={() => setSelectedBooking(null)} />
-          <div className="relative bg-white rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-border-subtle p-5 flex items-center justify-between rounded-t-lg">
+          <div className="relative bg-cream rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-cream border-b border-border-subtle p-5 flex items-center justify-between rounded-t-lg">
               <h2 className="font-serif text-[18px] text-ink-primary">Booking Details</h2>
               <button 
                 onClick={() => setSelectedBooking(null)}

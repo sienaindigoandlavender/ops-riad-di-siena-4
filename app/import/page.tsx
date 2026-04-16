@@ -202,7 +202,7 @@ export default function ImportPage() {
 
         {/* Instructions - Booking.com */}
         {activeTab === "booking" && (
-          <div className="mb-8 p-5 bg-white border border-border-subtle rounded-lg">
+          <div className="mb-8 p-5 bg-cream border border-border-subtle rounded-lg">
             <p className="text-[11px] uppercase tracking-[0.12em] text-ink-tertiary mb-4">How to Export from Booking.com</p>
             <ol className="space-y-2 text-[13px] text-ink-body">
               <li>1. Go to Booking.com Extranet → Reservations</li>
@@ -216,7 +216,7 @@ export default function ImportPage() {
 
         {/* Instructions - Airbnb */}
         {activeTab === "airbnb" && (
-          <div className="mb-8 p-5 bg-white border border-border-subtle rounded-lg">
+          <div className="mb-8 p-5 bg-cream border border-border-subtle rounded-lg">
             <p className="text-[11px] uppercase tracking-[0.12em] text-ink-tertiary mb-4">How to Export from Airbnb</p>
             <ol className="space-y-2 text-[13px] text-ink-body">
               <li>1. Go to Airbnb Host → Reservations</li>
@@ -322,19 +322,19 @@ export default function ImportPage() {
 
             {/* Summary */}
             <div className="grid grid-cols-4 gap-3">
-              <div className="p-4 bg-white border border-border-subtle rounded-lg text-center">
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg text-center">
                 <p className="text-[28px] font-serif text-sage tracking-[-0.02em]">{results.added}</p>
                 <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em]">Added</p>
               </div>
-              <div className="p-4 bg-white border border-border-subtle rounded-lg text-center">
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg text-center">
                 <p className="text-[28px] font-serif text-accent-strong tracking-[-0.02em]">{results.updated}</p>
                 <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em]">Updated</p>
               </div>
-              <div className="p-4 bg-white border border-border-subtle rounded-lg text-center">
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg text-center">
                 <p className="text-[28px] font-serif text-ink-tertiary tracking-[-0.02em]">{results.unchanged}</p>
                 <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em]">Unchanged</p>
               </div>
-              <div className="p-4 bg-white border border-border-subtle rounded-lg text-center">
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg text-center">
                 <p className="text-[28px] font-serif text-gold tracking-[-0.02em]">{results.cancelled}</p>
                 <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em]">Cancelled</p>
               </div>
@@ -342,7 +342,7 @@ export default function ImportPage() {
 
             {/* Changes log */}
             {changesList.length > 0 && (
-              <div className="bg-white border border-border-subtle rounded-lg overflow-hidden">
+              <div className="bg-cream border border-border-subtle rounded-lg overflow-hidden">
                 <div className="p-4 border-b border-border-subtle">
                   <p className="text-[11px] uppercase tracking-[0.12em] text-ink-tertiary">Change Log</p>
                 </div>

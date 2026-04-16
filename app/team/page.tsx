@@ -151,7 +151,7 @@ function GuestCard({
   const taxPaid = !!guest.city_tax_paid;
 
   return (
-    <div className="bg-white border border-border-subtle rounded-lg p-4 space-y-3">
+    <div className="bg-cream border border-border-subtle rounded-lg p-4 space-y-3">
       {/* Header row */}
       <div className="flex items-start justify-between">
         <div>
@@ -418,7 +418,7 @@ function SearchResultCard({ guest, onSelect }: { guest: GuestSummary; onSelect: 
   return (
     <button
       onClick={() => onSelect(checkInDate)}
-      className="w-full text-left bg-white border border-border-subtle rounded-lg p-3 hover:border-border transition-colors"
+      className="w-full text-left bg-cream border border-border-subtle rounded-lg p-3 hover:border-border transition-colors"
     >
       <div className="flex items-start justify-between">
         <div>
@@ -860,7 +860,7 @@ See you soon!
     <PasswordGate>
     <div className="min-h-screen bg-cream pb-16">
       {/* Header */}
-      <div className="bg-white border-b border-border-subtle px-6 py-5">
+      <div className="bg-cream border-b border-border-subtle px-6 py-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-4">
             <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary">Riad di Siena</p>
@@ -1085,7 +1085,7 @@ See you soon!
 
       {/* Loading overlay */}
       {loading && (
-        <div className="fixed inset-0 bg-white/50 flex items-center justify-center z-30">
+        <div className="fixed inset-0 bg-cream/50 flex items-center justify-center z-30">
           <div className="w-6 h-6 border-2 border-border-subtle border-t-black rounded-full animate-spin" />
         </div>
       )}
@@ -1185,7 +1185,7 @@ See you soon!
       </div>
 
       {/* Footer - City Tax Summary */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border-subtle px-6 py-3">
+      <div className="fixed bottom-0 left-0 right-0 bg-cream border-t border-border-subtle px-6 py-3">
         <div className="max-w-lg mx-auto">
           {taxStats && (
             <div className="flex items-center justify-between">

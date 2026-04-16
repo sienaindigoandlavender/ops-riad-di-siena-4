@@ -68,7 +68,7 @@ export default function PoliceRegistrationForm({
     <div className="fixed inset-0 bg-parchment0 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-border-subtle px-5 py-4 flex items-center justify-between">
+        <div className="sticky top-0 bg-cream border-b border-border-subtle px-5 py-4 flex items-center justify-between">
           <div>
             <h2 className="text-[15px] font-medium text-ink-primary">Police Registration</h2>
             <p className="text-[11px] text-ink-tertiary mt-0.5">Upload passport & entry stamp</p>

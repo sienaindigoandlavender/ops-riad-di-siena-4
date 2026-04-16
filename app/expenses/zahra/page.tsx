@@ -141,7 +141,7 @@ export default function ZahraExpensesPage() {
   return (
     <div className="min-h-screen bg-[#faf9f7]">
       {/* Header */}
-      <header className="bg-white border-b border-border-subtle">
+      <header className="bg-cream border-b border-border-subtle">
         <div className="max-w-xl mx-auto px-6 py-6">
           <p className="text-[11px] uppercase tracking-[0.15em] text-ink-tertiary">Riad di Siena</p>
           <h1 className="text-[24px] font-serif text-ink-primary mt-1">Expenses — Zahra</h1>
@@ -151,7 +151,7 @@ export default function ZahraExpensesPage() {
       <div className="max-w-xl mx-auto px-6 py-8">
         
         {/* This Month Summary */}
-        <div className="bg-white rounded-lg border border-border-subtle p-5 mb-6">
+        <div className="bg-cream rounded-lg border border-border-subtle p-5 mb-6">
           <p className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary">This Month</p>
           <p className="text-[28px] font-serif text-ink-body mt-1">
             {thisMonthTotal.toLocaleString()} <span className="text-[16px] text-ink-tertiary">DH</span>
@@ -159,7 +159,7 @@ export default function ZahraExpensesPage() {
         </div>
 
         {/* Add Expense Form */}
-        <div className="bg-white rounded-lg border border-border-subtle p-6 mb-8">
+        <div className="bg-cream rounded-lg border border-border-subtle p-6 mb-8">
           <h2 className="text-[14px] font-medium text-ink-primary mb-4">Add Expense</h2>
           
           {success && (
@@ -197,7 +197,7 @@ export default function ZahraExpensesPage() {
               <select
                 value={formCategory}
                 onChange={(e) => setFormCategory(e.target.value)}
-                className="w-full px-3 py-2 border border-border-subtle rounded text-[14px] focus:outline-none focus:border-border-strong bg-white"
+                className="w-full px-3 py-2 border border-border-subtle rounded text-[14px] focus:outline-none focus:border-border-strong bg-cream"
               >
                 {STAFF_CATEGORIES.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -254,7 +254,7 @@ export default function ZahraExpensesPage() {
         </div>
 
         {/* Recent Expenses */}
-        <div className="bg-white rounded-lg border border-border-subtle">
+        <div className="bg-cream rounded-lg border border-border-subtle">
           <div className="px-5 py-4 border-b border-border-subtle">
             <h2 className="text-[14px] font-medium text-ink-primary">Your Recent Expenses</h2>
           </div>

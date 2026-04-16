@@ -191,19 +191,19 @@ export default function AdminDashboard() {
           <>
             {/* Quick Stats */}
             <div className="grid grid-cols-4 gap-6 mb-12">
-              <div className="text-center bg-white rounded-lg border border-border-subtle p-5">
+              <div className="text-center bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[28px] font-serif text-ink-primary">{stats.newBookings}</p>
                 <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Pending</p>
               </div>
-              <div className="text-center bg-white rounded-lg border border-border-subtle p-5">
+              <div className="text-center bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[28px] font-serif text-ink-primary">{stats.confirmed}</p>
                 <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Confirmed</p>
               </div>
-              <div className="text-center bg-white rounded-lg border border-border-subtle p-5">
+              <div className="text-center bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[28px] font-serif text-ink-primary">{stats.totalBookings}</p>
                 <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Total</p>
               </div>
-              <div className="text-center bg-white rounded-lg border border-border-subtle p-5">
+              <div className="text-center bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[28px] font-serif text-ink-primary">€{stats.totalRevenue.toLocaleString()}</p>
                 <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Revenue</p>
               </div>
@@ -220,7 +220,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                   {/* Today */}
-                  <div className="bg-white rounded-lg p-4 border border-gold/20">
+                  <div className="bg-cream rounded-lg p-4 border border-gold/20">
                     <p className="text-[11px] uppercase tracking-[0.08em] text-gold mb-2">Today</p>
                     <div className="flex items-baseline gap-3">
                       <p className="text-[32px] font-serif text-gold">€{taxStats.daily.total.toFixed(0)}</p>
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   {/* This Month */}
-                  <div className="bg-white rounded-lg p-4 border border-gold/20">
+                  <div className="bg-cream rounded-lg p-4 border border-gold/20">
                     <p className="text-[11px] uppercase tracking-[0.08em] text-gold mb-2">
                       {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}
                     </p>
@@ -273,17 +273,17 @@ export default function AdminDashboard() {
                 
                 {/* Totals Row */}
                 <div className="grid grid-cols-4 gap-4 mb-6">
-                  <div className="bg-white rounded-lg p-4 border border-sage/20">
+                  <div className="bg-cream rounded-lg p-4 border border-sage/20">
                     <p className="text-[11px] uppercase tracking-[0.08em] text-sage mb-1">Gross Revenue</p>
                     <p className="text-[24px] font-serif text-forest">€{revenueStats.totals.gross.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
                     <p className="text-[11px] text-sage mt-1">{revenueStats.totals.bookingCount} bookings</p>
                   </div>
-                  <div className="bg-white rounded-lg p-4 border border-brick/15">
+                  <div className="bg-cream rounded-lg p-4 border border-brick/15">
                     <p className="text-[11px] uppercase tracking-[0.08em] text-brick mb-1">Platform Fees</p>
                     <p className="text-[24px] font-serif text-brick">−€{revenueStats.totals.commission.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
                     <p className="text-[11px] text-brick mt-1">Airbnb + Booking.com</p>
                   </div>
-                  <div className="bg-white rounded-lg p-4 border border-rose/20">
+                  <div className="bg-cream rounded-lg p-4 border border-rose/20">
                     <p className="text-[11px] uppercase tracking-[0.08em] text-rose mb-1">Kathleen (40% Airbnb)</p>
                     <p className="text-[24px] font-serif text-rose">−€{revenueStats.totals.kathleenShare.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
                     <p className="text-[11px] text-rose mt-1">
@@ -298,7 +298,7 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* By Source Breakdown */}
-                <div className="bg-white rounded-lg border border-sage/20 overflow-hidden">
+                <div className="bg-cream rounded-lg border border-sage/20 overflow-hidden">
                   <table className="w-full text-[13px]">
                     <thead>
                       <tr className="border-b border-sage/20 bg-sage/10/50">
@@ -338,7 +338,7 @@ export default function AdminDashboard() {
                       {revenueStats.history.map((month, i) => (
                         <div 
                           key={month.month} 
-                          className={`text-center p-3 rounded-lg ${i === 0 ? 'bg-sage/20 border border-sage/30' : 'bg-white border border-sage/20'}`}
+                          className={`text-center p-3 rounded-lg ${i === 0 ? 'bg-sage/20 border border-sage/30' : 'bg-cream border border-sage/20'}`}
                         >
                           <p className="text-[10px] uppercase tracking-[0.05em] text-sage mb-1">{month.label}</p>
                           <p className={`text-[16px] font-serif ${i === 0 ? 'text-forest' : 'text-ink-body'}`}>
@@ -357,7 +357,7 @@ export default function AdminDashboard() {
             <div className="space-y-3 mb-14">
               <Link
                 href="/admin/calendar"
-                className="block p-6 bg-white rounded-lg border border-border-subtle hover:border-border transition-colors"
+                className="block p-6 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors"
               >
                 <h2 className="font-serif text-[18px] text-ink-primary mb-1">Calendar</h2>
                 <p className="text-[13px] text-ink-secondary">
@@ -366,7 +366,7 @@ export default function AdminDashboard() {
               </Link>
               <Link
                 href="/admin/bookings"
-                className="block p-6 bg-white rounded-lg border border-border-subtle hover:border-border transition-colors"
+                className="block p-6 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors"
               >
                 <h2 className="font-serif text-[18px] text-ink-primary mb-1">All Bookings</h2>
                 <p className="text-[13px] text-ink-secondary">
@@ -375,7 +375,7 @@ export default function AdminDashboard() {
               </Link>
               <Link
                 href="/admin/reservations/new"
-                className="block p-6 bg-white rounded-lg border border-border-subtle hover:border-border transition-colors"
+                className="block p-6 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors"
               >
                 <h2 className="font-serif text-[18px] text-ink-primary mb-1">Add Reservation</h2>
                 <p className="text-[13px] text-ink-secondary">
@@ -392,7 +392,7 @@ export default function AdminDashboard() {
                   {recentBookings.map((booking) => (
                     <div 
                       key={booking.Booking_ID} 
-                      className="flex items-center justify-between p-4 bg-white rounded-lg border border-border-subtle hover:border-border transition-colors"
+                      className="flex items-center justify-between p-4 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors"
                     >
                       <div>
                         <p className="text-[15px] font-medium text-ink-primary">{booking.firstName} {booking.lastName}</p>
@@ -422,25 +422,25 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <Link
                   href="/admin/bookings?property=riad"
-                  className="p-4 bg-white rounded-lg border border-border-subtle hover:border-border transition-colors text-center"
+                  className="p-4 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors text-center"
                 >
                   <p className="text-[13px] text-ink-primary">The Riad</p>
                 </Link>
                 <Link
                   href="/admin/bookings?property=douaria"
-                  className="p-4 bg-white rounded-lg border border-border-subtle hover:border-border transition-colors text-center"
+                  className="p-4 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors text-center"
                 >
                   <p className="text-[13px] text-ink-primary">The Douaria</p>
                 </Link>
                 <Link
                   href="/admin/bookings?property=kasbah"
-                  className="p-4 bg-white rounded-lg border border-border-subtle hover:border-border transition-colors text-center"
+                  className="p-4 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors text-center"
                 >
                   <p className="text-[13px] text-ink-primary">The Kasbah</p>
                 </Link>
                 <Link
                   href="/admin/bookings?property=desert"
-                  className="p-4 bg-white rounded-lg border border-border-subtle hover:border-border transition-colors text-center"
+                  className="p-4 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors text-center"
                 >
                   <p className="text-[13px] text-ink-primary">Desert Camp</p>
                 </Link>

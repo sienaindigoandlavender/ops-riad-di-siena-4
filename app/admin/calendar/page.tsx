@@ -439,7 +439,7 @@ export default function CalendarPage() {
           </div>
         </div>
 
-        <div className="bg-white border border-border-subtle rounded-lg overflow-hidden">
+        <div className="bg-cream border border-border-subtle rounded-lg overflow-hidden">
           <div className="flex">
             {/* Room Labels */}
             <div className="flex-shrink-0 w-40 border-r border-border-subtle">
@@ -476,7 +476,7 @@ export default function CalendarPage() {
             {/* Calendar Grid */}
             <div ref={scrollRef} className="flex-1 overflow-x-auto">
               {/* Month Row */}
-              <div className="flex h-8 border-b border-border-subtle sticky top-0 bg-white">
+              <div className="flex h-8 border-b border-border-subtle sticky top-0 bg-cream">
                 {dates.map((date, idx) => {
                   const showMonth = idx === 0 || date.getDate() === 1;
                   return (
@@ -600,19 +600,19 @@ export default function CalendarPage() {
 
             return (
               <>
-                <div className="bg-white border border-border-subtle rounded-lg p-4">
+                <div className="bg-cream border border-border-subtle rounded-lg p-4">
                   <p className="text-[28px] font-serif text-ink-primary">{occupiedToday}/{totalRooms}</p>
                   <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Occupied Tonight</p>
                 </div>
-                <div className="bg-white border border-border-subtle rounded-lg p-4">
+                <div className="bg-cream border border-border-subtle rounded-lg p-4">
                   <p className="text-[28px] font-serif text-ink-primary">{totalRooms - occupiedToday}</p>
                   <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Available Tonight</p>
                 </div>
-                <div className="bg-white border border-border-subtle rounded-lg p-4">
+                <div className="bg-cream border border-border-subtle rounded-lg p-4">
                   <p className="text-[28px] font-serif text-ink-primary">{Math.round((occupied7 / (totalRooms * 7)) * 100)}%</p>
                   <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Next 7 Days</p>
                 </div>
-                <div className="bg-white border border-border-subtle rounded-lg p-4">
+                <div className="bg-cream border border-border-subtle rounded-lg p-4">
                   <p className="text-[28px] font-serif text-ink-primary">{Math.round((occupied30 / (totalRooms * 30)) * 100)}%</p>
                   <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Next 30 Days</p>
                 </div>

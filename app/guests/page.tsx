@@ -269,7 +269,7 @@ export default function GuestsPage() {
                   return (
                     <div
                       key={guest.booking_id}
-                      className={`p-5 bg-white border rounded-lg transition-all ${
+                      className={`p-5 bg-cream border rounded-lg transition-all ${
                         isUrgent
                           ? "border-brick/30 bg-brick/10/50"
                           : isConfirmed

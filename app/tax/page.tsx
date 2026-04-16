@@ -169,7 +169,7 @@ function TaxPaymentContent() {
   if (paid) {
     return (
       <div className="min-h-screen bg-parchment flex items-center justify-center p-6">
-        <div className="bg-white rounded-2xl shadow-sm border border-border-subtle p-8 max-w-md w-full text-center">
+        <div className="bg-cream rounded-2xl shadow-sm border border-border-subtle p-8 max-w-md w-full text-center">
           <div className="w-16 h-16 bg-sage/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -199,7 +199,7 @@ function TaxPaymentContent() {
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-border-subtle overflow-hidden">
+        <div className="bg-cream rounded-2xl shadow-sm border border-border-subtle overflow-hidden">
           {/* Booking Info */}
           <div className="p-6 border-b border-border-subtle">
             <div className="space-y-4">

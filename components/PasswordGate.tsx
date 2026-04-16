@@ -89,7 +89,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                   }}
                   placeholder="Password"
                   autoFocus
-                  className={`w-full px-4 py-3 pr-12 text-[14px] text-ink-primary bg-white border rounded-[10px] focus:outline-none focus:ring-2 transition-all duration-300 ease-gentle placeholder:text-ink-tertiary ${
+                  className={`w-full px-4 py-3 pr-12 text-[14px] text-ink-primary bg-cream border rounded-[10px] focus:outline-none focus:ring-2 transition-all duration-300 ease-gentle placeholder:text-ink-tertiary ${
                     error
                       ? "border-brick focus:ring-brick/20"
                       : "border-border-subtle focus:ring-accent/15 focus:border-accent"

@@ -224,7 +224,7 @@ export default function InsightsPage() {
       />
 
       {/* Header */}
-      <header className="bg-white border-b border-border-subtle">
+      <header className="bg-cream border-b border-border-subtle">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
@@ -273,7 +273,7 @@ export default function InsightsPage() {
       </header>
 
       {/* Tabs */}
-      <div className="bg-white border-b border-border-subtle">
+      <div className="bg-cream border-b border-border-subtle">
         <div className="max-w-7xl mx-auto px-6">
           <nav className="flex gap-8">
             {[
@@ -304,7 +304,7 @@ export default function InsightsPage() {
         {activeTab === "overview" && (
           <div className="space-y-8">
             {/* Score Distribution */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Score Distribution</h2>
               <div className="flex items-end gap-2 h-32">
                 {Object.entries(stats.distribution).map(([score, count]) => {
@@ -329,7 +329,7 @@ export default function InsightsPage() {
             </section>
 
             {/* Sentiment Analysis */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Sentiment Analysis</h2>
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="text-center p-4 bg-sage/10 rounded-lg">
@@ -376,7 +376,7 @@ export default function InsightsPage() {
             </section>
 
             {/* Top Issues Preview */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary">Top Issues to Address</h2>
                 <button
@@ -415,7 +415,7 @@ export default function InsightsPage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-lg border border-border-subtle divide-y divide-border-subtle">
+            <div className="bg-cream rounded-lg border border-border-subtle divide-y divide-border-subtle">
               {stats.issues.map((issue, idx) => {
                 const resolved = isResolved(issue.issue);
                 const resolvedDate = getResolvedDate(issue.issue);
@@ -482,7 +482,7 @@ export default function InsightsPage() {
         {activeTab === "trends" && (
           <div className="space-y-6">
             {/* Rating Trend Chart */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Average Rating Over Time</h2>
               <div className="h-64 flex items-end gap-1">
                 {last36Months.map((month, idx) => {
@@ -517,7 +517,7 @@ export default function InsightsPage() {
             </section>
 
             {/* Category Trends */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Category Averages (Last 12 Months)</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {["staff", "cleanliness", "location", "facilities", "comfort", "value"].map(cat => {
@@ -538,7 +538,7 @@ export default function InsightsPage() {
             </section>
 
             {/* Year-over-Year Comparison */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Year-over-Year Comparison</h2>
               <div className="grid grid-cols-3 gap-6">
                 {[2023, 2024, 2025].map(year => {
@@ -592,7 +592,7 @@ export default function InsightsPage() {
             </div>
 
             {/* Scatter Plot Visualization */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">
                 Rating vs Occupancy (Monthly Data)
               </h2>
@@ -645,7 +645,7 @@ export default function InsightsPage() {
             </section>
 
             {/* Data Table */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Monthly Data</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-[13px]">
@@ -699,24 +699,24 @@ export default function InsightsPage() {
           <div className="space-y-8">
             {/* ADR Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-white rounded-lg border border-border-subtle p-5">
+              <div className="bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-1">Overall ADR</p>
                 <p className="text-[28px] font-serif text-gold">€{adrStats.overall.adr.toFixed(0)}</p>
                 <p className="text-[12px] text-ink-secondary mt-1">per night</p>
               </div>
-              <div className="bg-white rounded-lg border border-border-subtle p-5">
+              <div className="bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-1">6-Month Trend</p>
                 <p className={`text-[28px] font-serif ${adrStats.trend.percentChange >= 0 ? "text-sage" : "text-brick"}`}>
                   {adrStats.trend.percentChange >= 0 ? "+" : ""}{adrStats.trend.percentChange.toFixed(1)}%
                 </p>
                 <p className="text-[12px] text-ink-secondary mt-1">vs previous 6 months</p>
               </div>
-              <div className="bg-white rounded-lg border border-border-subtle p-5">
+              <div className="bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-1">Total Nights</p>
                 <p className="text-[28px] font-serif text-ink-body">{adrStats.overall.totalNights.toLocaleString()}</p>
                 <p className="text-[12px] text-ink-secondary mt-1">booked</p>
               </div>
-              <div className="bg-white rounded-lg border border-border-subtle p-5">
+              <div className="bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-1">Total Revenue</p>
                 <p className="text-[28px] font-serif text-ink-body">€{(adrStats.overall.totalRevenue / 1000).toFixed(0)}k</p>
                 <p className="text-[12px] text-ink-secondary mt-1">{adrStats.overall.bookingCount} bookings</p>
@@ -724,7 +724,7 @@ export default function InsightsPage() {
             </div>
 
             {/* Monthly ADR Chart */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary">Monthly Average Daily Rate</h2>
                 <div className="flex items-center gap-4 text-[11px] text-ink-secondary">
@@ -845,7 +845,7 @@ export default function InsightsPage() {
             </section>
 
             {/* Yearly ADR Comparison */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Year-over-Year ADR</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {adrStats.yearly.map((year, idx) => {
@@ -868,7 +868,7 @@ export default function InsightsPage() {
             </section>
 
             {/* Monthly Data Table */}
-            <section className="bg-white rounded-lg border border-border-subtle p-6">
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Monthly Detail (Last 12 Months)</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-[13px]">

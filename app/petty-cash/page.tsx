@@ -142,7 +142,7 @@ export default function PettyCashPage() {
           </div>
           <button
             onClick={() => setShowForm(true)}
-            className="px-4 py-2 bg-white text-ink-primary text-sm font-medium hover:bg-white/90 transition-colors"
+            className="px-4 py-2 bg-cream text-ink-primary text-sm font-medium hover:bg-cream/90 transition-colors"
           >
             + Record
           </button>
@@ -153,7 +153,7 @@ export default function PettyCashPage() {
         {/* Balance Cards */}
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {/* Zahra */}
-          <div className="bg-white/5 border border-white/10 p-6">
+          <div className="bg-cream/5 border border-white/10 p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-full bg-dusty/20 flex items-center justify-center">
                 <span className="text-dusty font-medium">Z</span>
@@ -184,7 +184,7 @@ export default function PettyCashPage() {
           </div>
 
           {/* Mouad */}
-          <div className="bg-white/5 border border-white/10 p-6">
+          <div className="bg-cream/5 border border-white/10 p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-full bg-rose/20 flex items-center justify-center">
                 <span className="text-rose font-medium">M</span>
@@ -411,7 +411,7 @@ export default function PettyCashPage() {
                 <button
                   type="submit"
                   disabled={saving || !amount}
-                  className="flex-1 py-3 bg-white text-ink-primary font-medium hover:bg-white/90 transition-colors disabled:opacity-50"
+                  className="flex-1 py-3 bg-cream text-ink-primary font-medium hover:bg-cream/90 transition-colors disabled:opacity-50"
                 >
                   {saving ? "Saving..." : "Save"}
                 </button>

@@ -647,7 +647,7 @@ export default function HomePage() {
     <PasswordGate>
     <div className="min-h-screen bg-cream">
       {/* Header */}
-      <div className="bg-white border-b border-border-subtle">
+      <div className="bg-cream border-b border-border-subtle">
         <div className="px-4 py-4 md:px-8 md:py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -681,7 +681,7 @@ export default function HomePage() {
       </div>
 
       {/* Calendar Navigation */}
-      <div className="bg-white border-b border-border-subtle px-4 md:px-8 py-3 md:py-4">
+      <div className="bg-cream border-b border-border-subtle px-4 md:px-8 py-3 md:py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-3">
             {/* Month dropdown - Airbnb style */}
@@ -856,7 +856,7 @@ export default function HomePage() {
                 const todayStr = toDateStr(new Date());
 
                 return (
-                  <div key={room} className="bg-white rounded-xl border border-border-subtle overflow-hidden">
+                  <div key={room} className="bg-cream rounded-xl border border-border-subtle overflow-hidden">
                     {/* Mini calendar grid */}
                     <div className="p-2.5">
                       <div className="grid grid-cols-7 text-center gap-y-0.5">
@@ -935,12 +935,12 @@ export default function HomePage() {
 
       {/* Calendar Grid - Desktop only */}
       <div className="hidden md:block p-8">
-        <div className="bg-white rounded-xl border border-border-subtle overflow-hidden">
+        <div className="bg-cream rounded-xl border border-border-subtle shadow-sm overflow-hidden">
           <div ref={scrollRef} className="overflow-x-auto">
             <table className="w-full border-collapse min-w-[1400px] table-fixed">
               <thead>
                 <tr>
-                  <th className="sticky left-0 z-10 bg-white border-b border-r border-border-subtle p-3 text-left text-[11px] font-medium text-ink-secondary uppercase tracking-wide w-32">
+                  <th className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-left text-[11px] font-medium text-ink-secondary uppercase tracking-wide w-32">
                     Room
                   </th>
                   {dates.map((date, idx) => (
@@ -969,7 +969,7 @@ export default function HomePage() {
                 </tr>
                 {RIAD_ROOMS.map((room) => (
                   <tr key={room}>
-                    <td className="sticky left-0 z-10 bg-white border-b border-r border-border-subtle p-3 text-[13px] font-medium text-ink-primary">
+                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-[13px] font-medium text-ink-primary">
                       {room}
                     </td>
                     {(() => {
@@ -1036,7 +1036,7 @@ export default function HomePage() {
                 </tr>
                 {DOUARIA_ROOMS.map((room) => (
                   <tr key={room}>
-                    <td className="sticky left-0 z-10 bg-white border-b border-r border-border-subtle p-3 text-[13px] font-medium text-ink-primary">
+                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-[13px] font-medium text-ink-primary">
                       {room}
                     </td>
                     {(() => {

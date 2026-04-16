@@ -331,7 +331,7 @@ export default function ExpensesPage() {
   return (
     <div className="min-h-screen bg-[#faf9f7]">
       {/* Header */}
-      <header className="bg-white border-b border-border-subtle">
+      <header className="bg-cream border-b border-border-subtle">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
@@ -367,7 +367,7 @@ export default function ExpensesPage() {
                 </button>
                 
                 {/* Dropdown */}
-                <div className="absolute right-0 mt-1 w-48 bg-white border border-border-subtle rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                <div className="absolute right-0 mt-1 w-48 bg-cream border border-border-subtle rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                   <button
                     onClick={() => generatePDF(false)}
                     className="w-full text-left px-4 py-2.5 text-[13px] text-ink-body hover:bg-parchment border-b border-border-subtle"
@@ -402,7 +402,7 @@ export default function ExpensesPage() {
           
           {/* Add Expense Form */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg border border-border-subtle p-6">
+            <div className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[14px] font-medium text-ink-primary mb-4">Add Expense</h2>
               
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -434,7 +434,7 @@ export default function ExpensesPage() {
                   <select
                     value={formCategory}
                     onChange={(e) => setFormCategory(e.target.value)}
-                    className="w-full px-3 py-2 border border-border-subtle rounded text-[14px] focus:outline-none focus:border-border-strong bg-white"
+                    className="w-full px-3 py-2 border border-border-subtle rounded text-[14px] focus:outline-none focus:border-border-strong bg-cream"
                   >
                     {CATEGORIES.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -493,7 +493,7 @@ export default function ExpensesPage() {
 
             {/* Summary by Category */}
             {summary && (
-              <div className="bg-white rounded-lg border border-border-subtle p-6 mt-6">
+              <div className="bg-cream rounded-lg border border-border-subtle p-6 mt-6">
                 <h2 className="text-[14px] font-medium text-ink-primary mb-4">By Category</h2>
                 <div className="space-y-2">
                   {Object.entries(summary.byCategory)
@@ -516,7 +516,7 @@ export default function ExpensesPage() {
               <select
                 value={filterMonth}
                 onChange={(e) => setFilterMonth(e.target.value)}
-                className="px-3 py-2 border border-border-subtle rounded text-[13px] bg-white focus:outline-none focus:border-border-strong"
+                className="px-3 py-2 border border-border-subtle rounded text-[13px] bg-cream focus:outline-none focus:border-border-strong"
               >
                 <option value="">All Months</option>
                 {months.map(month => (
@@ -529,7 +529,7 @@ export default function ExpensesPage() {
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="px-3 py-2 border border-border-subtle rounded text-[13px] bg-white focus:outline-none focus:border-border-strong"
+                className="px-3 py-2 border border-border-subtle rounded text-[13px] bg-cream focus:outline-none focus:border-border-strong"
               >
                 <option value="">All Categories</option>
                 {CATEGORIES.map(cat => (
@@ -545,7 +545,7 @@ export default function ExpensesPage() {
             </div>
 
             {/* Expenses Table */}
-            <div className="bg-white rounded-lg border border-border-subtle overflow-hidden">
+            <div className="bg-cream rounded-lg border border-border-subtle overflow-hidden">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border-subtle bg-parchment">
@@ -624,7 +624,7 @@ export default function ExpensesPage() {
 
             {/* Monthly Summary */}
             {summary && Object.keys(summary.byMonth).length > 0 && (
-              <div className="bg-white rounded-lg border border-border-subtle p-6 mt-6">
+              <div className="bg-cream rounded-lg border border-border-subtle p-6 mt-6">
                 <h2 className="text-[14px] font-medium text-ink-primary mb-4">Monthly Totals</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {Object.entries(summary.byMonth)

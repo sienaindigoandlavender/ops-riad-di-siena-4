@@ -316,7 +316,7 @@ function InvoicePage() {
   // ═══════════════════════════════════════════════════════════
   if(mode==="pick") return(
     <div className="min-h-screen bg-cream">
-      <header className="border-b border-border-subtle bg-white">
+      <header className="border-b border-border-subtle bg-cream">
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
           <Link href="/" className="text-[13px] text-ink-tertiary hover:text-ink-secondary transition-colors">← Dashboard</Link>
           <div className="w-px h-4 bg-bone" />
@@ -331,9 +331,9 @@ function InvoicePage() {
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           <input type="text" value={searchQ} onChange={e=>{setSearchQ(e.target.value);setShowDD(true);}} onFocus={()=>setShowDD(true)}
             placeholder={loadingApi?"Loading bookings…":"Search name, booking ID, email…"}
-            className="w-full pl-11 pr-4 py-3.5 text-[13px] bg-white border border-border-subtle rounded-xl focus:outline-none focus:border-border transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.04)]"/>
+            className="w-full pl-11 pr-4 py-3.5 text-[13px] bg-cream border border-border-subtle rounded-xl focus:outline-none focus:border-border transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.04)]"/>
           {showDD&&searchQ.trim()&&filtered.length>0&&(
-            <div className="absolute z-50 left-0 right-0 mt-1 bg-white border border-border-subtle rounded-xl shadow-lg max-h-64 overflow-y-auto scrollbar-hide">
+            <div className="absolute z-50 left-0 right-0 mt-1 bg-cream border border-border-subtle rounded-xl shadow-lg max-h-64 overflow-y-auto scrollbar-hide">
               {filtered.map(g=>(
                 <button key={g.booking_id} onClick={()=>fillBooking(g)} className="w-full text-left px-4 py-3 hover:bg-bone transition-colors border-b border-border-subtle last:border-0">
                   <div className="flex items-center justify-between"><span className="text-[13px] font-medium text-ink-primary">{g.guest_name}</span><span className="text-[9px] text-ink-tertiary font-mono">{g.booking_id}</span></div>
@@ -354,7 +354,7 @@ function InvoicePage() {
             <p className="text-[9.5px] tracking-[0.2em] uppercase text-ink-tertiary mb-4">Saved Drafts</p>
             <div className="space-y-2">
               {savedInvoices.map(d=>(
-                <div key={d.invNo} className="flex items-center justify-between bg-white border border-border-subtle rounded-lg px-4 py-3">
+                <div key={d.invNo} className="flex items-center justify-between bg-cream border border-border-subtle rounded-lg px-4 py-3">
                   <button onClick={()=>loadInvoice(d)} className="text-left flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-[12px] font-mono text-ink-secondary">{d.invNo}</span>
@@ -381,7 +381,7 @@ function InvoicePage() {
   // ═══════════════════════════════════════════════════════════
   if(mode==="form") return(
     <div className="min-h-screen bg-cream">
-      <header className="border-b border-border-subtle bg-white sticky top-0 z-30">
+      <header className="border-b border-border-subtle bg-cream sticky top-0 z-30">
         <div className="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button onClick={reset} className="text-[13px] text-ink-tertiary hover:text-ink-secondary transition-colors">← Back</button>
@@ -399,7 +399,7 @@ function InvoicePage() {
 
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-5">
         {/* Meta */}
-        <div className="bg-white border border-border-subtle rounded-xl p-6">
+        <div className="bg-cream border border-border-subtle rounded-xl p-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div><Lbl>Invoice No.</Lbl><input type="text" value={invNo} onChange={e=>setInvNo(e.target.value)} className={inp}/></div>
             <div><Lbl>Date</Lbl><input type="date" value={invDate} onChange={e=>setInvDate(e.target.value)} className={inp}/></div>
@@ -409,7 +409,7 @@ function InvoicePage() {
         </div>
 
         {/* Guest */}
-        <div className="bg-white border border-border-subtle rounded-xl p-6">
+        <div className="bg-cream border border-border-subtle rounded-xl p-6">
           <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary mb-5">Guest</p>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             <div><Lbl>First Name</Lbl><input type="text" value={fName} onChange={e=>setFName(e.target.value)} className={inp}/></div>
@@ -421,7 +421,7 @@ function InvoicePage() {
         </div>
 
         {/* Rooms */}
-        <div className="bg-white border border-border-subtle rounded-xl p-6">
+        <div className="bg-cream border border-border-subtle rounded-xl p-6">
           <div className="flex items-center justify-between mb-5">
             <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary">Rooms</p>
             <button onClick={addRoom} className="text-[10px] text-ink-tertiary hover:text-ink-secondary transition-colors">+ Add room</button>
@@ -474,7 +474,7 @@ function InvoicePage() {
         </div>
 
         {/* Extras */}
-        <div className="bg-white border border-border-subtle rounded-xl p-6">
+        <div className="bg-cream border border-border-subtle rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary">Additional</p>
             <button onClick={()=>addLine()} className="text-[10px] text-ink-tertiary hover:text-ink-secondary transition-colors">+ Add</button>
@@ -497,7 +497,7 @@ function InvoicePage() {
         {/* Bottom row */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
           <div className="lg:col-span-3 space-y-5">
-            <div className="bg-white border border-border-subtle rounded-xl p-6">
+            <div className="bg-cream border border-border-subtle rounded-xl p-6">
               <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary mb-3">Discount</p>
               <div className="flex gap-1.5 mb-3">
                 {(["none","percent","fixed"] as const).map(t=>(
@@ -506,13 +506,13 @@ function InvoicePage() {
               </div>
               {dType!=="none"&&<input type="number" value={dVal} onChange={e=>setDVal(e.target.value)} placeholder={dType==="percent"?"e.g. 10":"e.g. 50"} className={inp+" max-w-[180px]"}/>}
             </div>
-            <div className="bg-white border border-border-subtle rounded-xl p-6">
+            <div className="bg-cream border border-border-subtle rounded-xl p-6">
               <p className="text-[9px] tracking-[0.2em] uppercase text-ink-tertiary mb-3">Notes</p>
               <textarea value={notes} onChange={e=>setNotes(e.target.value)} rows={3} placeholder="Thank you for staying with us…" className="w-full px-3 py-2.5 text-[13px] bg-transparent border border-border-subtle rounded-lg focus:border-border focus:outline-none transition-colors resize-none placeholder:text-ink-tertiary"/>
             </div>
           </div>
 
-          <div className="lg:col-span-2 bg-white border border-border-subtle rounded-xl p-6 flex flex-col">
+          <div className="lg:col-span-2 bg-cream border border-border-subtle rounded-xl p-6 flex flex-col">
             <div className="space-y-2.5 text-[12px] flex-1">
               {roomsTot>0&&<div className="flex justify-between"><span className="text-ink-tertiary">Accommodation{rooms.length>1?` (${rooms.length} rooms)`:""}</span><span>{eur(roomsTot)}</span></div>}
               {taxTot>0&&<div className="flex justify-between"><span className="text-ink-tertiary">City Tax</span><span>{eur(taxTot)}</span></div>}
@@ -543,7 +543,7 @@ function InvoicePage() {
   // ═══════════════════════════════════════════════════════════
   return(
     <div className="min-h-screen bg-cream">
-      <header className="border-b border-border-subtle bg-white sticky top-0 z-30">
+      <header className="border-b border-border-subtle bg-cream sticky top-0 z-30">
         <div className="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
           <button onClick={()=>setMode("form")} className="text-[13px] text-ink-tertiary hover:text-ink-secondary transition-colors">← Edit</button>
           <div className="flex items-center gap-2">
@@ -555,7 +555,7 @@ function InvoicePage() {
       </header>
 
       <div className="max-w-[620px] mx-auto px-6 py-10 mb-16">
-        <div className="bg-white border border-border-subtle rounded-xl shadow-[0_1px_4px_rgba(0,0,0,0.03)] overflow-hidden">
+        <div className="bg-cream border border-border-subtle rounded-xl shadow-[0_1px_4px_rgba(0,0,0,0.03)] overflow-hidden">
           <div className="px-10 pt-10 pb-5">
             <div className="flex justify-between items-start">
               <div>
