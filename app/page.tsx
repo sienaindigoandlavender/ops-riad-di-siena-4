@@ -167,21 +167,6 @@ export default function HomePage() {
     };
   }, [showDatePicker]);
   
-  // Generate days for the date picker calendar month
-  const datePickerDays = useMemo(() => {
-    const { year, month } = datePickerMonth;
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startDayOfWeek = firstDay.getDay();
-    const adjustedStartDay = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
-
-    const cells: (number | null)[] = [];
-    for (let i = 0; i < adjustedStartDay; i++) cells.push(null);
-    for (let d = 1; d <= lastDay.getDate(); d++) cells.push(d);
-    while (cells.length % 7 !== 0) cells.push(null);
-
-    return cells;
-  }, [datePickerMonth]);
   
   // Generate calendar days for new booking modal
   const newBookingCalendarDays = useMemo(() => {
@@ -325,12 +310,14 @@ export default function HomePage() {
     const newDate = new Date(startDate);
     newDate.setDate(newDate.getDate() + direction * 7);
     setStartDate(newDate);
+    setDatePickerMonth({ year: newDate.getFullYear(), month: newDate.getMonth() });
   };
 
   const goToToday = () => {
     const today = new Date();
     today.setDate(today.getDate() - 3);
     setStartDate(today);
+    setDatePickerMonth({ year: today.getFullYear(), month: today.getMonth() });
   };
 
   // Handle cell click (for new booking)
@@ -733,104 +720,96 @@ export default function HomePage() {
             </button>
           </div>
           
-          {/* Date Picker */}
-          <div className="relative" ref={datePickerRef}>
-            <button
-              onClick={() => {
-                if (!showDatePicker) {
-                  // Sync picker month to the start of the current calendar view
-                  setDatePickerMonth({ year: dates[0].getFullYear(), month: dates[0].getMonth() });
-                }
-                setShowDatePicker(!showDatePicker);
-              }}
-              className="flex items-center gap-2 px-4 py-2 border border-black/[0.1] rounded-lg hover:bg-black/[0.02] transition-colors"
-            >
-              <svg className="w-4 h-4 text-black/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="text-[14px] font-medium text-black/80">
-                {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
-              </span>
-              <svg className={`w-4 h-4 text-black/40 transition-transform ${showDatePicker ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            {/* Date Picker Dropdown */}
-            {showDatePicker && (
-              <div
-                className="absolute top-full left-0 mt-2 bg-white rounded-xl border border-black/[0.1] shadow-xl z-50 p-4"
-                style={{ width: '280px' }}
+          {/* Date Picker - Booking.com style: month dropdown + arrow buttons */}
+          <div className="flex items-center gap-1">
+            <div className="relative" ref={datePickerRef}>
+              <button
+                onClick={() => {
+                  if (!showDatePicker) {
+                    setDatePickerMonth({ year: dates[0].getFullYear(), month: dates[0].getMonth() });
+                  }
+                  setShowDatePicker(!showDatePicker);
+                }}
+                className="flex items-center gap-2 px-3 py-2 border border-black/[0.1] rounded-lg hover:bg-black/[0.02] transition-colors"
               >
-                {/* Month navigation */}
-                <div className="flex items-center justify-between mb-3">
-                  <button
-                    onClick={() => setDatePickerMonth(prev => {
-                      const m = prev.month - 1;
-                      return m < 0
-                        ? { year: prev.year - 1, month: 11 }
-                        : { year: prev.year, month: m };
-                    })}
-                    className="p-1 hover:bg-black/[0.04] rounded-md transition-colors"
-                  >
-                    <svg className="w-4 h-4 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
-                  <span className="text-[13px] font-medium text-black/80">
-                    {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
-                  </span>
-                  <button
-                    onClick={() => setDatePickerMonth(prev => {
-                      const m = prev.month + 1;
-                      return m > 11
-                        ? { year: prev.year + 1, month: 0 }
-                        : { year: prev.year, month: m };
-                    })}
-                    className="p-1 hover:bg-black/[0.04] rounded-md transition-colors"
-                  >
-                    <svg className="w-4 h-4 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                </div>
+                <span className="text-[14px] font-medium text-black/80">
+                  {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
+                </span>
+                <svg className={`w-3.5 h-3.5 text-black/40 transition-transform ${showDatePicker ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
 
-                {/* Calendar grid */}
-                <div className="grid grid-cols-7 text-center">
-                  {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day, i) => (
-                    <div key={i} className="text-[10px] text-black/30 font-medium py-1">
-                      {day}
-                    </div>
-                  ))}
-                  {datePickerDays.map((dayNum, idx) => {
-                    if (dayNum === null) {
-                      return <div key={idx} className="w-[34px] h-[34px]" />;
-                    }
-                    const thisDate = new Date(datePickerMonth.year, datePickerMonth.month, dayNum);
-                    const todayDate = new Date();
-                    todayDate.setHours(0, 0, 0, 0);
-                    const isToday = thisDate.toDateString() === todayDate.toDateString();
-                    const isInView = thisDate >= dates[0] && thisDate <= dates[DAYS_TO_SHOW - 1];
-
+              {/* Month list dropdown */}
+              {showDatePicker && (
+                <div
+                  className="absolute top-full left-0 mt-2 bg-white rounded-xl border border-black/[0.1] shadow-xl z-50 py-2"
+                  style={{ width: '200px', maxHeight: '280px', overflowY: 'auto' }}
+                >
+                  {Array.from({ length: 24 }, (_, i) => {
+                    const today = new Date();
+                    const year = today.getFullYear() + Math.floor((today.getMonth() + i - 6) / 12);
+                    const month = ((today.getMonth() + i - 6) % 12 + 12) % 12;
+                    const label = new Date(year, month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+                    const isSelected = datePickerMonth.year === year && datePickerMonth.month === month;
                     return (
                       <button
-                        key={idx}
-                        onClick={() => jumpToDate(thisDate)}
-                        className={`
-                          w-[34px] h-[34px] text-[12px] rounded-md transition-colors
-                          hover:bg-black/[0.08] cursor-pointer
-                          ${isToday ? "bg-blue-500 text-white font-semibold hover:bg-blue-600" : ""}
-                          ${isInView && !isToday ? "bg-blue-100 text-blue-600" : ""}
-                          ${!isToday && !isInView ? "text-black/70" : ""}
-                        `}
+                        key={i}
+                        onClick={() => {
+                          setDatePickerMonth({ year, month });
+                          const target = new Date(year, month, 1);
+                          jumpToDate(target);
+                          setShowDatePicker(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-[13px] transition-colors hover:bg-black/[0.04] ${isSelected ? "bg-blue-50 text-blue-600 font-medium" : "text-black/70"}`}
                       >
-                        {dayNum}
+                        {label}
                       </button>
                     );
                   })}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+
+            {/* Month back/forward arrows */}
+            <div className="flex items-center border border-black/[0.1] rounded-lg overflow-hidden">
+              <button
+                onClick={() => {
+                  setDatePickerMonth(prev => {
+                    const m = prev.month - 1;
+                    const next = m < 0
+                      ? { year: prev.year - 1, month: 11 }
+                      : { year: prev.year, month: m };
+                    const target = new Date(next.year, next.month, 1);
+                    jumpToDate(target);
+                    return next;
+                  });
+                }}
+                className="p-2 hover:bg-black/[0.04] transition-colors border-r border-black/[0.1]"
+              >
+                <svg className="w-4 h-4 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => {
+                  setDatePickerMonth(prev => {
+                    const m = prev.month + 1;
+                    const next = m > 11
+                      ? { year: prev.year + 1, month: 0 }
+                      : { year: prev.year, month: m };
+                    const target = new Date(next.year, next.month, 1);
+                    jumpToDate(target);
+                    return next;
+                  });
+                }}
+                className="p-2 hover:bg-black/[0.04] transition-colors"
+              >
+                <svg className="w-4 h-4 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
 
           {/* Legend */}
