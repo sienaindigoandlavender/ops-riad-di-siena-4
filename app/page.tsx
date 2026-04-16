@@ -734,6 +734,14 @@ export default function HomePage() {
               )}
             </div>
 
+            {/* Today button */}
+            <button
+              onClick={goToToday}
+              className="px-4 py-2 text-[13px] font-medium text-black/70 border border-black/[0.1] rounded-lg hover:bg-black/[0.04] transition-colors"
+            >
+              Today
+            </button>
+
             {/* Week back/forward arrows - desktop only, side by side */}
             <div className="hidden md:flex items-center">
               <button
@@ -753,14 +761,6 @@ export default function HomePage() {
                 </svg>
               </button>
             </div>
-
-            {/* Today button */}
-            <button
-              onClick={goToToday}
-              className="px-4 py-2 text-[13px] font-medium text-black/70 border border-black/[0.1] rounded-lg hover:bg-black/[0.04] transition-colors"
-            >
-              Today
-            </button>
 
             {/* Refresh */}
             <button
