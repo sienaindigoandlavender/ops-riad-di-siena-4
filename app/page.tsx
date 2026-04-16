@@ -772,134 +772,137 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Mobile List View */}
-      <div className="block md:hidden p-4">
-        <div className="space-y-6">
-          {/* The Riad */}
-          <div>
-            <div className="text-[10px] font-medium text-black/50 uppercase tracking-wide mb-2 px-1">The Riad</div>
-            <div className="space-y-2">
-              {RIAD_ROOMS.map((room) => {
-                const roomBookings = bookings
-                  .filter(b => {
-                    const rooms = parseRoomNames(b.room);
-                    return rooms.some(r => r.toLowerCase() === room.toLowerCase());
-                  })
-                  .filter(b => {
-                    const checkOut = parseLocalDate(b.checkOut);
-                    const viewStart = dates[0];
-                    const viewEnd = dates[DAYS_TO_SHOW - 1];
-                    const checkIn = parseLocalDate(b.checkIn);
-                    return checkIn <= viewEnd && checkOut >= viewStart;
-                  })
-                  .sort((a, b) => parseLocalDate(a.checkIn).getTime() - parseLocalDate(b.checkIn).getTime());
+      {/* Mobile View - Booking.com style: mini calendars per room */}
+      <div className="block md:hidden px-4 pb-4">
+        {/* Month navigation */}
+        <div className="flex items-center justify-between py-3">
+          <button
+            onClick={() => setDatePickerMonth(prev => {
+              const m = prev.month - 1;
+              const next = m < 0 ? { year: prev.year - 1, month: 11 } : { year: prev.year, month: m };
+              jumpToDate(new Date(next.year, next.month, 1));
+              return next;
+            })}
+            className="p-2 -ml-2"
+          >
+            <svg className="w-5 h-5 text-black/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <span className="text-[16px] font-medium text-black/80">
+            {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
+          </span>
+          <button
+            onClick={() => setDatePickerMonth(prev => {
+              const m = prev.month + 1;
+              const next = m > 11 ? { year: prev.year + 1, month: 0 } : { year: prev.year, month: m };
+              jumpToDate(new Date(next.year, next.month, 1));
+              return next;
+            })}
+            className="p-2 -mr-2"
+          >
+            <svg className="w-5 h-5 text-black/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Room mini-calendars in 2-column grid */}
+        {[
+          { label: "The Riad", rooms: RIAD_ROOMS },
+          { label: "The Douaria", rooms: DOUARIA_ROOMS },
+        ].map((group) => (
+          <div key={group.label} className="mb-4">
+            <div className="text-[10px] font-medium text-black/50 uppercase tracking-wide mb-2 px-1">{group.label}</div>
+            <div className="grid grid-cols-2 gap-3">
+              {group.rooms.map((room) => {
+                // Build calendar cells for this month
+                const { year, month } = datePickerMonth;
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const startDow = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+                const cells: (number | null)[] = [];
+                for (let i = 0; i < startDow; i++) cells.push(null);
+                for (let d = 1; d <= lastDay.getDate(); d++) cells.push(d);
+                while (cells.length % 7 !== 0) cells.push(null);
+
+                const todayStr = toDateStr(new Date());
 
                 return (
                   <div key={room} className="bg-white rounded-xl border border-black/[0.06] overflow-hidden">
-                    <div className="px-4 py-2.5 border-b border-black/[0.06] bg-black/[0.01]">
-                      <span className="text-[13px] font-medium text-black/80">{room}</span>
-                    </div>
-                    {roomBookings.length === 0 ? (
-                      <div className="px-4 py-6 text-center text-[12px] text-black/30">No bookings this period</div>
-                    ) : (
-                      <div className="divide-y divide-black/[0.04]">
-                        {roomBookings.map((booking) => {
-                          const isBlocked = (booking.source || "").toLowerCase().includes("block") || (booking.source || "").toLowerCase().includes("blackout");
+                    {/* Mini calendar grid */}
+                    <div className="p-2.5">
+                      <div className="grid grid-cols-7 text-center gap-y-0.5">
+                        {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+                          <div key={i} className="text-[9px] text-black/30 font-medium leading-5">{d}</div>
+                        ))}
+                        {cells.map((dayNum, idx) => {
+                          if (dayNum === null) return <div key={idx} className="w-full aspect-square" />;
+                          const cellDate = new Date(year, month, dayNum);
+                          const cellStr = toDateStr(cellDate);
+                          const booking = getBookingForRoomDate(room, cellDate);
+                          const isToday = cellStr === todayStr;
+
+                          // Determine background color
+                          let bgClass = "";
+                          let textClass = "text-black/60";
+                          if (booking) {
+                            const s = (booking.source || "").trim().toLowerCase();
+                            if (s.includes("blackout") || s.includes("blocked")) {
+                              bgClass = "bg-[#4a4a4a]/20";
+                              textClass = "text-black/50";
+                            } else if (s.includes("airbnb")) {
+                              bgClass = "bg-[#E8A9A9]/40";
+                              textClass = "text-[#6b3a3a]";
+                            } else if (s.includes("booking")) {
+                              bgClass = "bg-[#89CFF0]/40";
+                              textClass = "text-[#1a4a6e]";
+                            } else {
+                              bgClass = "bg-[#A3B18A]/40";
+                              textClass = "text-[#3a4a34]";
+                            }
+                          }
+
                           return (
                             <button
-                              key={booking.id}
-                              onClick={() => { setSelectedBooking(booking); setIsEditing(false); }}
-                              className="w-full px-4 py-3 flex items-center gap-3 hover:bg-black/[0.02] transition-colors text-left"
+                              key={idx}
+                              onClick={() => {
+                                if (booking) {
+                                  setSelectedBooking(booking);
+                                  setIsEditing(false);
+                                }
+                              }}
+                              className={`
+                                w-full aspect-square flex items-center justify-center text-[11px] rounded-sm
+                                ${bgClass} ${textClass}
+                                ${isToday && !booking ? "ring-1 ring-blue-500 text-blue-600 font-bold" : ""}
+                                ${isToday && booking ? "ring-1 ring-blue-500 font-bold" : ""}
+                                ${booking ? "font-medium" : ""}
+                              `}
                             >
-                              <div className={`w-1 self-stretch rounded-full ${getSourceColor(booking.source)}`} />
-                              <div className="flex-1 min-w-0">
-                                <div className="text-[13px] font-medium text-black/80 truncate">
-                                  {isBlocked ? "BLOCKED" : booking.guestName}
-                                </div>
-                                <div className="text-[11px] text-black/40 mt-0.5">
-                                  {parseLocalDate(booking.checkIn).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
-                                  {" – "}
-                                  {parseLocalDate(booking.checkOut).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
-                                  <span className="mx-1.5">·</span>
-                                  {booking.nights}n
-                                </div>
-                              </div>
-                              <div className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)}`}>
-                                {booking.source}
-                              </div>
+                              {dayNum}
                             </button>
                           );
                         })}
                       </div>
-                    )}
+                    </div>
+                    {/* Room name */}
+                    <div className="px-2.5 pb-2.5">
+                      <div className="text-[12px] font-medium text-black/70">{room}</div>
+                    </div>
                   </div>
                 );
               })}
             </div>
           </div>
+        ))}
 
-          {/* The Douaria */}
-          <div>
-            <div className="text-[10px] font-medium text-black/50 uppercase tracking-wide mb-2 px-1">The Douaria</div>
-            <div className="space-y-2">
-              {DOUARIA_ROOMS.map((room) => {
-                const roomBookings = bookings
-                  .filter(b => {
-                    const rooms = parseRoomNames(b.room);
-                    return rooms.some(r => r.toLowerCase() === room.toLowerCase());
-                  })
-                  .filter(b => {
-                    const checkOut = parseLocalDate(b.checkOut);
-                    const viewStart = dates[0];
-                    const viewEnd = dates[DAYS_TO_SHOW - 1];
-                    const checkIn = parseLocalDate(b.checkIn);
-                    return checkIn <= viewEnd && checkOut >= viewStart;
-                  })
-                  .sort((a, b) => parseLocalDate(a.checkIn).getTime() - parseLocalDate(b.checkIn).getTime());
-
-                return (
-                  <div key={room} className="bg-white rounded-xl border border-black/[0.06] overflow-hidden">
-                    <div className="px-4 py-2.5 border-b border-black/[0.06] bg-black/[0.01]">
-                      <span className="text-[13px] font-medium text-black/80">{room}</span>
-                    </div>
-                    {roomBookings.length === 0 ? (
-                      <div className="px-4 py-6 text-center text-[12px] text-black/30">No bookings this period</div>
-                    ) : (
-                      <div className="divide-y divide-black/[0.04]">
-                        {roomBookings.map((booking) => {
-                          const isBlocked = (booking.source || "").toLowerCase().includes("block") || (booking.source || "").toLowerCase().includes("blackout");
-                          return (
-                            <button
-                              key={booking.id}
-                              onClick={() => { setSelectedBooking(booking); setIsEditing(false); }}
-                              className="w-full px-4 py-3 flex items-center gap-3 hover:bg-black/[0.02] transition-colors text-left"
-                            >
-                              <div className={`w-1 self-stretch rounded-full ${getSourceColor(booking.source)}`} />
-                              <div className="flex-1 min-w-0">
-                                <div className="text-[13px] font-medium text-black/80 truncate">
-                                  {isBlocked ? "BLOCKED" : booking.guestName}
-                                </div>
-                                <div className="text-[11px] text-black/40 mt-0.5">
-                                  {parseLocalDate(booking.checkIn).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
-                                  {" – "}
-                                  {parseLocalDate(booking.checkOut).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
-                                  <span className="mx-1.5">·</span>
-                                  {booking.nights}n
-                                </div>
-                              </div>
-                              <div className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)}`}>
-                                {booking.source}
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+        {/* Mobile legend */}
+        <div className="flex items-center justify-center gap-3 pt-2 text-[10px]">
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#89CFF0]/40"></div><span className="text-black/40">Booking</span></div>
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#E8A9A9]/40"></div><span className="text-black/40">Airbnb</span></div>
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#A3B18A]/40"></div><span className="text-black/40">Direct</span></div>
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#4a4a4a]/20"></div><span className="text-black/40">Blocked</span></div>
         </div>
       </div>
 
