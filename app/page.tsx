@@ -306,13 +306,6 @@ export default function HomePage() {
   };
 
   // Navigation
-  const navigateWeek = (direction: number) => {
-    const newDate = new Date(startDate);
-    newDate.setDate(newDate.getDate() + direction * 7);
-    setStartDate(newDate);
-    setDatePickerMonth({ year: newDate.getFullYear(), month: newDate.getMonth() });
-  };
-
   const goToToday = () => {
     const today = new Date();
     today.setDate(today.getDate() - 3);
@@ -683,45 +676,8 @@ export default function HomePage() {
       {/* Calendar Navigation */}
       <div className="bg-white border-b border-black/[0.06] px-8 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigateWeek(-1)}
-              className="p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
-            >
-              <svg className="w-5 h-5 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button
-              onClick={goToToday}
-              className="px-4 py-2 text-[13px] font-medium text-black/70 hover:bg-black/[0.04] rounded-lg transition-colors"
-            >
-              Today
-            </button>
-            <button
-              onClick={() => navigateWeek(1)}
-              className="p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
-            >
-              <svg className="w-5 h-5 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-            <button
-              onClick={() => {
-                setLoading(true);
-                fetchBookings().finally(() => setLoading(false));
-              }}
-              className="px-3 py-2 text-[13px] font-medium text-black/70 hover:bg-black/[0.04] rounded-lg transition-colors flex items-center gap-1"
-              title="Refresh bookings"
-            >
-              <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </button>
-          </div>
-          
-          {/* Date Picker - Booking.com style: month dropdown + arrow buttons */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-3">
+            {/* Month dropdown - Airbnb style */}
             <div className="relative" ref={datePickerRef}>
               <button
                 onClick={() => {
@@ -771,45 +727,27 @@ export default function HomePage() {
               )}
             </div>
 
-            {/* Month back/forward arrows */}
-            <div className="flex items-center border border-black/[0.1] rounded-lg overflow-hidden">
-              <button
-                onClick={() => {
-                  setDatePickerMonth(prev => {
-                    const m = prev.month - 1;
-                    const next = m < 0
-                      ? { year: prev.year - 1, month: 11 }
-                      : { year: prev.year, month: m };
-                    const target = new Date(next.year, next.month, 1);
-                    jumpToDate(target);
-                    return next;
-                  });
-                }}
-                className="p-2 hover:bg-black/[0.04] transition-colors border-r border-black/[0.1]"
-              >
-                <svg className="w-4 h-4 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                onClick={() => {
-                  setDatePickerMonth(prev => {
-                    const m = prev.month + 1;
-                    const next = m > 11
-                      ? { year: prev.year + 1, month: 0 }
-                      : { year: prev.year, month: m };
-                    const target = new Date(next.year, next.month, 1);
-                    jumpToDate(target);
-                    return next;
-                  });
-                }}
-                className="p-2 hover:bg-black/[0.04] transition-colors"
-              >
-                <svg className="w-4 h-4 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
+            {/* Today button */}
+            <button
+              onClick={goToToday}
+              className="px-4 py-2 text-[13px] font-medium text-black/70 border border-black/[0.1] rounded-lg hover:bg-black/[0.04] transition-colors"
+            >
+              Today
+            </button>
+
+            {/* Refresh */}
+            <button
+              onClick={() => {
+                setLoading(true);
+                fetchBookings().finally(() => setLoading(false));
+              }}
+              className="p-2 text-black/50 hover:bg-black/[0.04] rounded-lg transition-colors"
+              title="Refresh bookings"
+            >
+              <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
           </div>
 
           {/* Legend */}
