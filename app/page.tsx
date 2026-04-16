@@ -684,16 +684,6 @@ export default function HomePage() {
       <div className="bg-white border-b border-black/[0.06] px-4 md:px-8 py-3 md:py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-3">
-            {/* Week back arrow - desktop only */}
-            <button
-              onClick={() => navigateWeek(-1)}
-              className="hidden md:flex p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
-            >
-              <svg className="w-5 h-5 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
             {/* Month dropdown - Airbnb style */}
             <div className="relative" ref={datePickerRef}>
               <button
@@ -744,22 +734,32 @@ export default function HomePage() {
               )}
             </div>
 
+            {/* Week back/forward arrows - desktop only, side by side */}
+            <div className="hidden md:flex items-center">
+              <button
+                onClick={() => navigateWeek(-1)}
+                className="p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
+              >
+                <svg className="w-5 h-5 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => navigateWeek(1)}
+                className="p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
+              >
+                <svg className="w-5 h-5 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
             {/* Today button */}
             <button
               onClick={goToToday}
               className="px-4 py-2 text-[13px] font-medium text-black/70 border border-black/[0.1] rounded-lg hover:bg-black/[0.04] transition-colors"
             >
               Today
-            </button>
-
-            {/* Week forward arrow - desktop only */}
-            <button
-              onClick={() => navigateWeek(1)}
-              className="hidden md:flex p-2 hover:bg-black/[0.04] rounded-lg transition-colors"
-            >
-              <svg className="w-5 h-5 text-black/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-              </svg>
             </button>
 
             {/* Refresh */}
