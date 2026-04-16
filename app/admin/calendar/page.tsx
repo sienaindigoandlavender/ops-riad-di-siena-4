@@ -22,42 +22,42 @@ interface Room {
 }
 
 const SOURCE_COLORS: Record<string, string> = {
-  "Booking.com": "bg-[#89CFF0]", // Powder blue
-  "Booking": "bg-[#89CFF0]",     // Powder blue (alternate)
-  "booking.com": "bg-[#89CFF0]", // Powder blue (lowercase)
-  "booking": "bg-[#89CFF0]",     // Powder blue (lowercase)
-  "Airbnb": "bg-[#E8A9A9]",      // Brick red/rose
-  "airbnb": "bg-[#E8A9A9]",      // Brick red (lowercase)
-  "Direct": "bg-[#A3B18A]",      // Olive green
-  "direct": "bg-[#A3B18A]",      // Olive green (lowercase)
+  "Booking.com": "bg-[#A8BDC8]", // Powder blue
+  "Booking": "bg-[#A8BDC8]",     // Powder blue (alternate)
+  "booking.com": "bg-[#A8BDC8]", // Powder blue (lowercase)
+  "booking": "bg-[#A8BDC8]",     // Powder blue (lowercase)
+  "Airbnb": "bg-[#C9A5A0]",      // Brick red/rose
+  "airbnb": "bg-[#C9A5A0]",      // Brick red (lowercase)
+  "Direct": "bg-[#9DA88F]",      // Olive green
+  "direct": "bg-[#9DA88F]",      // Olive green (lowercase)
 };
 
 const SOURCE_TEXT_COLORS: Record<string, string> = {
-  "Booking.com": "text-[#1a4a6e]", // Dark blue text
-  "Booking": "text-[#1a4a6e]",     // Dark blue text
-  "booking.com": "text-[#1a4a6e]", // Dark blue text
-  "booking": "text-[#1a4a6e]",     // Dark blue text
-  "Airbnb": "text-[#6b3a3a]",      // Dark rose text
-  "airbnb": "text-[#6b3a3a]",      // Dark rose text
-  "Direct": "text-[#3a4a34]",      // Dark olive text
-  "direct": "text-[#3a4a34]",      // Dark olive text
+  "Booking.com": "text-[#4A5C66]", // Dark blue text
+  "Booking": "text-[#4A5C66]",     // Dark blue text
+  "booking.com": "text-[#4A5C66]", // Dark blue text
+  "booking": "text-[#4A5C66]",     // Dark blue text
+  "Airbnb": "text-[#6B4E3D]",      // Dark rose text
+  "airbnb": "text-[#6B4E3D]",      // Dark rose text
+  "Direct": "text-[#4A5440]",      // Dark olive text
+  "direct": "text-[#4A5440]",      // Dark olive text
 };
 
 // Helper to get color with flexible matching
 const getSourceColor = (source: string): string => {
   const s = (source || "").trim().toLowerCase();
-  if (s.includes("blackout") || s.includes("blocked")) return "bg-[#4a4a4a]";  // Dark gray
-  if (s.includes("airbnb")) return "bg-[#E8A9A9]";      // Brick red
-  if (s.includes("direct")) return "bg-[#A3B18A]";      // Olive green
-  return "bg-[#89CFF0]";                                 // Default: Powder blue (Booking.com)
+  if (s.includes("blackout") || s.includes("blocked")) return "bg-[#5C4F45]";  // Dark gray
+  if (s.includes("airbnb")) return "bg-[#C9A5A0]";      // Brick red
+  if (s.includes("direct")) return "bg-[#9DA88F]";      // Olive green
+  return "bg-[#A8BDC8]";                                 // Default: Powder blue (Booking.com)
 };
 
 const getSourceTextColor = (source: string): string => {
   const s = (source || "").trim().toLowerCase();
-  if (s.includes("blackout") || s.includes("blocked")) return "text-white/70"; // Light text
-  if (s.includes("airbnb")) return "text-[#6b3a3a]";    // Dark rose
-  if (s.includes("direct")) return "text-[#3a4a34]";    // Dark olive
-  return "text-[#1a4a6e]";                               // Default: Dark blue
+  if (s.includes("blackout") || s.includes("blocked")) return "text-ink-inverse"; // Light text
+  if (s.includes("airbnb")) return "text-[#6B4E3D]";    // Dark rose
+  if (s.includes("direct")) return "text-[#4A5440]";    // Dark olive
+  return "text-[#4A5C66]";                               // Default: Dark blue
 };
 
 // Parse individual room names from a booking (handles "Bliss / Joy / Hidden Gem")
@@ -351,21 +351,21 @@ export default function CalendarPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-black/10 border-t-black rounded-full animate-spin" />
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-border-subtle border-t-black rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-black">
-      <header className="border-b border-black/[0.06] py-5 px-6">
+    <div className="min-h-screen bg-cream text-ink-primary">
+      <header className="border-b border-border-subtle py-5 px-6">
         <div className="max-w-[1600px] mx-auto flex items-center justify-between">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.08em] text-black/40 mb-1">Admin</p>
-            <h1 className="font-serif text-[22px] text-black">Availability</h1>
+            <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Admin</p>
+            <h1 className="font-serif text-[22px] text-ink-primary">Availability</h1>
           </div>
-          <Link href="/admin" className="text-[11px] uppercase tracking-[0.08em] font-semibold text-black/40 hover:text-black transition-colors">
+          <Link href="/admin" className="text-[11px] uppercase tracking-[0.08em] font-semibold text-ink-tertiary hover:text-ink-primary transition-colors">
             ← Back
           </Link>
         </div>
@@ -374,13 +374,13 @@ export default function CalendarPage() {
       <main className="max-w-[1600px] mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <button onClick={goBack} className="px-3 py-2 rounded-lg border border-black/[0.06] hover:border-black/20 transition-colors text-[13px] text-black/70">
+            <button onClick={goBack} className="px-3 py-2 rounded-lg border border-border-subtle hover:border-border transition-colors text-[13px] text-ink-body">
               ← 2 weeks
             </button>
-            <button onClick={goToToday} className="px-3 py-2 rounded-lg border border-black/[0.06] hover:border-black/20 transition-colors text-[13px] text-black/70">
+            <button onClick={goToToday} className="px-3 py-2 rounded-lg border border-border-subtle hover:border-border transition-colors text-[13px] text-ink-body">
               Today
             </button>
-            <button onClick={goForward} className="px-3 py-2 rounded-lg border border-black/[0.06] hover:border-black/20 transition-colors text-[13px] text-black/70">
+            <button onClick={goForward} className="px-3 py-2 rounded-lg border border-border-subtle hover:border-border transition-colors text-[13px] text-ink-body">
               2 weeks →
             </button>
             <button 
@@ -413,7 +413,7 @@ export default function CalendarPage() {
                   })
                   .catch(() => setLoading(false));
               }} 
-              className="px-3 py-2 rounded-lg border border-black/[0.06] hover:border-black/20 transition-colors text-[13px] text-black/70"
+              className="px-3 py-2 rounded-lg border border-border-subtle hover:border-border transition-colors text-[13px] text-ink-body"
             >
               ↻ Refresh
             </button>
@@ -421,39 +421,39 @@ export default function CalendarPage() {
 
           <div className="flex items-center gap-4 text-[11px]">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm bg-[#89CFF0]" />
-              <span className="text-black/50">Booking.com</span>
+              <div className="w-3 h-3 rounded-sm bg-[#A8BDC8]" />
+              <span className="text-ink-secondary">Booking.com</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm bg-[#E8A9A9]" />
-              <span className="text-black/50">Airbnb</span>
+              <div className="w-3 h-3 rounded-sm bg-[#C9A5A0]" />
+              <span className="text-ink-secondary">Airbnb</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm bg-[#A3B18A]" />
-              <span className="text-black/50">Direct</span>
+              <div className="w-3 h-3 rounded-sm bg-[#9DA88F]" />
+              <span className="text-ink-secondary">Direct</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm bg-[#4a4a4a]" />
-              <span className="text-black/50">Blocked</span>
+              <div className="w-3 h-3 rounded-sm bg-[#5C4F45]" />
+              <span className="text-ink-secondary">Blocked</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white border border-black/[0.06] rounded-lg overflow-hidden">
+        <div className="bg-white border border-border-subtle rounded-lg overflow-hidden">
           <div className="flex">
             {/* Room Labels */}
-            <div className="flex-shrink-0 w-40 border-r border-black/[0.06]">
-              <div className="h-8 border-b border-black/[0.06]" />
-              <div className="h-12 border-b border-black/[0.06]" />
+            <div className="flex-shrink-0 w-40 border-r border-border-subtle">
+              <div className="h-8 border-b border-border-subtle" />
+              <div className="h-12 border-b border-border-subtle" />
 
               {riadRooms.length > 0 && (
                 <>
-                  <div className="h-8 bg-black/[0.02] border-b border-black/[0.06] flex items-center px-3">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-black/40">The Riad</span>
+                  <div className="h-8 bg-bone border-b border-border-subtle flex items-center px-3">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-tertiary">The Riad</span>
                   </div>
                   {riadRooms.map((room) => (
-                    <div key={room.id} className="h-12 border-b border-black/[0.04] flex items-center px-3">
-                      <span className="text-[13px] text-black/70 truncate">{room.name}</span>
+                    <div key={room.id} className="h-12 border-b border-border-subtle flex items-center px-3">
+                      <span className="text-[13px] text-ink-body truncate">{room.name}</span>
                     </div>
                   ))}
                 </>
@@ -461,12 +461,12 @@ export default function CalendarPage() {
 
               {douariaRooms.length > 0 && (
                 <>
-                  <div className="h-8 bg-black/[0.02] border-b border-black/[0.06] flex items-center px-3">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-black/40">The Douaria</span>
+                  <div className="h-8 bg-bone border-b border-border-subtle flex items-center px-3">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-tertiary">The Douaria</span>
                   </div>
                   {douariaRooms.map((room) => (
-                    <div key={room.id} className="h-12 border-b border-black/[0.04] flex items-center px-3">
-                      <span className="text-[13px] text-black/70 truncate">{room.name}</span>
+                    <div key={room.id} className="h-12 border-b border-border-subtle flex items-center px-3">
+                      <span className="text-[13px] text-ink-body truncate">{room.name}</span>
                     </div>
                   ))}
                 </>
@@ -476,28 +476,28 @@ export default function CalendarPage() {
             {/* Calendar Grid */}
             <div ref={scrollRef} className="flex-1 overflow-x-auto">
               {/* Month Row */}
-              <div className="flex h-8 border-b border-black/[0.06] sticky top-0 bg-white">
+              <div className="flex h-8 border-b border-border-subtle sticky top-0 bg-white">
                 {dates.map((date, idx) => {
                   const showMonth = idx === 0 || date.getDate() === 1;
                   return (
-                    <div key={idx} className="w-12 flex-shrink-0 flex items-center justify-center border-r border-black/[0.02]">
-                      {showMonth && <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-black/40">{formatMonth(date)}</span>}
+                    <div key={idx} className="w-12 flex-shrink-0 flex items-center justify-center border-r border-border-subtle">
+                      {showMonth && <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-tertiary">{formatMonth(date)}</span>}
                     </div>
                   );
                 })}
               </div>
 
               {/* Date Row */}
-              <div className="flex h-12 border-b border-black/[0.06]">
+              <div className="flex h-12 border-b border-border-subtle">
                 {dates.map((date, idx) => (
                   <div
                     key={idx}
-                    className={`w-12 flex-shrink-0 flex flex-col items-center justify-center border-r border-black/[0.02] ${
-                      isToday(date) ? "bg-amber-50" : isWeekend(date) ? "bg-black/[0.01]" : ""
+                    className={`w-12 flex-shrink-0 flex flex-col items-center justify-center border-r border-border-subtle ${
+                      isToday(date) ? "bg-gold/10" : isWeekend(date) ? "bg-bone" : ""
                     }`}
                   >
-                    <span className="text-[10px] text-black/30">{date.toLocaleDateString("en-US", { weekday: "short" }).charAt(0)}</span>
-                    <span className={`text-[13px] ${isToday(date) ? "text-amber-600 font-semibold" : "text-black/70"}`}>{date.getDate()}</span>
+                    <span className="text-[10px] text-ink-tertiary">{date.toLocaleDateString("en-US", { weekday: "short" }).charAt(0)}</span>
+                    <span className={`text-[13px] ${isToday(date) ? "text-gold font-semibold" : "text-ink-body"}`}>{date.getDate()}</span>
                   </div>
                 ))}
               </div>
@@ -505,9 +505,9 @@ export default function CalendarPage() {
               {/* The Riad */}
               {riadRooms.length > 0 && (
                 <>
-                  <div className="h-8 bg-black/[0.02] border-b border-black/[0.06]" />
+                  <div className="h-8 bg-bone border-b border-border-subtle" />
                   {riadRooms.map((room) => (
-                    <div key={room.id} className="flex h-12 border-b border-black/[0.04] relative">
+                    <div key={room.id} className="flex h-12 border-b border-border-subtle relative">
                       {dates.map((date, idx) => {
                         const booking = getBookingForCell(room, date);
                         const isStart = booking && isBookingStart(room, date, booking);
@@ -516,9 +516,9 @@ export default function CalendarPage() {
                           <div
                             key={idx}
                             onClick={() => isEmpty && handleEmptyCellClick(room, date)}
-                            className={`w-12 flex-shrink-0 border-r border-black/[0.02] relative ${
-                              isToday(date) ? "bg-amber-50/50" : isWeekend(date) ? "bg-black/[0.01]" : ""
-                            } ${isEmpty ? "cursor-pointer hover:bg-black/[0.03]" : ""}`}
+                            className={`w-12 flex-shrink-0 border-r border-border-subtle relative ${
+                              isToday(date) ? "bg-gold/10/50" : isWeekend(date) ? "bg-bone" : ""
+                            } ${isEmpty ? "cursor-pointer hover:bg-parchment" : ""}`}
                           >
                             {isStart && booking && (
                               <button
@@ -542,9 +542,9 @@ export default function CalendarPage() {
               {/* The Douaria */}
               {douariaRooms.length > 0 && (
                 <>
-                  <div className="h-8 bg-black/[0.02] border-b border-black/[0.06]" />
+                  <div className="h-8 bg-bone border-b border-border-subtle" />
                   {douariaRooms.map((room) => (
-                    <div key={room.id} className="flex h-12 border-b border-black/[0.04] relative">
+                    <div key={room.id} className="flex h-12 border-b border-border-subtle relative">
                       {dates.map((date, idx) => {
                         const booking = getBookingForCell(room, date);
                         const isStart = booking && isBookingStart(room, date, booking);
@@ -553,9 +553,9 @@ export default function CalendarPage() {
                           <div
                             key={idx}
                             onClick={() => isEmpty && handleEmptyCellClick(room, date)}
-                            className={`w-12 flex-shrink-0 border-r border-black/[0.02] relative ${
-                              isToday(date) ? "bg-amber-50/50" : isWeekend(date) ? "bg-black/[0.01]" : ""
-                            } ${isEmpty ? "cursor-pointer hover:bg-black/[0.03]" : ""}`}
+                            className={`w-12 flex-shrink-0 border-r border-border-subtle relative ${
+                              isToday(date) ? "bg-gold/10/50" : isWeekend(date) ? "bg-bone" : ""
+                            } ${isEmpty ? "cursor-pointer hover:bg-parchment" : ""}`}
                           >
                             {isStart && booking && (
                               <button
@@ -584,7 +584,7 @@ export default function CalendarPage() {
           {(() => {
             const today = new Date();
             const totalRooms = rooms.length;
-            if (totalRooms === 0) return <div className="col-span-4 text-center text-black/50 py-8">No rooms found in bookings</div>;
+            if (totalRooms === 0) return <div className="col-span-4 text-center text-ink-secondary py-8">No rooms found in bookings</div>;
 
             const occupiedToday = rooms.filter((room) => getBookingForCell(room, today)).length;
             let occupied7 = 0;
@@ -600,21 +600,21 @@ export default function CalendarPage() {
 
             return (
               <>
-                <div className="bg-white border border-black/[0.06] rounded-lg p-4">
-                  <p className="text-[28px] font-serif text-black">{occupiedToday}/{totalRooms}</p>
-                  <p className="text-[11px] uppercase tracking-[0.08em] text-black/40 mt-1">Occupied Tonight</p>
+                <div className="bg-white border border-border-subtle rounded-lg p-4">
+                  <p className="text-[28px] font-serif text-ink-primary">{occupiedToday}/{totalRooms}</p>
+                  <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Occupied Tonight</p>
                 </div>
-                <div className="bg-white border border-black/[0.06] rounded-lg p-4">
-                  <p className="text-[28px] font-serif text-black">{totalRooms - occupiedToday}</p>
-                  <p className="text-[11px] uppercase tracking-[0.08em] text-black/40 mt-1">Available Tonight</p>
+                <div className="bg-white border border-border-subtle rounded-lg p-4">
+                  <p className="text-[28px] font-serif text-ink-primary">{totalRooms - occupiedToday}</p>
+                  <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Available Tonight</p>
                 </div>
-                <div className="bg-white border border-black/[0.06] rounded-lg p-4">
-                  <p className="text-[28px] font-serif text-black">{Math.round((occupied7 / (totalRooms * 7)) * 100)}%</p>
-                  <p className="text-[11px] uppercase tracking-[0.08em] text-black/40 mt-1">Next 7 Days</p>
+                <div className="bg-white border border-border-subtle rounded-lg p-4">
+                  <p className="text-[28px] font-serif text-ink-primary">{Math.round((occupied7 / (totalRooms * 7)) * 100)}%</p>
+                  <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Next 7 Days</p>
                 </div>
-                <div className="bg-white border border-black/[0.06] rounded-lg p-4">
-                  <p className="text-[28px] font-serif text-black">{Math.round((occupied30 / (totalRooms * 30)) * 100)}%</p>
-                  <p className="text-[11px] uppercase tracking-[0.08em] text-black/40 mt-1">Next 30 Days</p>
+                <div className="bg-white border border-border-subtle rounded-lg p-4">
+                  <p className="text-[28px] font-serif text-ink-primary">{Math.round((occupied30 / (totalRooms * 30)) * 100)}%</p>
+                  <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Next 30 Days</p>
                 </div>
               </>
             );
@@ -624,18 +624,18 @@ export default function CalendarPage() {
 
       {/* Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setSelectedBooking(null)}>
+        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50 p-4" onClick={() => setSelectedBooking(null)}>
           <div className="bg-white rounded-lg max-w-md w-full relative" onClick={(e) => e.stopPropagation()}>
             {/* Modal Header */}
-            <div className="sticky top-0 bg-white rounded-t-lg border-b border-black/[0.06] px-5 py-5 flex items-center justify-between">
+            <div className="sticky top-0 bg-white rounded-t-lg border-b border-border-subtle px-5 py-5 flex items-center justify-between">
               <div className="flex items-start gap-3">
                 <div className={`w-1 h-12 rounded-full ${getSourceColor(selectedBooking.source)}`} />
                 <div>
-                  <h3 className="font-serif text-[18px] text-black">{selectedBooking.guestName}</h3>
-                  <p className="text-[13px] text-black/50">{selectedBooking.room}</p>
+                  <h3 className="font-serif text-[18px] text-ink-primary">{selectedBooking.guestName}</h3>
+                  <p className="text-[13px] text-ink-secondary">{selectedBooking.room}</p>
                 </div>
               </div>
-              <button onClick={() => setSelectedBooking(null)} className="text-black/30 hover:text-black/60 transition-colors">
+              <button onClick={() => setSelectedBooking(null)} className="text-ink-tertiary hover:text-ink-secondary transition-colors">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M5 5l10 10M15 5L5 15" />
                 </svg>
@@ -644,33 +644,33 @@ export default function CalendarPage() {
 
             {/* Modal Content */}
             <div className="p-5 space-y-4">
-              <div className="flex justify-between py-2 border-b border-black/[0.04]">
-                <span className="text-[10px] uppercase tracking-[0.08em] text-black/40">Check-in</span>
-                <span className="text-[13px] text-black">{new Date(selectedBooking.checkIn).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</span>
+              <div className="flex justify-between py-2 border-b border-border-subtle">
+                <span className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary">Check-in</span>
+                <span className="text-[13px] text-ink-primary">{new Date(selectedBooking.checkIn).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-black/[0.04]">
-                <span className="text-[10px] uppercase tracking-[0.08em] text-black/40">Check-out</span>
-                <span className="text-[13px] text-black">{new Date(selectedBooking.checkOut).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</span>
+              <div className="flex justify-between py-2 border-b border-border-subtle">
+                <span className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary">Check-out</span>
+                <span className="text-[13px] text-ink-primary">{new Date(selectedBooking.checkOut).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-black/[0.04]">
-                <span className="text-[10px] uppercase tracking-[0.08em] text-black/40">Nights</span>
-                <span className="text-[13px] text-black">{selectedBooking.nights}</span>
+              <div className="flex justify-between py-2 border-b border-border-subtle">
+                <span className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary">Nights</span>
+                <span className="text-[13px] text-ink-primary">{selectedBooking.nights}</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-black/[0.04]">
-                <span className="text-[10px] uppercase tracking-[0.08em] text-black/40">Source</span>
+              <div className="flex justify-between py-2 border-b border-border-subtle">
+                <span className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary">Source</span>
                 <span className={`text-[10px] font-semibold tracking-wide uppercase px-2 py-1 rounded-full ${
-                  selectedBooking.source === "Booking.com" ? "bg-blue-50 text-blue-600" :
-                  selectedBooking.source === "Airbnb" ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
+                  selectedBooking.source === "Booking.com" ? "bg-dusty/10 text-accent-strong" :
+                  selectedBooking.source === "Airbnb" ? "bg-rose-50 text-rose-600" : "bg-sage/10 text-sage"
                 }`}>{selectedBooking.source}</span>
               </div>
             </div>
 
             {/* Modal Footer */}
             <div className="px-5 pb-5 flex gap-3">
-              <Link href="/guests" className="flex-1 text-center text-[11px] uppercase tracking-[0.08em] font-semibold border border-black rounded-lg py-3 hover:bg-black hover:text-white transition-colors">
+              <Link href="/guests" className="flex-1 text-center text-[11px] uppercase tracking-[0.08em] font-semibold border border-border rounded-lg py-3 hover:bg-accent hover:text-cream transition-colors">
                 Guest Dashboard
               </Link>
-              <button onClick={() => setSelectedBooking(null)} className="flex-1 text-[11px] uppercase tracking-[0.08em] font-semibold bg-black text-white rounded-lg py-3 hover:bg-black/80 transition-colors">
+              <button onClick={() => setSelectedBooking(null)} className="flex-1 text-[11px] uppercase tracking-[0.08em] font-semibold bg-accent text-cream rounded-lg py-3 hover:bg-accent-strong transition-colors">
                 Close
               </button>
             </div>
@@ -680,18 +680,18 @@ export default function CalendarPage() {
 
       {/* New Booking Modal */}
       {newBooking && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setNewBooking(null)}>
+        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50 p-4" onClick={() => setNewBooking(null)}>
           <div className="bg-white rounded-lg max-w-md w-full relative" onClick={(e) => e.stopPropagation()}>
             {/* Modal Header */}
-            <div className="sticky top-0 bg-white rounded-t-lg border-b border-black/[0.06] px-5 py-5 flex items-center justify-between">
+            <div className="sticky top-0 bg-white rounded-t-lg border-b border-border-subtle px-5 py-5 flex items-center justify-between">
               <div className="flex items-start gap-3">
-                <div className={`w-1 h-12 rounded-full ${newBookingForm.isBlackout ? 'bg-[#4a4a4a]' : 'bg-[#A3B18A]'}`} />
+                <div className={`w-1 h-12 rounded-full ${newBookingForm.isBlackout ? 'bg-[#5C4F45]' : 'bg-[#9DA88F]'}`} />
                 <div>
-                  <h3 className="font-serif text-[18px] text-black">{newBookingForm.isBlackout ? 'Block Dates' : 'New Reservation'}</h3>
-                  <p className="text-[13px] text-black/50">{newBookingForm.room || newBooking.room}</p>
+                  <h3 className="font-serif text-[18px] text-ink-primary">{newBookingForm.isBlackout ? 'Block Dates' : 'New Reservation'}</h3>
+                  <p className="text-[13px] text-ink-secondary">{newBookingForm.room || newBooking.room}</p>
                 </div>
               </div>
-              <button onClick={() => setNewBooking(null)} className="text-black/30 hover:text-black/60 transition-colors">
+              <button onClick={() => setNewBooking(null)} className="text-ink-tertiary hover:text-ink-secondary transition-colors">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M5 5l10 10M15 5L5 15" />
                 </svg>
@@ -709,17 +709,17 @@ export default function CalendarPage() {
                     onChange={(e) => setNewBookingForm({ ...newBookingForm, isBlackout: e.target.checked })}
                     className="w-4 h-4 accent-black"
                   />
-                  <span className="text-[13px] text-black/70">Block dates (no guest)</span>
+                  <span className="text-[13px] text-ink-body">Block dates (no guest)</span>
                 </label>
               </div>
 
               {/* Room Selection */}
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">Room *</label>
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">Room *</label>
                 <select
                   value={newBookingForm.room || newBooking.room}
                   onChange={(e) => setNewBookingForm({ ...newBookingForm, room: e.target.value })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                 >
                   <optgroup label="The Riad">
                     {RIAD_ROOMS.map(room => (
@@ -737,11 +737,11 @@ export default function CalendarPage() {
               {/* Booking Source (hidden for blackouts) */}
               {!newBookingForm.isBlackout && (
                 <div>
-                  <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">Booking Source *</label>
+                  <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">Booking Source *</label>
                   <select
                     value={newBookingForm.source}
                     onChange={(e) => setNewBookingForm({ ...newBookingForm, source: e.target.value })}
-                    className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                    className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                   >
                     <option value="Direct">Direct</option>
                     <option value="Booking.com">Booking.com</option>
@@ -754,22 +754,22 @@ export default function CalendarPage() {
               {!newBookingForm.isBlackout && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">First Name *</label>
+                    <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">First Name *</label>
                     <input
                       type="text"
                       value={newBookingForm.firstName}
                       onChange={(e) => setNewBookingForm({ ...newBookingForm, firstName: e.target.value })}
-                      className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                      className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                       placeholder="Guest first name"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">Last Name</label>
+                    <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">Last Name</label>
                     <input
                       type="text"
                       value={newBookingForm.lastName}
                       onChange={(e) => setNewBookingForm({ ...newBookingForm, lastName: e.target.value })}
-                      className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                      className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                       placeholder="Guest last name"
                     />
                   </div>
@@ -778,21 +778,21 @@ export default function CalendarPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">Check-in *</label>
+                  <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">Check-in *</label>
                   <input
                     type="date"
                     value={newBookingForm.checkIn}
                     onChange={(e) => setNewBookingForm({ ...newBookingForm, checkIn: e.target.value })}
-                    className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                    className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">Check-out *</label>
+                  <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">Check-out *</label>
                   <input
                     type="date"
                     value={newBookingForm.checkOut}
                     onChange={(e) => setNewBookingForm({ ...newBookingForm, checkOut: e.target.value })}
-                    className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                    className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                   />
                 </div>
               </div>
@@ -801,23 +801,23 @@ export default function CalendarPage() {
               {!newBookingForm.isBlackout && (
                 <>
                   <div>
-                    <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">Phone *</label>
+                    <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">Phone *</label>
                     <input
                       type="tel"
                       value={newBookingForm.phone}
                       onChange={(e) => setNewBookingForm({ ...newBookingForm, phone: e.target.value })}
-                      className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                      className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                       placeholder="+1 234 567 8900"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">Email</label>
+                    <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">Email</label>
                     <input
                       type="email"
                       value={newBookingForm.email}
                       onChange={(e) => setNewBookingForm({ ...newBookingForm, email: e.target.value })}
-                      className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                      className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                       placeholder="guest@email.com"
                     />
                   </div>
@@ -829,7 +829,7 @@ export default function CalendarPage() {
             <div className="px-5 pb-5 flex gap-3">
               <button 
                 onClick={() => setNewBooking(null)} 
-                className="flex-1 text-[11px] uppercase tracking-[0.08em] font-semibold border border-black rounded-lg py-3 hover:bg-black hover:text-white transition-colors"
+                className="flex-1 text-[11px] uppercase tracking-[0.08em] font-semibold border border-border rounded-lg py-3 hover:bg-accent hover:text-cream transition-colors"
               >
                 Cancel
               </button>
@@ -838,8 +838,8 @@ export default function CalendarPage() {
                 disabled={savingBooking || !newBookingForm.checkIn || !newBookingForm.checkOut || (!newBookingForm.isBlackout && (!newBookingForm.firstName || !newBookingForm.phone))}
                 className={`flex-1 text-[11px] uppercase tracking-[0.08em] font-semibold rounded-lg py-3 disabled:opacity-50 transition-colors ${
                   newBookingForm.isBlackout 
-                    ? 'bg-[#4a4a4a] text-white hover:bg-[#5a5a5a]' 
-                    : 'bg-black text-white hover:bg-black/80'
+                    ? 'bg-[#5C4F45] text-cream hover:bg-[#5a5a5a]' 
+                    : 'bg-accent text-cream hover:bg-accent-strong'
                 }`}
               >
                 {savingBooking ? "Saving..." : newBookingForm.isBlackout ? "Block Dates" : "Add Booking"}

@@ -33,11 +33,14 @@ export default function PasswordGate({ children }: PasswordGateProps) {
     }
   };
 
-  // Loading state
+  // Loading state — gentle pulse instead of spinner
   if (isAuthenticated === null) {
     return (
-      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-black/20 border-t-black/60 rounded-full animate-spin" />
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <div
+          className="w-2 h-2 rounded-full bg-accent"
+          style={{ animation: "breathe 2s cubic-bezier(0.22, 1, 0.36, 1) infinite" }}
+        />
       </div>
     );
   }
@@ -47,35 +50,35 @@ export default function PasswordGate({ children }: PasswordGateProps) {
     return <>{children}</>;
   }
 
-  // Password gate
+  // Password gate — warm, dreamy aesthetic
   return (
     <div className="min-h-screen relative flex items-center justify-center">
       {/* Blurred background image */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage: `url('https://res.cloudinary.com/drstfu5yr/image/upload/v1735000000/riad-di-siena/courtyard.jpg')`,
-          filter: "blur(20px)",
+          filter: "blur(20px) saturate(0.8)",
           transform: "scale(1.1)",
         }}
       />
-      
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50" />
-      
+
+      {/* Warm overlay */}
+      <div className="absolute inset-0 bg-[#2B2623]/55" />
+
       {/* Password form */}
-      <div className="relative z-10 w-full max-w-sm mx-4">
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
+      <div className="relative z-10 w-full max-w-sm mx-4 fade-rise">
+        <div className="bg-[#FBF9F4]/95 backdrop-blur-sm rounded-xl shadow-lg p-8">
           {/* Logo/Title */}
           <div className="text-center mb-8">
-            <h1 className="text-[22px] font-light text-black/80 tracking-wide">
+            <h1 className="font-serif text-[22px] font-normal text-ink-primary tracking-wide">
               Riad di Siena
             </h1>
-            <p className="text-[13px] text-black/40 mt-1">Operations Dashboard</p>
+            <p className="text-[13px] text-ink-tertiary mt-1.5">Operations</p>
           </div>
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+            <div className="mb-5">
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -84,12 +87,12 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                     setPassword(e.target.value);
                     setError(false);
                   }}
-                  placeholder="Enter password"
+                  placeholder="Password"
                   autoFocus
-                  className={`w-full px-4 py-3 pr-12 text-[14px] border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                    error 
-                      ? "border-red-300 focus:ring-red-200" 
-                      : "border-black/10 focus:ring-black/10 focus:border-black/30"
+                  className={`w-full px-4 py-3 pr-12 text-[14px] text-ink-primary bg-white border rounded-[10px] focus:outline-none focus:ring-2 transition-all duration-300 ease-gentle placeholder:text-ink-tertiary ${
+                    error
+                      ? "border-brick focus:ring-brick/20"
+                      : "border-border-subtle focus:ring-accent/15 focus:border-accent"
                   }`}
                 />
                 <button
@@ -99,17 +102,15 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                     e.preventDefault();
                     setShowPassword(!showPassword);
                   }}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 p-3 text-black/40 hover:text-black/60 active:text-black/80 transition-colors touch-manipulation"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 p-3 text-ink-tertiary hover:text-ink-secondary transition-colors duration-300 ease-gentle touch-manipulation"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
-                    /* Eye open - password visible */
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   ) : (
-                    /* Eye closed - password hidden */
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                     </svg>
@@ -117,13 +118,13 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                 </button>
               </div>
               {error && (
-                <p className="text-[12px] text-red-500 mt-2">Incorrect password</p>
+                <p className="text-[12px] text-brick mt-2">That doesn&apos;t seem right &mdash; mind trying again?</p>
               )}
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 bg-black text-white text-[13px] font-medium rounded-lg hover:bg-black/80 transition-colors"
+              className="w-full py-3 bg-accent text-cream text-[13px] font-medium rounded-[10px] hover:bg-accent-strong transition-all duration-300 ease-gentle shadow-sm hover:shadow-md active:translate-y-px"
             >
               Enter
             </button>

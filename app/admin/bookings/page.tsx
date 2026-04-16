@@ -105,9 +105,9 @@ const Icons = {
 };
 
 const statusColors: { [key: string]: string } = {
-  confirmed: "bg-emerald-50 text-emerald-700",
-  pending: "bg-amber-50 text-amber-700",
-  cancelled: "bg-red-50 text-red-700",
+  confirmed: "bg-sage/10 text-forest",
+  pending: "bg-gold/10 text-gold",
+  cancelled: "bg-brick/10 text-brick",
 };
 
 const propertyLabels: { [key: string]: string } = {
@@ -287,7 +287,7 @@ function BookingsContent() {
   const SortHeader = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
     <th
       onClick={() => handleSort(field)}
-      className="text-left p-4 text-[10px] uppercase tracking-[0.08em] text-black/40 font-semibold cursor-pointer hover:text-black select-none"
+      className="text-left p-4 text-[10px] uppercase tracking-[0.08em] text-ink-tertiary font-semibold cursor-pointer hover:text-ink-primary select-none"
     >
       <div className="flex items-center gap-1">
         {children}
@@ -303,9 +303,9 @@ function BookingsContent() {
   );
 
   return (
-    <div className="min-h-screen bg-[#fafafa]">
+    <div className="min-h-screen bg-cream">
       {/* Search Bar - Top */}
-      <div className="border-b border-black/[0.06] bg-black/[0.02] py-4 px-6">
+      <div className="border-b border-border-subtle bg-bone py-4 px-6">
         <div className="container mx-auto">
           <div className="flex flex-wrap gap-3 items-center">
             <div className="flex-1 min-w-[300px] relative">
@@ -314,10 +314,10 @@ function BookingsContent() {
                 placeholder="Search by name, email, booking ID, or room..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2.5 pl-10 rounded-lg border border-black/[0.06] bg-white text-[13px] focus:outline-none focus:border-black/20"
+                className="w-full px-4 py-2.5 pl-10 rounded-lg border border-border-subtle bg-white text-[13px] focus:outline-none focus:border-border"
               />
               <svg 
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40" 
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-tertiary" 
                 width="16" 
                 height="16" 
                 viewBox="0 0 16 16" 
@@ -332,7 +332,7 @@ function BookingsContent() {
             <select
               value={propertyFilter}
               onChange={(e) => setPropertyFilter(e.target.value)}
-              className="px-4 py-2.5 rounded-lg border border-black/[0.06] bg-white text-[13px] focus:outline-none focus:border-black/20 min-w-[150px]"
+              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-white text-[13px] focus:outline-none focus:border-border min-w-[150px]"
             >
               <option value="ALL">All Properties</option>
               <option value="riad">The Riad</option>
@@ -343,7 +343,7 @@ function BookingsContent() {
             <select
               value={sourceFilter}
               onChange={(e) => setSourceFilter(e.target.value)}
-              className="px-4 py-2.5 rounded-lg border border-black/[0.06] bg-white text-[13px] focus:outline-none focus:border-black/20 min-w-[140px]"
+              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-white text-[13px] focus:outline-none focus:border-border min-w-[140px]"
             >
               <option value="ALL">All Sources</option>
               <option value="paypal">PayPal</option>
@@ -355,7 +355,7 @@ function BookingsContent() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2.5 rounded-lg border border-black/[0.06] bg-white text-[13px] focus:outline-none focus:border-black/20 min-w-[130px]"
+              className="px-4 py-2.5 rounded-lg border border-border-subtle bg-white text-[13px] focus:outline-none focus:border-border min-w-[130px]"
             >
               <option value="ALL">All Status</option>
               <option value="COMPLETED">Confirmed</option>
@@ -366,25 +366,25 @@ function BookingsContent() {
       </div>
 
       {/* Header */}
-      <header className="border-b border-black/[0.06] py-5 px-6">
+      <header className="border-b border-border-subtle py-5 px-6">
         <div className="container mx-auto flex items-center justify-between">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.08em] text-black/40 mb-1">Admin</p>
-            <h1 className="font-serif text-[22px] text-black">All Bookings</h1>
-            <p className="text-[13px] text-black/50 mt-1">
+            <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Admin</p>
+            <h1 className="font-serif text-[22px] text-ink-primary">All Bookings</h1>
+            <p className="text-[13px] text-ink-secondary mt-1">
               {filteredAndSortedBookings.length} of {bookings.length} bookings
             </p>
           </div>
           <div className="flex items-center gap-3">
             <Link
               href="/admin/reservations/new"
-              className="text-[11px] uppercase tracking-[0.08em] font-semibold bg-black text-white px-4 py-2.5 rounded-lg hover:bg-black/90 transition-colors"
+              className="text-[11px] uppercase tracking-[0.08em] font-semibold bg-accent text-cream px-4 py-2.5 rounded-lg hover:bg-accent-strong transition-colors"
             >
               + Add Reservation
             </Link>
             <Link
               href="/admin"
-              className="text-[11px] uppercase tracking-[0.08em] font-semibold border border-black/15 px-4 py-2.5 rounded-lg hover:border-black/30 transition-colors"
+              className="text-[11px] uppercase tracking-[0.08em] font-semibold border border-border px-4 py-2.5 rounded-lg hover:border-border-strong transition-colors"
             >
               Back to Dashboard
             </Link>
@@ -395,17 +395,17 @@ function BookingsContent() {
       <main className="container mx-auto px-6 py-8">
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="w-8 h-8 border-2 border-black/10 border-t-black rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-border-subtle border-t-black rounded-full animate-spin" />
           </div>
         ) : bookings.length === 0 ? (
-          <div className="text-center py-20 text-[13px] text-black/40">
+          <div className="text-center py-20 text-[13px] text-ink-tertiary">
             No bookings found.
           </div>
         ) : (
-          <div className="bg-white rounded-lg border border-black/[0.06] overflow-hidden">
+          <div className="bg-white rounded-lg border border-border-subtle overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="border-b border-black/[0.06] bg-black/[0.02]">
+                <thead className="border-b border-border-subtle bg-bone">
                   <tr>
                     <SortHeader field="Source">Source</SortHeader>
                     <SortHeader field="Timestamp">Date</SortHeader>
@@ -415,36 +415,36 @@ function BookingsContent() {
                     <SortHeader field="Guests">Guests</SortHeader>
                     <SortHeader field="Total">Total</SortHeader>
                     <SortHeader field="Status">Status</SortHeader>
-                    <th className="text-right p-4 text-[10px] uppercase tracking-[0.08em] text-black/40 font-semibold">
+                    <th className="text-right p-4 text-[10px] uppercase tracking-[0.08em] text-ink-tertiary font-semibold">
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-black/[0.04]">
                   {filteredAndSortedBookings.map((booking) => (
-                    <tr key={booking.Booking_ID} className="hover:bg-black/[0.02] transition-colors">
+                    <tr key={booking.Booking_ID} className="hover:bg-bone transition-colors">
                       <td className="p-4">
                         <div className="flex items-center justify-center" title={sourceLabels[getBookingSource(booking)] || "Unknown"}>
                           {SourceIcons[getBookingSource(booking)] || SourceIcons.walkin}
                         </div>
                       </td>
-                      <td className="p-4 text-[13px] text-black/50">{formatDate(booking.Timestamp)}</td>
+                      <td className="p-4 text-[13px] text-ink-secondary">{formatDate(booking.Timestamp)}</td>
                       <td className="p-4">
-                        <p className="text-[13px] font-medium text-black">{booking.firstName} {booking.lastName}</p>
-                        <p className="text-[11px] text-black/40">{booking.email}</p>
+                        <p className="text-[13px] font-medium text-ink-primary">{booking.firstName} {booking.lastName}</p>
+                        <p className="text-[11px] text-ink-tertiary">{booking.email}</p>
                       </td>
                       <td className="p-4">
-                        <p className="text-[13px] text-black">{getPropertyLabel(booking)}</p>
-                        <p className="text-[11px] text-black/40">{getRoomName(booking)}</p>
+                        <p className="text-[13px] text-ink-primary">{getPropertyLabel(booking)}</p>
+                        <p className="text-[11px] text-ink-tertiary">{getRoomName(booking)}</p>
                       </td>
-                      <td className="p-4 text-[13px] text-black">
+                      <td className="p-4 text-[13px] text-ink-primary">
                         {formatDate(booking.checkIn || "")}
-                        {booking.nights && <span className="text-black/40"> ({booking.nights}n)</span>}
+                        {booking.nights && <span className="text-ink-tertiary"> ({booking.nights}n)</span>}
                       </td>
-                      <td className="p-4 text-[13px] text-black">{booking.guests}</td>
-                      <td className="p-4 text-[13px] font-medium text-black">€{booking.total}</td>
+                      <td className="p-4 text-[13px] text-ink-primary">{booking.guests}</td>
+                      <td className="p-4 text-[13px] font-medium text-ink-primary">€{booking.total}</td>
                       <td className="p-4">
-                        <span className={`text-[10px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full ${statusColors[booking.status || "pending"] || "bg-gray-100 text-gray-700"}`}>
+                        <span className={`text-[10px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full ${statusColors[booking.status || "pending"] || "bg-linen text-ink-body"}`}>
                           {booking.status || "pending"}
                         </span>
                       </td>
@@ -452,14 +452,14 @@ function BookingsContent() {
                         <div className="inline-flex items-center gap-1">
                           <button
                             onClick={() => setSelectedBooking(booking)}
-                            className="p-2 text-black/40 hover:text-black hover:bg-black/[0.04] rounded-lg transition-colors"
+                            className="p-2 text-ink-tertiary hover:text-ink-primary hover:bg-parchment rounded-lg transition-colors"
                             title="View Details"
                           >
                             {Icons.view}
                           </button>
                           <a
                             href={`mailto:${booking.email}`}
-                            className="p-2 text-black/40 hover:text-black hover:bg-black/[0.04] rounded-lg transition-colors"
+                            className="p-2 text-ink-tertiary hover:text-ink-primary hover:bg-parchment rounded-lg transition-colors"
                             title="Email Guest"
                           >
                             {Icons.email}
@@ -478,13 +478,13 @@ function BookingsContent() {
       {/* Detail Modal */}
       {selectedBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setSelectedBooking(null)} />
+          <div className="absolute inset-0 bg-[#2B2623]/40" onClick={() => setSelectedBooking(null)} />
           <div className="relative bg-white rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-black/[0.06] p-5 flex items-center justify-between rounded-t-lg">
-              <h2 className="font-serif text-[18px] text-black">Booking Details</h2>
+            <div className="sticky top-0 bg-white border-b border-border-subtle p-5 flex items-center justify-between rounded-t-lg">
+              <h2 className="font-serif text-[18px] text-ink-primary">Booking Details</h2>
               <button 
                 onClick={() => setSelectedBooking(null)}
-                className="text-black/30 hover:text-black/60 transition-colors"
+                className="text-ink-tertiary hover:text-ink-secondary transition-colors"
               >
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <line x1="4" y1="4" x2="16" y2="16" />
@@ -494,115 +494,115 @@ function BookingsContent() {
             </div>
             <div className="p-5 space-y-5">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Booking ID</p>
-                <p className="font-mono text-[13px] text-black">{selectedBooking.Booking_ID}</p>
+                <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Booking ID</p>
+                <p className="font-mono text-[13px] text-ink-primary">{selectedBooking.Booking_ID}</p>
               </div>
               <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Source</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Source</p>
                   <div className="flex items-center gap-2">
                     {SourceIcons[getBookingSource(selectedBooking)] || SourceIcons.walkin}
-                    <span className="text-[13px] text-black">{sourceLabels[getBookingSource(selectedBooking)] || "Unknown"}</span>
+                    <span className="text-[13px] text-ink-primary">{sourceLabels[getBookingSource(selectedBooking)] || "Unknown"}</span>
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Date</p>
-                  <p className="text-[13px] text-black">{formatDate(selectedBooking.Timestamp)}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Date</p>
+                  <p className="text-[13px] text-ink-primary">{formatDate(selectedBooking.Timestamp)}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Guest</p>
-                  <p className="text-[15px] font-medium text-black">{selectedBooking.firstName} {selectedBooking.lastName}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Guest</p>
+                  <p className="text-[15px] font-medium text-ink-primary">{selectedBooking.firstName} {selectedBooking.lastName}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Email</p>
-                  <p className="text-[13px] text-black">{selectedBooking.email}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Email</p>
+                  <p className="text-[13px] text-ink-primary">{selectedBooking.email}</p>
                 </div>
               </div>
               {selectedBooking.phone && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Phone</p>
-                  <p className="text-[13px] text-black">{selectedBooking.phone}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Phone</p>
+                  <p className="text-[13px] text-ink-primary">{selectedBooking.phone}</p>
                 </div>
               )}
               <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Property</p>
-                  <p className="text-[13px] text-black">{getPropertyLabel(selectedBooking)}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Property</p>
+                  <p className="text-[13px] text-ink-primary">{getPropertyLabel(selectedBooking)}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Room/Tent</p>
-                  <p className="text-[13px] text-black">{getRoomName(selectedBooking)}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Room/Tent</p>
+                  <p className="text-[13px] text-ink-primary">{getRoomName(selectedBooking)}</p>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-5">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Check-in</p>
-                  <p className="text-[13px] text-black">{formatDate(selectedBooking.checkIn || "")}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Check-in</p>
+                  <p className="text-[13px] text-ink-primary">{formatDate(selectedBooking.checkIn || "")}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Check-out</p>
-                  <p className="text-[13px] text-black">{formatDate(selectedBooking.checkOut || "")}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Check-out</p>
+                  <p className="text-[13px] text-ink-primary">{formatDate(selectedBooking.checkOut || "")}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Nights</p>
-                  <p className="text-[13px] text-black">{selectedBooking.nights || "—"}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Nights</p>
+                  <p className="text-[13px] text-ink-primary">{selectedBooking.nights || "—"}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Guests</p>
-                  <p className="text-[13px] text-black">
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Guests</p>
+                  <p className="text-[13px] text-ink-primary">
                     {selectedBooking.adults} adult{parseInt(selectedBooking.adults) !== 1 ? "s" : ""}
                     {parseInt(selectedBooking.children) > 0 && `, ${selectedBooking.children} child${parseInt(selectedBooking.children) !== 1 ? "ren" : ""}`}
                   </p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Total</p>
-                  <p className="text-[18px] font-serif text-black">€{selectedBooking.total}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Total</p>
+                  <p className="text-[18px] font-serif text-ink-primary">€{selectedBooking.total}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Status</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Status</p>
                   <span className={`text-[10px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full ${statusColors[selectedBooking.status || "pending"]}`}>
                     {selectedBooking.status || "pending"}
                   </span>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Source</p>
-                  <p className="text-[13px] capitalize text-black">{selectedBooking.source}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Source</p>
+                  <p className="text-[13px] capitalize text-ink-primary">{selectedBooking.source}</p>
                 </div>
               </div>
               {selectedBooking.country && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Country</p>
-                  <p className="text-[13px] text-black">{selectedBooking.country}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Country</p>
+                  <p className="text-[13px] text-ink-primary">{selectedBooking.country}</p>
                 </div>
               )}
               {selectedBooking.arrivalTimeStated && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Arrival Time</p>
-                  <p className="text-[13px] text-black">{selectedBooking.arrivalTimeStated}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Arrival Time</p>
+                  <p className="text-[13px] text-ink-primary">{selectedBooking.arrivalTimeStated}</p>
                 </div>
               )}
               {selectedBooking.specialRequests && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Special Requests</p>
-                  <p className="text-[13px] text-black/60">{selectedBooking.specialRequests}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Special Requests</p>
+                  <p className="text-[13px] text-ink-secondary">{selectedBooking.specialRequests}</p>
                 </div>
               )}
               {selectedBooking.notes && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] text-black/40 mb-1">Notes</p>
-                  <p className="text-[13px] text-black/60">{selectedBooking.notes}</p>
+                  <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Notes</p>
+                  <p className="text-[13px] text-ink-secondary">{selectedBooking.notes}</p>
                 </div>
               )}
-              <div className="pt-4 border-t border-black/[0.06]">
+              <div className="pt-4 border-t border-border-subtle">
                 <a
                   href={`mailto:${selectedBooking.email}`}
-                  className="block w-full text-center text-[11px] uppercase tracking-[0.08em] font-semibold border border-black text-black px-4 py-3 rounded-lg hover:bg-black hover:text-white transition-colors"
+                  className="block w-full text-center text-[11px] uppercase tracking-[0.08em] font-semibold border border-border text-ink-primary px-4 py-3 rounded-lg hover:bg-accent hover:text-cream transition-colors"
                 >
                   Email Guest
                 </a>

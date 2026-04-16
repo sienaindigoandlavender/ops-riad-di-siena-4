@@ -58,20 +58,20 @@ function ChannelBadge({ channel }: { channel: string }) {
   
   if (ch.includes("booking")) {
     return (
-      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide bg-blue-100 text-blue-700">
+      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide bg-dusty/15 text-dusty">
         BOOKING
       </span>
     );
   }
   if (ch.includes("airbnb")) {
     return (
-      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide bg-pink-100 text-pink-700">
+      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide bg-rose/15 text-rose">
         AIRBNB
       </span>
     );
   }
   return (
-    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide bg-emerald-100 text-emerald-700">
+    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide bg-sage/20 text-forest">
       DIRECT
     </span>
   );
@@ -151,15 +151,15 @@ function GuestCard({
   const taxPaid = !!guest.city_tax_paid;
 
   return (
-    <div className="bg-white border border-black/[0.06] rounded-lg p-4 space-y-3">
+    <div className="bg-white border border-border-subtle rounded-lg p-4 space-y-3">
       {/* Header row */}
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <p className="font-medium text-[15px] text-black/90">{guest.guest_name}</p>
+            <p className="font-medium text-[15px] text-ink-primary">{guest.guest_name}</p>
             <ChannelBadge channel={guest.channel} />
           </div>
-          <p className="text-black/50 text-[13px] mt-1">
+          <p className="text-ink-secondary text-[13px] mt-1">
             {guest.room && `${guest.room} · `}
             {guest.property}
           </p>
@@ -172,7 +172,7 @@ function GuestCard({
                     href={`https://wa.me/${guest.phone.replace(/[^0-9]/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-green-100 text-green-700 hover:bg-green-200 font-medium"
+                    className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-sage/20 text-forest hover:bg-sage/30 font-medium"
                   >
                     <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -181,7 +181,7 @@ function GuestCard({
                   </a>
                   <a
                     href={`tel:${guest.phone}`}
-                    className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-black/5 text-black/60 hover:bg-black/10 font-medium"
+                    className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-parchment text-ink-secondary hover:bg-linen font-medium"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -191,7 +191,7 @@ function GuestCard({
                   {isCheckIn && (
                     <button
                       onClick={() => sendDirectionsWhatsApp(guest)}
-                      className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 font-medium"
+                      className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-dusty/15 text-dusty hover:bg-dusty/25 font-medium"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -205,7 +205,7 @@ function GuestCard({
               {guest.email && (
                 <a
                   href={`mailto:${guest.email}`}
-                  className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-black/5 text-black/60 hover:bg-black/10 font-medium"
+                  className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-parchment text-ink-secondary hover:bg-linen font-medium"
                 >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -222,8 +222,8 @@ function GuestCard({
           <>
             {guest.arrival_time ? (
               <div className="text-right">
-                <p className="font-semibold text-[22px] text-emerald-600">{guest.arrival_time}</p>
-                <p className="text-[10px] uppercase tracking-wide text-black/40 mt-0.5">Arrival</p>
+                <p className="font-semibold text-[22px] text-sage">{guest.arrival_time}</p>
+                <p className="text-[10px] uppercase tracking-wide text-ink-tertiary mt-0.5">Arrival</p>
               </div>
             ) : (
               <div className="text-right">
@@ -233,19 +233,19 @@ function GuestCard({
                       type="time"
                       value={manualTime}
                       onChange={(e) => setManualTime(e.target.value)}
-                      className="w-24 px-2 py-1 text-sm border border-black/20 rounded"
+                      className="w-24 px-2 py-1 text-sm border border-border rounded"
                     />
                     <div className="flex gap-1.5 justify-end">
                       <button
                         onClick={() => saveManualTime(guest)}
                         disabled={saving || !manualTime}
-                        className="text-[11px] px-2 py-1 bg-emerald-600 text-white rounded disabled:opacity-50"
+                        className="text-[11px] px-2 py-1 bg-sage text-cream rounded disabled:opacity-50"
                       >
                         {saving ? "..." : "Save"}
                       </button>
                       <button
                         onClick={() => setActiveGuestId(null)}
-                        className="text-[11px] px-2 py-1 bg-black/5 text-black/60 rounded"
+                        className="text-[11px] px-2 py-1 bg-parchment text-ink-secondary rounded"
                       >
                         Cancel
                       </button>
@@ -253,19 +253,19 @@ function GuestCard({
                   </div>
                 ) : (
                   <div className="space-y-1.5">
-                    <p className="text-amber-600 text-[11px] font-medium">No arrival time</p>
+                    <p className="text-gold text-[11px] font-medium">No arrival time</p>
                     <div className="flex flex-col gap-1">
                       {guest.phone && (
                         <div className="flex gap-1">
                           <button
                             onClick={() => sendArrivalWhatsApp(guest)}
-                            className="text-[10px] px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
+                            className="text-[10px] px-2 py-1 bg-sage/20 text-forest rounded hover:bg-sage/30"
                           >
                             Send Form
                           </button>
                           <button
                             onClick={() => copyArrivalLink(guest)}
-                            className="text-[10px] px-2 py-1 bg-black/5 text-black/60 rounded hover:bg-black/10"
+                            className="text-[10px] px-2 py-1 bg-parchment text-ink-secondary rounded hover:bg-linen"
                           >
                             {copiedId === guest.booking_id ? "Copied!" : "Copy Link"}
                           </button>
@@ -276,7 +276,7 @@ function GuestCard({
                           setActiveGuestId(guest.booking_id);
                           setManualTime("");
                         }}
-                        className="text-[10px] px-2 py-1 bg-black/5 text-black/60 rounded hover:bg-black/10"
+                        className="text-[10px] px-2 py-1 bg-parchment text-ink-secondary rounded hover:bg-linen"
                       >
                         Enter Time
                       </button>
@@ -290,29 +290,29 @@ function GuestCard({
       </div>
 
       {/* Stay info */}
-      <div className="grid grid-cols-3 gap-3 py-2 border-t border-black/[0.06]">
+      <div className="grid grid-cols-3 gap-3 py-2 border-t border-border-subtle">
         <div>
-          <p className="text-[10px] uppercase tracking-wide text-black/40">Nights</p>
+          <p className="text-[10px] uppercase tracking-wide text-ink-tertiary">Nights</p>
           <p className="text-[14px] font-medium">{guest.nights}</p>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-wide text-black/40">Guests</p>
+          <p className="text-[10px] uppercase tracking-wide text-ink-tertiary">Guests</p>
           <p className="text-[14px] font-medium">{guest.guests}</p>
         </div>
         {cityTax !== null && (
           <div>
-            <p className="text-[10px] uppercase tracking-wide text-black/40">City Tax</p>
+            <p className="text-[10px] uppercase tracking-wide text-ink-tertiary">City Tax</p>
             <div className="flex items-center gap-2">
               <p className="text-[14px] font-medium">€{cityTax.toFixed(2)}</p>
               {taxPaid ? (
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-green-100 text-green-700 font-medium">
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-sage/20 text-forest font-medium">
                   PAID
                 </span>
               ) : (
                 <button
                   onClick={() => markTaxPaid(guest)}
                   disabled={isMarkingTax}
-                  className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded bg-amber-100 text-amber-700 hover:bg-amber-200 font-medium transition-colors disabled:opacity-50"
+                  className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded bg-gold/20 text-gold hover:bg-gold/25 font-medium transition-colors disabled:opacity-50"
                 >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -326,7 +326,7 @@ function GuestCard({
       </div>
 
       {/* Dates row */}
-      <div className="flex gap-4 text-[12px] text-black/50">
+      <div className="flex gap-4 text-[12px] text-ink-secondary">
         <span>In: {guest.check_in?.split("T")[0]}</span>
         <span>Out: {guest.check_out?.split("T")[0]}</span>
       </div>
@@ -336,7 +336,7 @@ function GuestCard({
         <div className="pt-2">
           <button
             onClick={() => onOpenPoliceForm(guest)}
-            className="inline-flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-medium transition-colors"
+            className="inline-flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full bg-dusty/15 text-dusty hover:bg-dusty/25 font-medium transition-colors"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -348,21 +348,21 @@ function GuestCard({
 
       {/* Special requests */}
       {guest.special_requests && (
-        <div className="pt-2 border-t border-black/[0.06]">
-          <p className="text-[10px] uppercase tracking-wide text-black/40 mb-1">Guest Requests</p>
-          <p className="text-[13px] text-black/70">{guest.special_requests}</p>
+        <div className="pt-2 border-t border-border-subtle">
+          <p className="text-[10px] uppercase tracking-wide text-ink-tertiary mb-1">Guest Requests</p>
+          <p className="text-[13px] text-ink-body">{guest.special_requests}</p>
         </div>
       )}
 
       {/* Staff notes */}
-      <div className="pt-2 border-t border-black/[0.06]">
+      <div className="pt-2 border-t border-border-subtle">
         {isEditing ? (
           <div className="space-y-2">
             <textarea
               value={notesText}
               onChange={(e) => setNotesText(e.target.value)}
               placeholder="Add internal notes..."
-              className="w-full px-3 py-2 text-[13px] border border-black/20 rounded resize-none"
+              className="w-full px-3 py-2 text-[13px] border border-border rounded resize-none"
               rows={2}
               autoFocus
             />
@@ -370,13 +370,13 @@ function GuestCard({
               <button
                 onClick={() => saveNotes(guest)}
                 disabled={savingNotes}
-                className="text-[11px] px-3 py-1.5 bg-black text-white rounded hover:bg-black/80 disabled:opacity-50"
+                className="text-[11px] px-3 py-1.5 bg-accent text-cream rounded hover:bg-accent-strong disabled:opacity-50"
               >
                 {savingNotes ? "Saving..." : "Save Note"}
               </button>
               <button
                 onClick={() => setEditingNotesId(null)}
-                className="text-[11px] px-3 py-1.5 bg-black/5 text-black/60 rounded hover:bg-black/10"
+                className="text-[11px] px-3 py-1.5 bg-parchment text-ink-secondary rounded hover:bg-linen"
               >
                 Cancel
               </button>
@@ -385,15 +385,15 @@ function GuestCard({
         ) : guest.notes ? (
           <div>
             <div className="flex items-center justify-between mb-1">
-              <p className="text-[10px] uppercase tracking-wide text-black/40">Staff Notes</p>
+              <p className="text-[10px] uppercase tracking-wide text-ink-tertiary">Staff Notes</p>
               <button
                 onClick={() => { setEditingNotesId(guest.booking_id); setNotesText(guest.notes); }}
-                className="text-[10px] text-black/40 hover:text-black/60"
+                className="text-[10px] text-ink-tertiary hover:text-ink-secondary"
               >
                 Edit
               </button>
             </div>
-            <p className="text-[13px] text-black/70 whitespace-pre-wrap">{guest.notes}</p>
+            <p className="text-[13px] text-ink-body whitespace-pre-wrap">{guest.notes}</p>
           </div>
         ) : (
           <button
@@ -418,28 +418,28 @@ function SearchResultCard({ guest, onSelect }: { guest: GuestSummary; onSelect: 
   return (
     <button
       onClick={() => onSelect(checkInDate)}
-      className="w-full text-left bg-white border border-black/[0.06] rounded-lg p-3 hover:border-black/20 transition-colors"
+      className="w-full text-left bg-white border border-border-subtle rounded-lg p-3 hover:border-border transition-colors"
     >
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <p className="font-medium text-[14px] text-black/90">{guest.guest_name}</p>
+            <p className="font-medium text-[14px] text-ink-primary">{guest.guest_name}</p>
             <ChannelBadge channel={guest.channel} />
           </div>
-          <p className="text-black/50 text-[12px] mt-0.5">
+          <p className="text-ink-secondary text-[12px] mt-0.5">
             {guest.room && `${guest.room} · `}
             {guest.property}
           </p>
         </div>
         <div className="text-right">
-          <p className="text-[11px] text-black/50">Check-in</p>
+          <p className="text-[11px] text-ink-secondary">Check-in</p>
           <p className="text-[13px] font-medium">{checkInDate}</p>
         </div>
       </div>
-      <div className="flex gap-4 text-[11px] text-black/40 mt-2">
+      <div className="flex gap-4 text-[11px] text-ink-tertiary mt-2">
         <span>{guest.nights} nights</span>
         <span>{guest.guests} guests</span>
-        <span className="text-black/30">ID: {guest.booking_id}</span>
+        <span className="text-ink-tertiary">ID: {guest.booking_id}</span>
       </div>
     </button>
   );
@@ -841,8 +841,8 @@ See you soon!
   // Error state
   if (error && !data) {
     return (
-      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center p-6">
-        <p className="text-red-600 text-[13px]">{error}</p>
+      <div className="min-h-screen bg-cream flex items-center justify-center p-6">
+        <p className="text-brick text-[13px]">{error}</p>
       </div>
     );
   }
@@ -850,23 +850,23 @@ See you soon!
   // Loading state
   if (!data) {
     return (
-      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
-        <p className="text-black/40 text-[13px]">Loading...</p>
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <p className="text-ink-tertiary text-[13px]">Loading...</p>
       </div>
     );
   }
 
   return (
     <PasswordGate>
-    <div className="min-h-screen bg-[#fafafa] pb-16">
+    <div className="min-h-screen bg-cream pb-16">
       {/* Header */}
-      <div className="bg-white border-b border-black/[0.06] px-6 py-5">
+      <div className="bg-white border-b border-border-subtle px-6 py-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-4">
-            <p className="text-[11px] uppercase tracking-[0.08em] text-black/35">Riad di Siena</p>
-            <nav className="flex items-center gap-4 ml-4 pl-4 border-l border-black/10">
-              <Link href="/admin" className="text-[11px] text-black/40 hover:text-black transition-colors">Admin</Link>
-              <Link href="/insights" className="text-[11px] text-black/40 hover:text-black transition-colors">Insights</Link>
+            <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary">Riad di Siena</p>
+            <nav className="flex items-center gap-4 ml-4 pl-4 border-l border-border-subtle">
+              <Link href="/admin" className="text-[11px] text-ink-tertiary hover:text-ink-primary transition-colors">Admin</Link>
+              <Link href="/insights" className="text-[11px] text-ink-tertiary hover:text-ink-primary transition-colors">Insights</Link>
             </nav>
           </div>
           
@@ -874,16 +874,16 @@ See you soon!
           <div className="relative" ref={searchRef}>
             <button
               onClick={() => setShowSearch(!showSearch)}
-              className="w-9 h-9 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center transition-colors"
+              className="w-9 h-9 rounded-full bg-parchment hover:bg-linen flex items-center justify-center transition-colors"
             >
-              <svg className="w-4 h-4 text-black/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
 
             {/* Search dropdown - Riad brand design */}
             {showSearch && (
-              <div className="absolute right-0 top-12 w-80 bg-sand shadow-2xl z-50 overflow-hidden">
+              <div className="absolute right-0 top-12 w-80 bg-sand shadow-lg z-50 overflow-hidden">
                 <div className="p-6">
                   <label className="block text-[10px] tracking-wider uppercase text-foreground/40 mb-2">
                     Search guests
@@ -932,8 +932,8 @@ See you soon!
               onTouchEnd={(e) => { e.preventDefault(); handlePrevious(); }}
               className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors ${
                 canGoPrevious 
-                  ? 'border-black/20 hover:border-black/40 cursor-pointer' 
-                  : 'border-black/10 cursor-not-allowed opacity-30'
+                  ? 'border-border hover:border-border-strong cursor-pointer' 
+                  : 'border-border-subtle cursor-not-allowed opacity-30'
               }`}
               style={{ WebkitTapHighlightColor: 'transparent' }}
             >
@@ -954,11 +954,11 @@ See you soon!
               className="inline-block hover:opacity-70 transition-opacity"
             >
               {isToday(selectedDate) ? (
-                <p className="font-serif text-[22px] text-black/90">Today</p>
+                <p className="font-serif text-[22px] text-ink-primary">Today</p>
               ) : (
-                <p className="font-serif text-[22px] text-black/90">{formatShortDate(selectedDate)}</p>
+                <p className="font-serif text-[22px] text-ink-primary">{formatShortDate(selectedDate)}</p>
               )}
-              <p className="text-[11px] text-black/40 mt-1 flex items-center justify-center gap-1">
+              <p className="text-[11px] text-ink-tertiary mt-1 flex items-center justify-center gap-1">
                 {formatDate(selectedDate)}
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -970,7 +970,7 @@ See you soon!
               <button
                 type="button"
                 onClick={handleToday}
-                className="text-[11px] text-black/40 hover:text-black/60 underline mt-1"
+                className="text-[11px] text-ink-tertiary hover:text-ink-secondary underline mt-1"
               >
                 Back to today
               </button>
@@ -978,7 +978,7 @@ See you soon!
 
             {/* Calendar dropdown - Riad brand design */}
             {showCalendar && (
-              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-sand shadow-2xl z-50 p-6 w-[320px]">
+              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-sand shadow-lg z-50 p-6 w-[320px]">
                 {/* Month navigation */}
                 <div className="flex items-center justify-between mb-6">
                   <button
@@ -1072,7 +1072,7 @@ See you soon!
               type="button"
               onClick={handleNext}
               onTouchEnd={(e) => { e.preventDefault(); handleNext(); }}
-              className="w-12 h-12 rounded-full border-2 border-black/20 hover:border-black/40 flex items-center justify-center transition-colors"
+              className="w-12 h-12 rounded-full border-2 border-border hover:border-border-strong flex items-center justify-center transition-colors"
               style={{ WebkitTapHighlightColor: 'transparent', display: 'inline-flex' }}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -1086,7 +1086,7 @@ See you soon!
       {/* Loading overlay */}
       {loading && (
         <div className="fixed inset-0 bg-white/50 flex items-center justify-center z-30">
-          <div className="w-6 h-6 border-2 border-black/10 border-t-black rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-border-subtle border-t-black rounded-full animate-spin" />
         </div>
       )}
 
@@ -1094,17 +1094,17 @@ See you soon!
         {/* Check-ins */}
         <section>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
-              <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-8 h-8 rounded-full bg-sage/20 flex items-center justify-center">
+              <svg className="w-4 h-4 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14" />
               </svg>
             </div>
-            <h2 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-black/50">Arrivals</h2>
-            <span className="ml-auto font-serif text-[28px] text-black/90">{data.checkIns.length}</span>
+            <h2 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-secondary">Arrivals</h2>
+            <span className="ml-auto font-serif text-[28px] text-ink-primary">{data.checkIns.length}</span>
           </div>
 
           {data.checkIns.length === 0 ? (
-            <p className="text-black/35 text-[13px] py-4">No arrivals today</p>
+            <p className="text-ink-tertiary text-[13px] py-4">No arrivals today</p>
           ) : (
             <div className="space-y-3">
               {data.checkIns.map((guest) => (
@@ -1140,17 +1140,17 @@ See you soon!
         {/* Check-outs */}
         <section>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
-              <svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
+              <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </div>
-            <h2 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-black/50">Departures</h2>
-            <span className="ml-auto font-serif text-[28px] text-black/90">{data.checkOuts.length}</span>
+            <h2 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-secondary">Departures</h2>
+            <span className="ml-auto font-serif text-[28px] text-ink-primary">{data.checkOuts.length}</span>
           </div>
 
           {data.checkOuts.length === 0 ? (
-            <p className="text-black/35 text-[13px] py-4">No departures today</p>
+            <p className="text-ink-tertiary text-[13px] py-4">No departures today</p>
           ) : (
             <div className="space-y-3">
               {data.checkOuts.map((guest) => (
@@ -1185,23 +1185,23 @@ See you soon!
       </div>
 
       {/* Footer - City Tax Summary */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-black/[0.06] px-6 py-3">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border-subtle px-6 py-3">
         <div className="max-w-lg mx-auto">
           {taxStats && (
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-wide text-black/40 font-medium">City Tax</span>
+              <span className="text-[10px] uppercase tracking-wide text-ink-tertiary font-medium">City Tax</span>
               <div className="flex items-center gap-4">
                 <div className="text-center">
-                  <p className="text-[10px] uppercase tracking-wide text-black/40">Monthly</p>
-                  <p className="text-[15px] font-medium text-black/80">€{taxStats.monthly.total.toFixed(0)}</p>
+                  <p className="text-[10px] uppercase tracking-wide text-ink-tertiary">Monthly</p>
+                  <p className="text-[15px] font-medium text-ink-primary">€{taxStats.monthly.total.toFixed(0)}</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-[10px] uppercase tracking-wide text-emerald-600">Paid</p>
-                  <p className="text-[15px] font-medium text-emerald-600">€{taxStats.monthly.paid.toFixed(0)}</p>
+                  <p className="text-[10px] uppercase tracking-wide text-sage">Paid</p>
+                  <p className="text-[15px] font-medium text-sage">€{taxStats.monthly.paid.toFixed(0)}</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-[10px] uppercase tracking-wide text-amber-600">Balance</p>
-                  <p className="text-[15px] font-medium text-amber-600">€{taxStats.monthly.unpaid.toFixed(0)}</p>
+                  <p className="text-[10px] uppercase tracking-wide text-gold">Balance</p>
+                  <p className="text-[15px] font-medium text-gold">€{taxStats.monthly.unpaid.toFixed(0)}</p>
                 </div>
               </div>
             </div>

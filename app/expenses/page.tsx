@@ -323,7 +323,7 @@ export default function ExpensesPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#faf9f7] flex items-center justify-center">
-        <div className="animate-pulse text-stone-500">Loading expenses...</div>
+        <div className="animate-pulse text-ink-secondary">Loading expenses...</div>
       </div>
     );
   }
@@ -331,21 +331,21 @@ export default function ExpensesPage() {
   return (
     <div className="min-h-screen bg-[#faf9f7]">
       {/* Header */}
-      <header className="bg-white border-b border-stone-200">
+      <header className="bg-white border-b border-border-subtle">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <Link href="/admin" className="text-[11px] uppercase tracking-[0.1em] text-stone-400 hover:text-stone-600">
+              <Link href="/admin" className="text-[11px] uppercase tracking-[0.1em] text-ink-tertiary hover:text-ink-secondary">
                 ← Back to Admin
               </Link>
-              <h1 className="text-[28px] font-serif text-stone-800 mt-1">Expenses</h1>
+              <h1 className="text-[28px] font-serif text-ink-primary mt-1">Expenses</h1>
             </div>
             
             {/* Action Buttons */}
             <div className="flex items-center gap-3">
               <Link
                 href="/petty-cash"
-                className="px-3 py-1.5 text-[12px] text-stone-500 hover:text-stone-700 border border-stone-200 rounded hover:border-stone-300 transition-colors"
+                className="px-3 py-1.5 text-[12px] text-ink-secondary hover:text-ink-body border border-border-subtle rounded hover:border-border transition-colors"
               >
                 Petty Cash
               </Link>
@@ -353,13 +353,13 @@ export default function ExpensesPage() {
                 href={`${SHEET_URL}#gid=expenses`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-1.5 text-[12px] text-stone-500 hover:text-stone-700 border border-stone-200 rounded hover:border-stone-300 transition-colors"
+                className="px-3 py-1.5 text-[12px] text-ink-secondary hover:text-ink-body border border-border-subtle rounded hover:border-border transition-colors"
               >
                 View Sheet →
               </a>
               
               <div className="relative group">
-                <button className="px-3 py-1.5 text-[12px] text-stone-600 bg-stone-100 hover:bg-stone-200 rounded transition-colors flex items-center gap-1.5">
+                <button className="px-3 py-1.5 text-[12px] text-ink-secondary bg-linen hover:bg-linen rounded transition-colors flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
@@ -367,20 +367,20 @@ export default function ExpensesPage() {
                 </button>
                 
                 {/* Dropdown */}
-                <div className="absolute right-0 mt-1 w-48 bg-white border border-stone-200 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                <div className="absolute right-0 mt-1 w-48 bg-white border border-border-subtle rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                   <button
                     onClick={() => generatePDF(false)}
-                    className="w-full text-left px-4 py-2.5 text-[13px] text-stone-700 hover:bg-stone-50 border-b border-stone-100"
+                    className="w-full text-left px-4 py-2.5 text-[13px] text-ink-body hover:bg-parchment border-b border-border-subtle"
                   >
                     <span className="font-medium">Full Report</span>
-                    <span className="block text-[11px] text-stone-400 mt-0.5">All categories (for you)</span>
+                    <span className="block text-[11px] text-ink-tertiary mt-0.5">All categories (for you)</span>
                   </button>
                   <button
                     onClick={() => generatePDF(true)}
-                    className="w-full text-left px-4 py-2.5 text-[13px] text-stone-700 hover:bg-stone-50"
+                    className="w-full text-left px-4 py-2.5 text-[13px] text-ink-body hover:bg-parchment"
                   >
                     <span className="font-medium">Operations Report</span>
-                    <span className="block text-[11px] text-stone-400 mt-0.5">For Zahra & Mouad</span>
+                    <span className="block text-[11px] text-ink-tertiary mt-0.5">For Zahra & Mouad</span>
                   </button>
                 </div>
               </div>
@@ -388,10 +388,10 @@ export default function ExpensesPage() {
           </div>
           
           {/* Total display */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-stone-100">
-            <p className="text-[11px] uppercase tracking-[0.08em] text-stone-500">{summary?.count} expenses</p>
-            <p className="text-[24px] font-serif text-stone-700">
-              {summary?.total.toLocaleString()} <span className="text-[14px] text-stone-400">DH</span>
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-subtle">
+            <p className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary">{summary?.count} expenses</p>
+            <p className="text-[24px] font-serif text-ink-body">
+              {summary?.total.toLocaleString()} <span className="text-[14px] text-ink-tertiary">DH</span>
             </p>
           </div>
         </div>
@@ -402,39 +402,39 @@ export default function ExpensesPage() {
           
           {/* Add Expense Form */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg border border-stone-200 p-6">
-              <h2 className="text-[14px] font-medium text-stone-800 mb-4">Add Expense</h2>
+            <div className="bg-white rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[14px] font-medium text-ink-primary mb-4">Add Expense</h2>
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-[0.08em] text-stone-500 mb-1">Date</label>
+                  <label className="block text-[11px] uppercase tracking-[0.08em] text-ink-secondary mb-1">Date</label>
                   <input
                     type="date"
                     value={formDate}
                     onChange={(e) => setFormDate(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded text-[14px] focus:outline-none focus:border-stone-400"
+                    className="w-full px-3 py-2 border border-border-subtle rounded text-[14px] focus:outline-none focus:border-border-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-[0.08em] text-stone-500 mb-1">Description</label>
+                  <label className="block text-[11px] uppercase tracking-[0.08em] text-ink-secondary mb-1">Description</label>
                   <input
                     type="text"
                     value={formDescription}
                     onChange={(e) => setFormDescription(e.target.value)}
                     placeholder="e.g., Electricity bill January"
-                    className="w-full px-3 py-2 border border-stone-200 rounded text-[14px] focus:outline-none focus:border-stone-400"
+                    className="w-full px-3 py-2 border border-border-subtle rounded text-[14px] focus:outline-none focus:border-border-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-[0.08em] text-stone-500 mb-1">Category</label>
+                  <label className="block text-[11px] uppercase tracking-[0.08em] text-ink-secondary mb-1">Category</label>
                   <select
                     value={formCategory}
                     onChange={(e) => setFormCategory(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded text-[14px] focus:outline-none focus:border-stone-400 bg-white"
+                    className="w-full px-3 py-2 border border-border-subtle rounded text-[14px] focus:outline-none focus:border-border-strong bg-white"
                   >
                     {CATEGORIES.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -443,7 +443,7 @@ export default function ExpensesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-[0.08em] text-stone-500 mb-1">Amount (DH)</label>
+                  <label className="block text-[11px] uppercase tracking-[0.08em] text-ink-secondary mb-1">Amount (DH)</label>
                   <input
                     type="number"
                     value={formAmount}
@@ -451,13 +451,13 @@ export default function ExpensesPage() {
                     placeholder="0.00"
                     step="0.01"
                     min="0"
-                    className="w-full px-3 py-2 border border-stone-200 rounded text-[14px] focus:outline-none focus:border-stone-400"
+                    className="w-full px-3 py-2 border border-border-subtle rounded text-[14px] focus:outline-none focus:border-border-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-[0.08em] text-stone-500 mb-1">Receipt (optional)</label>
+                  <label className="block text-[11px] uppercase tracking-[0.08em] text-ink-secondary mb-1">Receipt (optional)</label>
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -469,12 +469,12 @@ export default function ExpensesPage() {
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={uploading}
-                    className="w-full px-3 py-2 border border-dashed border-stone-300 rounded text-[13px] text-stone-500 hover:border-stone-400 hover:text-stone-600 transition-colors disabled:opacity-50"
+                    className="w-full px-3 py-2 border border-dashed border-border rounded text-[13px] text-ink-secondary hover:border-border-strong hover:text-ink-secondary transition-colors disabled:opacity-50"
                   >
                     {uploading ? (
                       "Uploading..."
                     ) : formReceiptName ? (
-                      <span className="text-emerald-600">✓ {formReceiptName}</span>
+                      <span className="text-sage">✓ {formReceiptName}</span>
                     ) : (
                       "Click to upload JPG, PNG, or PDF"
                     )}
@@ -484,7 +484,7 @@ export default function ExpensesPage() {
                 <button
                   type="submit"
                   disabled={saving || !formDescription || !formAmount}
-                  className="w-full py-2.5 bg-stone-800 text-white text-[13px] tracking-[0.02em] rounded hover:bg-stone-700 transition-colors disabled:opacity-50"
+                  className="w-full py-2.5 bg-ink-primary text-cream text-[13px] tracking-[0.02em] rounded hover:bg-ink-body transition-colors disabled:opacity-50"
                 >
                   {saving ? "Saving..." : "Add Expense"}
                 </button>
@@ -493,15 +493,15 @@ export default function ExpensesPage() {
 
             {/* Summary by Category */}
             {summary && (
-              <div className="bg-white rounded-lg border border-stone-200 p-6 mt-6">
-                <h2 className="text-[14px] font-medium text-stone-800 mb-4">By Category</h2>
+              <div className="bg-white rounded-lg border border-border-subtle p-6 mt-6">
+                <h2 className="text-[14px] font-medium text-ink-primary mb-4">By Category</h2>
                 <div className="space-y-2">
                   {Object.entries(summary.byCategory)
                     .sort((a, b) => b[1] - a[1])
                     .map(([category, amount]) => (
                       <div key={category} className="flex justify-between text-[13px]">
-                        <span className="text-stone-600">{category}</span>
-                        <span className="text-stone-800 font-medium">{amount.toLocaleString()} DH</span>
+                        <span className="text-ink-secondary">{category}</span>
+                        <span className="text-ink-primary font-medium">{amount.toLocaleString()} DH</span>
                       </div>
                     ))}
                 </div>
@@ -516,7 +516,7 @@ export default function ExpensesPage() {
               <select
                 value={filterMonth}
                 onChange={(e) => setFilterMonth(e.target.value)}
-                className="px-3 py-2 border border-stone-200 rounded text-[13px] bg-white focus:outline-none focus:border-stone-400"
+                className="px-3 py-2 border border-border-subtle rounded text-[13px] bg-white focus:outline-none focus:border-border-strong"
               >
                 <option value="">All Months</option>
                 {months.map(month => (
@@ -529,7 +529,7 @@ export default function ExpensesPage() {
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="px-3 py-2 border border-stone-200 rounded text-[13px] bg-white focus:outline-none focus:border-stone-400"
+                className="px-3 py-2 border border-border-subtle rounded text-[13px] bg-white focus:outline-none focus:border-border-strong"
               >
                 <option value="">All Categories</option>
                 {CATEGORIES.map(cat => (
@@ -538,56 +538,56 @@ export default function ExpensesPage() {
               </select>
 
               {(filterMonth || filterCategory) && (
-                <div className="flex items-center text-[13px] text-stone-600 ml-auto">
+                <div className="flex items-center text-[13px] text-ink-secondary ml-auto">
                   Showing: <span className="font-medium ml-1">{filteredTotal.toLocaleString()} DH</span>
                 </div>
               )}
             </div>
 
             {/* Expenses Table */}
-            <div className="bg-white rounded-lg border border-stone-200 overflow-hidden">
+            <div className="bg-white rounded-lg border border-border-subtle overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-stone-200 bg-stone-50">
-                    <th className="text-left px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-stone-500 font-medium">Date</th>
-                    <th className="text-left px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-stone-500 font-medium">Description</th>
-                    <th className="text-left px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-stone-500 font-medium">Category</th>
-                    <th className="text-right px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-stone-500 font-medium">Amount</th>
-                    <th className="text-center px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-stone-500 font-medium w-20">Receipt</th>
+                  <tr className="border-b border-border-subtle bg-parchment">
+                    <th className="text-left px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-ink-secondary font-medium">Date</th>
+                    <th className="text-left px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-ink-secondary font-medium">Description</th>
+                    <th className="text-left px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-ink-secondary font-medium">Category</th>
+                    <th className="text-right px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-ink-secondary font-medium">Amount</th>
+                    <th className="text-center px-4 py-3 text-[11px] uppercase tracking-[0.08em] text-ink-secondary font-medium w-20">Receipt</th>
                     <th className="w-10"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredExpenses.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-4 py-8 text-center text-stone-400 text-[14px]">
+                      <td colSpan={6} className="px-4 py-8 text-center text-ink-tertiary text-[14px]">
                         No expenses found
                       </td>
                     </tr>
                   ) : (
                     filteredExpenses.map((expense) => (
-                      <tr key={expense.expense_id} className="border-b border-stone-100 hover:bg-stone-50">
-                        <td className="px-4 py-3 text-[13px] text-stone-600">
+                      <tr key={expense.expense_id} className="border-b border-border-subtle hover:bg-parchment">
+                        <td className="px-4 py-3 text-[13px] text-ink-secondary">
                           {new Date(expense.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                         </td>
-                        <td className="px-4 py-3 text-[13px] text-stone-800">
+                        <td className="px-4 py-3 text-[13px] text-ink-primary">
                           {expense.description}
                           {expense.source && expense.source !== "admin" && (
                             <span className={`ml-2 inline-block px-1.5 py-0.5 rounded text-[10px] font-medium ${
                               expense.source === "zahra" 
-                                ? "bg-blue-50 text-blue-600" 
-                                : "bg-purple-50 text-purple-600"
+                                ? "bg-dusty/10 text-accent-strong" 
+                                : "bg-rose/10 text-rose"
                             }`}>
                               {expense.source === "zahra" ? "Z" : "M"}
                             </span>
                           )}
                         </td>
                         <td className="px-4 py-3">
-                          <span className="inline-block px-2 py-0.5 bg-stone-100 rounded text-[11px] text-stone-600">
+                          <span className="inline-block px-2 py-0.5 bg-linen rounded text-[11px] text-ink-secondary">
                             {expense.category}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-[13px] text-stone-800 text-right font-medium">
+                        <td className="px-4 py-3 text-[13px] text-ink-primary text-right font-medium">
                           {expense.amount_dh.toLocaleString()} DH
                         </td>
                         <td className="px-4 py-3 text-center">
@@ -596,18 +596,18 @@ export default function ExpensesPage() {
                               href={expense.receipt_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-amber-600 hover:text-amber-700 text-[12px]"
+                              className="text-gold hover:text-gold text-[12px]"
                             >
                               View
                             </a>
                           ) : (
-                            <span className="text-stone-300 text-[12px]">—</span>
+                            <span className="text-ink-tertiary text-[12px]">—</span>
                           )}
                         </td>
                         <td className="px-2 py-3">
                           <button
                             onClick={() => handleDelete(expense.expense_id)}
-                            className="text-stone-300 hover:text-red-500 transition-colors"
+                            className="text-ink-tertiary hover:text-brick transition-colors"
                             title="Delete"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -624,18 +624,18 @@ export default function ExpensesPage() {
 
             {/* Monthly Summary */}
             {summary && Object.keys(summary.byMonth).length > 0 && (
-              <div className="bg-white rounded-lg border border-stone-200 p-6 mt-6">
-                <h2 className="text-[14px] font-medium text-stone-800 mb-4">Monthly Totals</h2>
+              <div className="bg-white rounded-lg border border-border-subtle p-6 mt-6">
+                <h2 className="text-[14px] font-medium text-ink-primary mb-4">Monthly Totals</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {Object.entries(summary.byMonth)
                     .sort((a, b) => b[0].localeCompare(a[0]))
                     .slice(0, 12)
                     .map(([month, amount]) => (
-                      <div key={month} className="text-center p-3 bg-stone-50 rounded">
-                        <p className="text-[11px] uppercase tracking-[0.08em] text-stone-500">
+                      <div key={month} className="text-center p-3 bg-parchment rounded">
+                        <p className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary">
                           {new Date(month + "-01").toLocaleDateString("en-US", { month: "short", year: "numeric" })}
                         </p>
-                        <p className="text-[16px] font-medium text-stone-800 mt-1">{amount.toLocaleString()} DH</p>
+                        <p className="text-[16px] font-medium text-ink-primary mt-1">{amount.toLocaleString()} DH</p>
                       </div>
                     ))}
                 </div>

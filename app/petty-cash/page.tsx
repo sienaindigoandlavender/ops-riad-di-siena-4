@@ -123,26 +123,26 @@ export default function PettyCashPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#0a0a0a] text-cream flex items-center justify-center">
         <div className="text-white/60">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-cream">
       {/* Header */}
       <header className="border-b border-white/10">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/admin" className="text-white/40 hover:text-white transition-colors">
+            <Link href="/admin" className="text-white/40 hover:text-cream transition-colors">
               ← Admin
             </Link>
             <h1 className="text-lg font-medium">Petty Cash</h1>
           </div>
           <button
             onClick={() => setShowForm(true)}
-            className="px-4 py-2 bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors"
+            className="px-4 py-2 bg-white text-ink-primary text-sm font-medium hover:bg-white/90 transition-colors"
           >
             + Record
           </button>
@@ -155,8 +155,8 @@ export default function PettyCashPage() {
           {/* Zahra */}
           <div className="bg-white/5 border border-white/10 p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
-                <span className="text-blue-400 font-medium">Z</span>
+              <div className="w-10 h-10 rounded-full bg-dusty/20 flex items-center justify-center">
+                <span className="text-dusty font-medium">Z</span>
               </div>
               <h2 className="text-xl font-medium">Zahra</h2>
             </div>
@@ -164,19 +164,19 @@ export default function PettyCashPage() {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-white/60">Given</span>
-                <span className="text-green-400">+{formatDH(balances?.zahra.given || 0)}</span>
+                <span className="text-sage">+{formatDH(balances?.zahra.given || 0)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-white/60">Returned</span>
-                <span className="text-amber-400">-{formatDH(balances?.zahra.returned || 0)}</span>
+                <span className="text-gold">-{formatDH(balances?.zahra.returned || 0)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-white/60">Spent</span>
-                <span className="text-red-400">-{formatDH(balances?.zahra.spent || 0)}</span>
+                <span className="text-brick">-{formatDH(balances?.zahra.spent || 0)}</span>
               </div>
               <div className="border-t border-white/10 pt-3 flex justify-between">
                 <span className="font-medium">Balance</span>
-                <span className={`font-medium ${(balances?.zahra.balance || 0) < 0 ? "text-red-400" : "text-white"}`}>
+                <span className={`font-medium ${(balances?.zahra.balance || 0) < 0 ? "text-brick" : "text-cream"}`}>
                   {formatDH(balances?.zahra.balance || 0)}
                 </span>
               </div>
@@ -186,8 +186,8 @@ export default function PettyCashPage() {
           {/* Mouad */}
           <div className="bg-white/5 border border-white/10 p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                <span className="text-purple-400 font-medium">M</span>
+              <div className="w-10 h-10 rounded-full bg-rose/20 flex items-center justify-center">
+                <span className="text-rose font-medium">M</span>
               </div>
               <h2 className="text-xl font-medium">Mouad</h2>
             </div>
@@ -195,19 +195,19 @@ export default function PettyCashPage() {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-white/60">Given</span>
-                <span className="text-green-400">+{formatDH(balances?.mouad.given || 0)}</span>
+                <span className="text-sage">+{formatDH(balances?.mouad.given || 0)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-white/60">Returned</span>
-                <span className="text-amber-400">-{formatDH(balances?.mouad.returned || 0)}</span>
+                <span className="text-gold">-{formatDH(balances?.mouad.returned || 0)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-white/60">Spent</span>
-                <span className="text-red-400">-{formatDH(balances?.mouad.spent || 0)}</span>
+                <span className="text-brick">-{formatDH(balances?.mouad.spent || 0)}</span>
               </div>
               <div className="border-t border-white/10 pt-3 flex justify-between">
                 <span className="font-medium">Balance</span>
-                <span className={`font-medium ${(balances?.mouad.balance || 0) < 0 ? "text-red-400" : "text-white"}`}>
+                <span className={`font-medium ${(balances?.mouad.balance || 0) < 0 ? "text-brick" : "text-cream"}`}>
                   {formatDH(balances?.mouad.balance || 0)}
                 </span>
               </div>
@@ -225,10 +225,10 @@ export default function PettyCashPage() {
               {notes.slice().reverse().map((note) => (
                 <div
                   key={note.id}
-                  className="bg-yellow-500/10 border border-yellow-500/20 p-4 rounded-lg"
+                  className="bg-gold/100/10 border border-gold/20 p-4 rounded-lg"
                 >
                   <div className="flex items-start gap-3">
-                    <span className="text-yellow-500 text-lg">💬</span>
+                    <span className="text-gold text-lg">💬</span>
                     <div className="flex-1">
                       <p className="text-white/90">{note.note}</p>
                       <p className="text-white/40 text-sm mt-1">{note.date}</p>
@@ -260,8 +260,8 @@ export default function PettyCashPage() {
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                       entry.person === "zahra" 
-                        ? "bg-blue-500/20 text-blue-400" 
-                        : "bg-purple-500/20 text-purple-400"
+                        ? "bg-dusty/20 text-dusty" 
+                        : "bg-rose/20 text-rose"
                     }`}>
                       {entry.person === "zahra" ? "Z" : "M"}
                     </div>
@@ -270,8 +270,8 @@ export default function PettyCashPage() {
                         <span className="font-medium capitalize">{entry.person}</span>
                         <span className={`text-xs px-2 py-0.5 rounded ${
                           entry.type === "advance" 
-                            ? "bg-green-500/20 text-green-400" 
-                            : "bg-amber-500/20 text-amber-400"
+                            ? "bg-sage/20 text-sage" 
+                            : "bg-gold/100/20 text-gold"
                         }`}>
                           {entry.type === "advance" ? "Given" : "Returned"}
                         </span>
@@ -283,7 +283,7 @@ export default function PettyCashPage() {
                     </div>
                   </div>
                   <div className={`font-medium ${
-                    entry.type === "advance" ? "text-green-400" : "text-amber-400"
+                    entry.type === "advance" ? "text-sage" : "text-gold"
                   }`}>
                     {entry.type === "advance" ? "+" : "-"}{formatDH(entry.amount)}
                   </div>
@@ -297,7 +297,7 @@ export default function PettyCashPage() {
       {/* Floating Notes Bubble */}
       <button
         onClick={() => setShowNoteForm(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-yellow-500 hover:bg-yellow-400 text-black rounded-full shadow-lg flex items-center justify-center transition-colors"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-gold/100 hover:bg-gold text-ink-primary rounded-full shadow-lg flex items-center justify-center transition-colors"
         title="Add note"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -307,7 +307,7 @@ export default function PettyCashPage() {
 
       {/* Add Entry Modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-accent-strong flex items-center justify-center z-50 p-4">
           <div className="bg-[#1a1a1a] border border-white/10 w-full max-w-md p-6">
             <h2 className="text-lg font-medium mb-6">Record Transaction</h2>
             
@@ -330,7 +330,7 @@ export default function PettyCashPage() {
                     onClick={() => setPerson("zahra")}
                     className={`flex-1 py-3 border transition-colors ${
                       person === "zahra"
-                        ? "bg-blue-500/20 border-blue-500 text-blue-400"
+                        ? "bg-dusty/20 border-dusty text-dusty"
                         : "border-white/20 text-white/60 hover:border-white/40"
                     }`}
                   >
@@ -341,7 +341,7 @@ export default function PettyCashPage() {
                     onClick={() => setPerson("mouad")}
                     className={`flex-1 py-3 border transition-colors ${
                       person === "mouad"
-                        ? "bg-purple-500/20 border-purple-500 text-purple-400"
+                        ? "bg-rose/20 border-rose text-rose"
                         : "border-white/20 text-white/60 hover:border-white/40"
                     }`}
                   >
@@ -358,7 +358,7 @@ export default function PettyCashPage() {
                     onClick={() => setType("advance")}
                     className={`flex-1 py-3 border transition-colors ${
                       type === "advance"
-                        ? "bg-green-500/20 border-green-500 text-green-400"
+                        ? "bg-sage/20 border-sage text-sage"
                         : "border-white/20 text-white/60 hover:border-white/40"
                     }`}
                   >
@@ -369,7 +369,7 @@ export default function PettyCashPage() {
                     onClick={() => setType("return")}
                     className={`flex-1 py-3 border transition-colors ${
                       type === "return"
-                        ? "bg-amber-500/20 border-amber-500 text-amber-400"
+                        ? "bg-gold/100/20 border-gold text-gold"
                         : "border-white/20 text-white/60 hover:border-white/40"
                     }`}
                   >
@@ -411,7 +411,7 @@ export default function PettyCashPage() {
                 <button
                   type="submit"
                   disabled={saving || !amount}
-                  className="flex-1 py-3 bg-white text-black font-medium hover:bg-white/90 transition-colors disabled:opacity-50"
+                  className="flex-1 py-3 bg-white text-ink-primary font-medium hover:bg-white/90 transition-colors disabled:opacity-50"
                 >
                   {saving ? "Saving..." : "Save"}
                 </button>
@@ -423,10 +423,10 @@ export default function PettyCashPage() {
 
       {/* Add Note Modal */}
       {showNoteForm && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-accent-strong flex items-center justify-center z-50 p-4">
           <div className="bg-[#1a1a1a] border border-white/10 w-full max-w-md p-6">
             <h2 className="text-lg font-medium mb-6 flex items-center gap-2">
-              <span className="text-yellow-500">💬</span>
+              <span className="text-gold">💬</span>
               Add Note
             </h2>
             
@@ -453,7 +453,7 @@ export default function PettyCashPage() {
                 <button
                   type="submit"
                   disabled={saving || !noteText.trim()}
-                  className="flex-1 py-3 bg-yellow-500 text-black font-medium hover:bg-yellow-400 transition-colors disabled:opacity-50"
+                  className="flex-1 py-3 bg-gold/100 text-ink-primary font-medium hover:bg-gold transition-colors disabled:opacity-50"
                 >
                   {saving ? "Saving..." : "Save Note"}
                 </button>

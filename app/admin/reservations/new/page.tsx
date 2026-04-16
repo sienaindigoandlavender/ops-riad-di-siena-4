@@ -127,57 +127,57 @@ export default function AddReservationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-black/10 border-t-black/60 rounded-full animate-spin" />
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-border-subtle border-t-black/60 rounded-full animate-spin" />
       </div>
     );
   }
 
   if (success) {
     return (
-      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
+      <div className="min-h-screen bg-cream flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-50 flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-sage/10 flex items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2">
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
-          <p className="font-serif text-[22px] text-black">Reservation Added</p>
-          <p className="text-[13px] text-black/50 mt-2">Redirecting to bookings...</p>
+          <p className="font-serif text-[22px] text-ink-primary">Reservation Added</p>
+          <p className="text-[13px] text-ink-secondary mt-2">Redirecting to bookings...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#fafafa]">
+    <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="border-b border-black/[0.06] py-5 px-6">
+      <header className="border-b border-border-subtle py-5 px-6">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               href="/admin/bookings"
-              className="text-[13px] text-black/50 hover:text-black transition-colors"
+              className="text-[13px] text-ink-secondary hover:text-ink-primary transition-colors"
             >
               ← Back
             </Link>
-            <h1 className="font-serif text-[22px] text-black">Add Reservation</h1>
+            <h1 className="font-serif text-[22px] text-ink-primary">Add Reservation</h1>
           </div>
         </div>
       </header>
 
       <main className="container mx-auto px-6 py-12 max-w-2xl">
-        <div className="bg-white rounded-lg border border-black/[0.06] p-8">
+        <div className="bg-white rounded-lg border border-border-subtle p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Booking Source */}
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                 Booking Source
               </label>
               <select
                 value={formData.source}
                 onChange={(e) => setFormData({ ...formData, source: e.target.value })}
-                className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
               >
                 {BOOKING_SOURCES.map((source) => (
                   <option key={source.value} value={source.value}>
@@ -189,14 +189,14 @@ export default function AddReservationPage() {
 
             {/* Room Selection */}
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                 Room *
               </label>
               <select
                 required
                 value={rooms.find((r) => r.Name === formData.room)?.Room_ID || ""}
                 onChange={(e) => handleRoomChange(e.target.value)}
-                className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
               >
                 <option value="">Select a room...</option>
                 <optgroup label="The Riad">
@@ -219,7 +219,7 @@ export default function AddReservationPage() {
             {/* Guest Details */}
             <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                   First Name *
                 </label>
                 <input
@@ -227,11 +227,11 @@ export default function AddReservationPage() {
                   required
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                 />
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                   Last Name *
                 </label>
                 <input
@@ -239,13 +239,13 @@ export default function AddReservationPage() {
                   required
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                 Email *
               </label>
               <input
@@ -253,14 +253,14 @@ export default function AddReservationPage() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                 placeholder="guest@email.com"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                   WhatsApp Number *
                 </label>
                 <input
@@ -268,19 +268,19 @@ export default function AddReservationPage() {
                   required
                   value={formData.whatsapp}
                   onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                   placeholder="+1 555 123 4567"
                 />
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                   Phone (if different)
                 </label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                   placeholder="Optional"
                 />
               </div>
@@ -289,7 +289,7 @@ export default function AddReservationPage() {
             {/* Dates */}
             <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                   Check-in *
                 </label>
                 <input
@@ -297,11 +297,11 @@ export default function AddReservationPage() {
                   required
                   value={formData.checkIn}
                   onChange={(e) => setFormData({ ...formData, checkIn: e.target.value })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                 />
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                   Check-out *
                 </label>
                 <input
@@ -309,7 +309,7 @@ export default function AddReservationPage() {
                   required
                   value={formData.checkOut}
                   onChange={(e) => setFormData({ ...formData, checkOut: e.target.value })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                 />
               </div>
             </div>
@@ -317,7 +317,7 @@ export default function AddReservationPage() {
             {/* Guests & Total */}
             <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                   Guests
                 </label>
                 <input
@@ -326,11 +326,11 @@ export default function AddReservationPage() {
                   max="10"
                   value={formData.guests}
                   onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value) })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                 />
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                   Total (€) *
                 </label>
                 <input
@@ -340,13 +340,13 @@ export default function AddReservationPage() {
                   step="0.01"
                   value={formData.total}
                   onChange={(e) => setFormData({ ...formData, total: parseFloat(e.target.value) })}
-                  className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                  className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
                 />
                 {calculateTotal() > 0 && formData.total !== calculateTotal() && (
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, total: calculateTotal() })}
-                    className="text-[11px] text-black/50 hover:text-black mt-2"
+                    className="text-[11px] text-ink-secondary hover:text-ink-primary mt-2"
                   >
                     Suggested: €{calculateTotal()} (click to apply)
                   </button>
@@ -356,13 +356,13 @@ export default function AddReservationPage() {
 
             {/* Payment Status */}
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                 Payment Status
               </label>
               <select
                 value={formData.paypalStatus}
                 onChange={(e) => setFormData({ ...formData, paypalStatus: e.target.value })}
-                className="w-full bg-transparent border-b border-black/20 pb-2 text-[13px] focus:outline-none focus:border-black"
+                className="w-full bg-transparent border-b border-border pb-2 text-[13px] focus:outline-none focus:border-border"
               >
                 <option value="COMPLETED">Paid</option>
                 <option value="PENDING">Pending Payment</option>
@@ -372,20 +372,20 @@ export default function AddReservationPage() {
 
             {/* Notes */}
             <div>
-              <label className="block text-[10px] uppercase tracking-[0.08em] text-black/40 mb-2">
+              <label className="block text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-2">
                 Notes
               </label>
               <textarea
                 rows={3}
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                className="w-full bg-transparent border border-black/10 rounded-lg px-4 py-3 text-[13px] focus:outline-none focus:border-black/30 resize-none"
+                className="w-full bg-transparent border border-border-subtle rounded-lg px-4 py-3 text-[13px] focus:outline-none focus:border-border-strong resize-none"
                 placeholder="Any special requests, booking reference numbers, etc."
               />
             </div>
 
             {error && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-[13px]">
+              <div className="p-4 bg-brick/10 border border-brick/30 rounded-lg text-brick text-[13px]">
                 {error}
               </div>
             )}
@@ -395,13 +395,13 @@ export default function AddReservationPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex-1 bg-black text-white py-3 text-[11px] uppercase tracking-[0.08em] font-semibold rounded-lg hover:bg-black/80 transition-colors disabled:opacity-50"
+                className="flex-1 bg-accent text-cream py-3 text-[11px] uppercase tracking-[0.08em] font-semibold rounded-lg hover:bg-accent-strong transition-colors disabled:opacity-50"
               >
                 {submitting ? "Saving..." : "Add Reservation"}
               </button>
               <Link
                 href="/admin/bookings"
-                className="px-8 py-3 border border-black rounded-lg text-[11px] uppercase tracking-[0.08em] font-semibold hover:bg-black hover:text-white transition-colors"
+                className="px-8 py-3 border border-border rounded-lg text-[11px] uppercase tracking-[0.08em] font-semibold hover:bg-accent hover:text-cream transition-colors"
               >
                 Cancel
               </Link>
