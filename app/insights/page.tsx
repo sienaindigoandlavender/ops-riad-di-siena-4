@@ -309,10 +309,16 @@ export default function InsightsPage() {
             <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Score Distribution</h2>
               <div className="flex items-end gap-2 h-32">
-                {Object.entries(stats.distribution).map(([score, count]) => {
+                {(["below7", "7", "8", "9", "10"] as const).map((score) => {
+                  const count = stats.distribution[score] || 0;
                   const percentage = (count / stats.totalReviews) * 100;
                   const label = score === "below7" ? "<7" : score;
-                  const color = score === "10" ? "bg-sage" : score === "9" ? "bg-sage" : score === "8" ? "bg-gold" : score === "7" ? "bg-gold/100" : "bg-brick";
+                  const color =
+                    score === "10" ? "bg-forest" :
+                    score === "9" ? "bg-sage" :
+                    score === "8" ? "bg-gold" :
+                    score === "7" ? "bg-brick/70" :
+                    "bg-brick";
                   return (
                     <div key={score} className="flex-1 flex flex-col items-center">
                       <div className="w-full flex flex-col items-center">
