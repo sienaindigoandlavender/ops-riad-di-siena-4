@@ -947,7 +947,7 @@ export default function HomePage() {
                     <th
                       key={idx}
                       className={`border-b border-r border-border-subtle p-2 text-center w-[80px] ${
-                        isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : ""
+                        isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : "bg-cream"
                       }`}
                     >
                       <div className="text-[10px] text-ink-tertiary uppercase">
@@ -995,7 +995,7 @@ export default function HomePage() {
                             key={idx}
                             colSpan={isStart ? span : 1}
                             className={`border-b border-r border-border-subtle p-1 h-14 ${
-                              isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : ""
+                              isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : "bg-cream"
                             } ${!booking ? "cursor-pointer hover:bg-parchment group" : ""}`}
                             onClick={() => !booking && handleCellClick(room, date)}
                           >
@@ -1062,7 +1062,7 @@ export default function HomePage() {
                             key={idx}
                             colSpan={isStart ? span : 1}
                             className={`border-b border-r border-border-subtle p-1 h-14 ${
-                              isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : ""
+                              isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : "bg-cream"
                             } ${!booking ? "cursor-pointer hover:bg-parchment group" : ""}`}
                             onClick={() => !booking && handleCellClick(room, date)}
                           >
