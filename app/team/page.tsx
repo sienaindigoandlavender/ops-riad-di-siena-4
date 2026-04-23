@@ -158,7 +158,7 @@ function GuestCard({
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <p className="font-medium text-[15px] text-ink-primary">{guest.guest_name}</p>
+              <p className="font-light text-[15px] text-ink-primary uppercase tracking-[0.04em]">{guest.guest_name}</p>
               <ChannelBadge channel={guest.channel} />
             </div>
             <p className="text-ink-tertiary text-[12px] mt-0.5">
@@ -432,7 +432,7 @@ function SearchResultCard({ guest, onSelect }: { guest: GuestSummary; onSelect: 
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <p className="font-medium text-[14px] text-ink-primary">{guest.guest_name}</p>
+            <p className="font-light text-[14px] text-ink-primary uppercase tracking-[0.04em]">{guest.guest_name}</p>
             <ChannelBadge channel={guest.channel} />
           </div>
           <p className="text-ink-secondary text-[12px] mt-0.5">
@@ -1217,7 +1217,7 @@ See you soon!
                         <div className="flex items-start justify-between gap-3">
                           <div className="min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <p className="font-medium text-[15px] text-ink-primary">{guest.guest_name}</p>
+                              <p className="font-light text-[15px] text-ink-primary uppercase tracking-[0.04em]">{guest.guest_name}</p>
                               <ChannelBadge channel={guest.channel} />
                             </div>
                             <p className="text-ink-tertiary text-[12px] mt-0.5">

@@ -1960,13 +1960,13 @@ We look forward to welcoming you! ✨`
               </button>
             </div>
             <div className="flex-1 px-7 py-6 space-y-1">
-              <a href="/" className="block py-3 text-[13px] text-ink-primary font-medium border-b border-border-subtle normal-case tracking-normal">Calendar</a>
-              <a href="/guests" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Guests</a>
-              <a href="/team" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Team</a>
-              <a href="/expenses" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Expenses</a>
-              <a href="/insights" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Insights</a>
-              <a href="/invoice" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Invoices</a>
-              <a href="/admin" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Admin</a>
+              <a href="/" className="block py-3 text-[12px] text-ink-primary font-light uppercase tracking-[0.08em] border-b border-border-subtle">Calendar</a>
+              <a href="/guests" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Guests</a>
+              <a href="/team" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Team</a>
+              <a href="/expenses" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Expenses</a>
+              <a href="/insights" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Insights</a>
+              <a href="/invoice" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Invoices</a>
+              <a href="/admin" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Admin</a>
             </div>
           </nav>
         </>
