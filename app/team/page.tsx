@@ -165,7 +165,13 @@ function GuestCard({
             </p>
           </div>
 
-          {/* Arrival time (check-ins only) */}
+          {/* Time display */}
+          {!isCheckIn && (
+            <div className="text-right shrink-0">
+              <p className="font-medium text-[24px] text-ink-primary leading-none">11:00</p>
+              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mt-1">Check-out by</p>
+            </div>
+          )}
           {isCheckIn && (
             <>
               {guest.arrival_time ? (
@@ -456,6 +462,7 @@ export default function TeamPage() {
   const [activeGuestId, setActiveGuestId] = useState<string | null>(null);
   const [manualTime, setManualTime] = useState("");
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<"arrivals" | "departures">("arrivals");
 
   // Notes editing
   const [editingNotesId, setEditingNotesId] = useState<string | null>(null);
@@ -1096,98 +1103,116 @@ See you soon!
         </div>
       )}
 
-      <div className="p-6 space-y-8">
-        {/* Check-ins */}
-        <section>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-sage/20 flex items-center justify-center">
-              <svg className="w-4 h-4 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14" />
-              </svg>
-            </div>
-            <h2 className="text-[11px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Arrivals</h2>
-            <span className="ml-auto font-serif text-[28px] text-ink-primary">{data.checkIns.length}</span>
-          </div>
+      {/* Tab control */}
+      <div className="px-6 pt-4 pb-0">
+        <div className="flex items-center gap-0 border-b border-border-subtle">
+          <button
+            onClick={() => setActiveTab("arrivals")}
+            className={`flex items-center gap-2 px-4 py-3 text-[11px] tracking-[0.08em] transition-colors relative ${
+              activeTab === "arrivals"
+                ? "text-ink-primary"
+                : "text-ink-tertiary hover:text-ink-secondary"
+            }`}
+          >
+            <span className="normal-case font-light">Arrivals</span>
+            <span className="font-medium text-[13px] normal-case">{data.checkIns.length}</span>
+            {activeTab === "arrivals" && (
+              <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-ink-primary" />
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab("departures")}
+            className={`flex items-center gap-2 px-4 py-3 text-[11px] tracking-[0.08em] transition-colors relative ${
+              activeTab === "departures"
+                ? "text-ink-primary"
+                : "text-ink-tertiary hover:text-ink-secondary"
+            }`}
+          >
+            <span className="normal-case font-light">Departures</span>
+            <span className="font-medium text-[13px] normal-case">{data.checkOuts.length}</span>
+            {activeTab === "departures" && (
+              <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-ink-primary" />
+            )}
+          </button>
+        </div>
+      </div>
 
-          {data.checkIns.length === 0 ? (
-            <p className="text-ink-tertiary text-[13px] py-4">No arrivals today</p>
-          ) : (
-            <div className="space-y-3">
-              {data.checkIns.map((guest) => (
-                <GuestCard
-                  key={guest.booking_id}
-                  guest={guest}
-                  isCheckIn={true}
-                  editingNotesId={editingNotesId}
-                  notesText={notesText}
-                  setEditingNotesId={setEditingNotesId}
-                  setNotesText={setNotesText}
-                  saveNotes={saveNotes}
-                  savingNotes={savingNotes}
-                  copiedId={copiedId}
-                  activeGuestId={activeGuestId}
-                  setActiveGuestId={setActiveGuestId}
-                  manualTime={manualTime}
-                  setManualTime={setManualTime}
-                  saveManualTime={saveManualTime}
-                  saving={saving}
-                  copyArrivalLink={copyArrivalLink}
-                  sendArrivalWhatsApp={sendArrivalWhatsApp}
-                  sendDirectionsWhatsApp={sendDirectionsWhatsApp}
-                  onOpenPoliceForm={setPoliceFormGuest}
-                  markTaxPaid={markTaxPaid}
-                  markingTaxId={markingTaxId}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+      <div className="p-6">
+        {/* Arrivals */}
+        {activeTab === "arrivals" && (
+          <section>
+            {data.checkIns.length === 0 ? (
+              <p className="text-ink-tertiary text-[13px] py-8 font-light normal-case tracking-normal">No arrivals today</p>
+            ) : (
+              <div className="space-y-3">
+                {data.checkIns.map((guest) => (
+                  <GuestCard
+                    key={guest.booking_id}
+                    guest={guest}
+                    isCheckIn={true}
+                    editingNotesId={editingNotesId}
+                    notesText={notesText}
+                    setEditingNotesId={setEditingNotesId}
+                    setNotesText={setNotesText}
+                    saveNotes={saveNotes}
+                    savingNotes={savingNotes}
+                    copiedId={copiedId}
+                    activeGuestId={activeGuestId}
+                    setActiveGuestId={setActiveGuestId}
+                    manualTime={manualTime}
+                    setManualTime={setManualTime}
+                    saveManualTime={saveManualTime}
+                    saving={saving}
+                    copyArrivalLink={copyArrivalLink}
+                    sendArrivalWhatsApp={sendArrivalWhatsApp}
+                    sendDirectionsWhatsApp={sendDirectionsWhatsApp}
+                    onOpenPoliceForm={setPoliceFormGuest}
+                    markTaxPaid={markTaxPaid}
+                    markingTaxId={markingTaxId}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
-        {/* Check-outs */}
-        <section>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
-              <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </div>
-            <h2 className="text-[11px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Departures</h2>
-            <span className="ml-auto font-serif text-[28px] text-ink-primary">{data.checkOuts.length}</span>
-          </div>
-
-          {data.checkOuts.length === 0 ? (
-            <p className="text-ink-tertiary text-[13px] py-4">No departures today</p>
-          ) : (
-            <div className="space-y-3">
-              {data.checkOuts.map((guest) => (
-                <GuestCard
-                  key={guest.booking_id}
-                  guest={guest}
-                  isCheckIn={false}
-                  editingNotesId={editingNotesId}
-                  notesText={notesText}
-                  setEditingNotesId={setEditingNotesId}
-                  setNotesText={setNotesText}
-                  saveNotes={saveNotes}
-                  savingNotes={savingNotes}
-                  copiedId={copiedId}
-                  activeGuestId={activeGuestId}
-                  setActiveGuestId={setActiveGuestId}
-                  manualTime={manualTime}
-                  setManualTime={setManualTime}
-                  saveManualTime={saveManualTime}
-                  saving={saving}
-                  copyArrivalLink={copyArrivalLink}
-                  sendArrivalWhatsApp={sendArrivalWhatsApp}
-                  sendDirectionsWhatsApp={sendDirectionsWhatsApp}
-                  onOpenPoliceForm={setPoliceFormGuest}
-                  markTaxPaid={markTaxPaid}
-                  markingTaxId={markingTaxId}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+        {/* Departures */}
+        {activeTab === "departures" && (
+          <section>
+            {data.checkOuts.length === 0 ? (
+              <p className="text-ink-tertiary text-[13px] py-8 font-light normal-case tracking-normal">No departures today</p>
+            ) : (
+              <div className="space-y-3">
+                {data.checkOuts.map((guest) => (
+                  <GuestCard
+                    key={guest.booking_id}
+                    guest={guest}
+                    isCheckIn={false}
+                    editingNotesId={editingNotesId}
+                    notesText={notesText}
+                    setEditingNotesId={setEditingNotesId}
+                    setNotesText={setNotesText}
+                    saveNotes={saveNotes}
+                    savingNotes={savingNotes}
+                    copiedId={copiedId}
+                    activeGuestId={activeGuestId}
+                    setActiveGuestId={setActiveGuestId}
+                    manualTime={manualTime}
+                    setManualTime={setManualTime}
+                    saveManualTime={saveManualTime}
+                    saving={saving}
+                    copyArrivalLink={copyArrivalLink}
+                    sendArrivalWhatsApp={sendArrivalWhatsApp}
+                    sendDirectionsWhatsApp={sendDirectionsWhatsApp}
+                    onOpenPoliceForm={setPoliceFormGuest}
+                    markTaxPaid={markTaxPaid}
+                    markingTaxId={markingTaxId}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        )}
       </div>
 
       {/* Footer - City Tax Summary */}
