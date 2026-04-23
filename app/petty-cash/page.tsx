@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import AppHeader from "@/components/AppHeader";
 
 interface Entry {
   id: string;
@@ -124,6 +125,7 @@ export default function PettyCashPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] text-cream flex items-center justify-center">
+      <AppHeader />
         <div className="text-white/60">Loading...</div>
       </div>
     );

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import AppHeader from "@/components/AppHeader";
 
 declare global {
   interface Window {
@@ -138,6 +139,7 @@ function TaxPaymentContent() {
   if (loading) {
     return (
       <div className="min-h-screen bg-parchment flex items-center justify-center">
+      <AppHeader />
         <div className="animate-pulse text-ink-tertiary">Loading...</div>
       </div>
     );
