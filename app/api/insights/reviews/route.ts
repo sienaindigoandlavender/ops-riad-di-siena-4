@@ -74,10 +74,10 @@ function extractIssues(reviews: any[]): { issue: string; count: number; recentCo
   const issuePatterns: { pattern: RegExp; category: string; issue: string }[] = [
     { pattern: /cold|fre[díi]o|freddo|heating|heater|climatiza/i, category: "Temperature", issue: "Heating / room too cold" },
     { pattern: /hot|calor|caldo|air condition|ac |a\/c/i, category: "Temperature", issue: "Cooling / AC issues" },
-    { pattern: /humid|moisture|damp|mold|mould|mildew|moisi|muffa/i, category: "Humidity", issue: "Humidity / dampness" },
+    { pattern: /humid|moisture|damp|mold|mould|mildew|moisi|muffa|smell|odor|olor|odeur|stink|musty|stale|muggy/i, category: "Humidity", issue: "Humidity / odor / smell" },
     { pattern: /plumb|leak|drain|water pressure|water didn|pipe|tuyau|fuite|tubatura/i, category: "Plumbing", issue: "Plumbing / water issues" },
-    { pattern: /noise|noisy|ruido|bruit|rumore|loud|music|prayer|azan|muezzin|dog|bark|rooster|cockerel|neighbor|neighbour|voisin|vicin|wall.*thin|thin.*wall|sound|ear.?plug|sleep.*disturb|disturb.*sleep|wake.*up|woke.*up|couldn.t sleep/i, category: "Noise", issue: "Noise complaints" },
-    { pattern: /smell|odor|olor|odeur|stink/i, category: "Cleanliness", issue: "Odor / smell" },
+    { pattern: /thin.*wall|wall.*thin|neighbor|neighbour|voisin|vicin|next.*door|above.*room|upstairs|downstairs|hear.*through|music|tv.*loud|ear.?plug|couldn.t sleep|wake.*up|woke.*up|sleep.*disturb|disturb.*sleep|sound.*proof/i, category: "Noise", issue: "Noise (inside)" },
+    { pattern: /prayer|azan|muezzin|mosque|call to prayer|dog|bark|rooster|cockerel|street.*noise|cars?|traffic|motorbike|moto|scooter|medina.*noise|souk.*noise|outside.*noise|from outside/i, category: "Noise", issue: "Noise (outside)" },
     { pattern: /light|luz|luce|lamp|lighting|dark/i, category: "Facilities", issue: "Lighting" },
     { pattern: /bathroom|baño|bagno|shower|douche|toilet/i, category: "Bathroom", issue: "Bathroom" },
     { pattern: /window|ventana|finestra|ventilation|ventilación|air flow/i, category: "Room", issue: "Ventilation / windows" },
