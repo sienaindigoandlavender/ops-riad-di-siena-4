@@ -1041,7 +1041,7 @@ export default function HomePage() {
                                   setIsEditing(false);
                                 }}
                               >
-                                <div className="truncate">{booking.guestName}</div>
+                                <div className="truncate uppercase">{booking.guestName}</div>
                                                               </div>
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1107,7 +1107,7 @@ export default function HomePage() {
                                   setIsEditing(false);
                                 }}
                               >
-                                <div className="truncate">{booking.guestName}</div>
+                                <div className="truncate uppercase">{booking.guestName}</div>
                                                               </div>
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1314,7 +1314,7 @@ export default function HomePage() {
                       </span>
                     </div>
                     <div>
-                      <h3 className="text-[15px] font-medium text-ink-primary">{selectedBooking.guestName}</h3>
+                      <h3 className="text-[15px] font-light text-ink-primary uppercase tracking-[0.04em]">{selectedBooking.guestName}</h3>
                       <p className="text-[13px] text-ink-secondary">{selectedBooking.room}</p>
                     </div>
                   </div>
