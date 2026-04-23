@@ -883,99 +883,39 @@ See you soon!
     <div className="min-h-screen bg-cream pb-16">
       <AppHeader />
 
-      {/* Date + Search bar */}
-      <div className="bg-cream border-b border-border-subtle px-6 py-3">
+      {/* Row 2: Date navigation */}
+      <div className="border-b border-border-subtle px-4 py-4">
         <div className="flex items-center justify-between">
-          
-          {/* Search button */}
-          <div className="relative" ref={searchRef}>
-            <button
-              onClick={() => setShowSearch(!showSearch)}
-              className="w-9 h-9 rounded-full bg-parchment hover:bg-linen flex items-center justify-center transition-colors"
-            >
-              <svg className="w-4 h-4 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-
-            {/* Search dropdown - Riad brand design */}
-            {showSearch && (
-              <div className="absolute right-0 top-12 w-80 bg-sand shadow-lg z-50 overflow-hidden">
-                <div className="p-6">
-                  <label className="block text-[10px] font-light tracking-[0.08em] uppercase text-ink-tertiary mb-2">
-                    Search guests
-                  </label>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Name or booking ID..."
-                    className="w-full py-3 bg-transparent border-b border-border focus:border-border-strong focus:outline-none text-ink-primary transition-colors text-[14px]"
-                    autoFocus
-                  />
-                </div>
-                <div className="max-h-80 overflow-y-auto">
-                  {searchLoading ? (
-                    <div className="px-6 pb-6 text-center text-ink-tertiary text-[13px]">Searching...</div>
-                  ) : searchResults.length > 0 ? (
-                    <div className="px-6 pb-6 space-y-2">
-                      {searchResults.map((guest) => (
-                        <SearchResultCard
-                          key={guest.booking_id}
-                          guest={guest}
-                          onSelect={handleSelectSearchResult}
-                        />
-                      ))}
-                    </div>
-                  ) : searchQuery.length >= 2 ? (
-                    <div className="px-6 pb-6 text-center text-ink-tertiary text-[13px]">No results found</div>
-                  ) : (
-                    <div className="px-6 pb-6 text-center text-ink-tertiary text-[13px]">Type to search...</div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Navigation - using table layout for guaranteed click areas */}
-        <div style={{ display: 'table', width: '100%', tableLayout: 'fixed' }}>
-          {/* Previous button cell */}
-          <div style={{ display: 'table-cell', width: '60px', verticalAlign: 'middle' }}>
-            <button
-              type="button"
-              disabled={!canGoPrevious}
-              onClick={handlePrevious}
-              onTouchEnd={(e) => { e.preventDefault(); handlePrevious(); }}
-              className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors ${
-                canGoPrevious 
-                  ? 'border-border hover:border-border-strong cursor-pointer' 
-                  : 'border-border-subtle cursor-not-allowed opacity-30'
-              }`}
-              style={{ WebkitTapHighlightColor: 'transparent' }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 6L9 12L15 18" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Date display cell - clickable for calendar */}
-          <div 
-            style={{ display: 'table-cell', textAlign: 'center', verticalAlign: 'middle' }}
-            className="relative"
-            ref={calendarRef}
+          {/* Previous */}
+          <button
+            type="button"
+            disabled={!canGoPrevious}
+            onClick={handlePrevious}
+            onTouchEnd={(e) => { e.preventDefault(); handlePrevious(); }}
+            className={`w-11 h-11 flex items-center justify-center transition-colors shrink-0 ${
+              canGoPrevious
+                ? 'text-ink-secondary hover:text-ink-primary cursor-pointer'
+                : 'text-ink-tertiary cursor-not-allowed opacity-30'
+            }`}
+            style={{ WebkitTapHighlightColor: 'transparent' }}
           >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M15 6L9 12L15 18" />
+            </svg>
+          </button>
+
+          {/* Date center */}
+          <div className="text-center relative" ref={calendarRef}>
             <button
               onClick={() => setShowCalendar(!showCalendar)}
               className="inline-block hover:opacity-70 transition-opacity"
             >
               {isToday(selectedDate) ? (
-                <p className="font-serif text-[22px] text-ink-primary">Today</p>
+                <p className="text-[20px] font-medium text-ink-primary normal-case tracking-normal">Today</p>
               ) : (
-                <p className="font-serif text-[22px] text-ink-primary">{formatShortDate(selectedDate)}</p>
+                <p className="text-[20px] font-medium text-ink-primary normal-case tracking-normal">{formatShortDate(selectedDate)}</p>
               )}
-              <p className="text-[11px] text-ink-tertiary mt-1 flex items-center justify-center gap-1">
+              <p className="text-[11px] text-ink-tertiary mt-0.5 flex items-center justify-center gap-1 font-light normal-case tracking-normal">
                 {formatDate(selectedDate)}
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -987,15 +927,15 @@ See you soon!
               <button
                 type="button"
                 onClick={handleToday}
-                className="text-[11px] text-ink-tertiary hover:text-ink-secondary underline mt-1"
+                className="text-[10px] text-ink-tertiary hover:text-ink-secondary underline mt-1 font-light normal-case tracking-normal"
               >
                 Back to today
               </button>
             )}
 
-            {/* Calendar dropdown - Riad brand design */}
+            {/* Calendar dropdown */}
             {showCalendar && (
-              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-sand shadow-lg z-50 p-6 w-[320px]">
+              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white shadow-lg z-50 p-6 w-[320px] border border-border-subtle">
                 {/* Month navigation */}
                 <div className="flex items-center justify-between mb-6">
                   <button
@@ -1083,20 +1023,68 @@ See you soon!
             )}
           </div>
 
-          {/* Next button cell */}
-          <div style={{ display: 'table-cell', width: '60px', verticalAlign: 'middle', textAlign: 'right' }}>
-            <button
-              type="button"
-              onClick={handleNext}
-              onTouchEnd={(e) => { e.preventDefault(); handleNext(); }}
-              className="w-12 h-12 rounded-full border-2 border-border hover:border-border-strong flex items-center justify-center transition-colors"
-              style={{ WebkitTapHighlightColor: 'transparent', display: 'inline-flex' }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 6L15 12L9 18" />
-              </svg>
-            </button>
-          </div>
+          {/* Next */}
+          <button
+            type="button"
+            onClick={handleNext}
+            onTouchEnd={(e) => { e.preventDefault(); handleNext(); }}
+            className="w-11 h-11 flex items-center justify-center text-ink-secondary hover:text-ink-primary transition-colors shrink-0"
+            style={{ WebkitTapHighlightColor: 'transparent' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M9 6L15 12L9 18" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Search */}
+        <div className="flex justify-end mt-1" ref={searchRef}>
+          <button
+            onClick={() => setShowSearch(!showSearch)}
+            className="text-[10px] font-light text-ink-tertiary hover:text-ink-secondary flex items-center gap-1 normal-case tracking-normal"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Search guest
+          </button>
+
+          {showSearch && (
+            <div className="absolute left-4 right-4 mt-6 bg-white shadow-lg z-50 border border-border-subtle">
+              <div className="p-5">
+                <label className="block text-[10px] font-light tracking-[0.08em] uppercase text-ink-tertiary mb-2">
+                  Search guests
+                </label>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Name or booking ID..."
+                  className="w-full py-3 bg-transparent border-b border-border focus:border-border-strong focus:outline-none text-ink-primary transition-colors text-[14px] normal-case tracking-normal"
+                  autoFocus
+                />
+              </div>
+              <div className="max-h-64 overflow-y-auto">
+                {searchLoading ? (
+                  <div className="px-5 pb-5 text-center text-ink-tertiary text-[13px]">Searching...</div>
+                ) : searchResults.length > 0 ? (
+                  <div className="px-5 pb-5 space-y-2">
+                    {searchResults.map((guest) => (
+                      <SearchResultCard
+                        key={guest.booking_id}
+                        guest={guest}
+                        onSelect={handleSelectSearchResult}
+                      />
+                    ))}
+                  </div>
+                ) : searchQuery.length >= 2 ? (
+                  <div className="px-5 pb-5 text-center text-ink-tertiary text-[13px]">No results found</div>
+                ) : (
+                  <div className="px-5 pb-5 text-center text-ink-tertiary text-[13px]">Type to search...</div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
