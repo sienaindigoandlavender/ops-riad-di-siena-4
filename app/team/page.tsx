@@ -1,9 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, Component, type ReactNode } from "react";
 import PasswordGate from "@/components/PasswordGate";
 import PoliceRegistrationForm from "@/components/PoliceRegistrationForm";
+
+// Error boundary to catch and display runtime errors
+class ErrorBoundary extends Component<{ children: ReactNode }, { error: string | null }> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { error: error.message };
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="min-h-screen bg-white flex items-center justify-center p-6">
+          <div className="max-w-md text-center">
+            <p className="text-[13px] text-ink-primary mb-2">Something went wrong</p>
+            <p className="text-[12px] text-ink-tertiary font-mono break-all">{this.state.error}</p>
+            <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 border border-border text-[11px] text-ink-secondary hover:text-ink-primary">
+              Reload
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 interface GuestSummary {
   booking_id: string;
@@ -861,6 +888,7 @@ See you soon!
   }
 
   return (
+    <ErrorBoundary>
     <PasswordGate>
     <div className="min-h-screen bg-cream pb-16">
       {/* Header */}
@@ -1226,5 +1254,6 @@ See you soon!
       )}
     </div>
     </PasswordGate>
+    </ErrorBoundary>
   );
 }
