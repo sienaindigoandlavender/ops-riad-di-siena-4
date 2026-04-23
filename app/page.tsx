@@ -299,7 +299,7 @@ export default function HomePage() {
       </div>
 
       {/* Calendar Navigation */}
-      <div className="bg-cream border-b border-border-subtle px-4 md:px-10 py-2.5">
+      <div className="bg-cream px-4 md:px-6 py-2.5">
         <div className="flex items-center justify-between">
           {/* Unified control cluster */}
           <div className="flex items-center border border-border-subtle divide-x divide-border-subtle">
