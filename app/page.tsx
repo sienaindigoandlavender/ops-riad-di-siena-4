@@ -106,6 +106,8 @@ export default function HomePage() {
     country: "",
     language: "",
     notes: "",
+    reviewScore: "",
+    reviewText: "",
   });
   const [newBooking, setNewBooking] = useState<{room: string; date: string} | null>(null);
   const [newBookingForm, setNewBookingForm] = useState({
@@ -447,6 +449,8 @@ export default function HomePage() {
       country: selectedBooking.country || "",
       language: selectedBooking.language || "",
       notes: selectedBooking.notes || "",
+      reviewScore: "",
+      reviewText: "",
     });
     setIsEditing(true);
   };
@@ -493,6 +497,25 @@ export default function HomePage() {
       });
 
       if (res.ok) {
+        // If a review score was entered, save it as a manual review
+        if (editForm.reviewScore && parseFloat(editForm.reviewScore) > 0) {
+          try {
+            await fetch("/api/reviews/add", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                guestName: `${editForm.firstName} ${editForm.lastName}`.trim(),
+                reservationNumber: selectedBooking.id,
+                reviewScore: editForm.reviewScore,
+                reviewText: editForm.reviewText,
+                checkIn: editForm.checkIn,
+                source: editForm.source,
+              }),
+            });
+          } catch {
+            // non-fatal: booking saved, review not
+          }
+        }
         setSelectedBooking(null);
         setIsEditing(false);
         await fetchBookings();
@@ -1293,6 +1316,38 @@ export default function HomePage() {
                     </div>
                   </div>
                   
+                  {/* Review score + text (useful for Airbnb, optional) */}
+                  <div className="pt-3 border-t border-border-subtle space-y-3">
+                    <p className="text-[10px] uppercase tracking-[0.1em] text-ink-tertiary font-light">Review (optional)</p>
+                    <div>
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
+                        Score (1-10)
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        step="0.1"
+                        value={editForm.reviewScore}
+                        onChange={(e) => setEditForm({ ...editForm, reviewScore: e.target.value })}
+                        placeholder="e.g. 9.5"
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">
+                        Review text
+                      </label>
+                      <textarea
+                        value={editForm.reviewText}
+                        onChange={(e) => setEditForm({ ...editForm, reviewText: e.target.value })}
+                        rows={3}
+                        placeholder="Paste the guest's review here..."
+                        className="w-full px-3 py-2 border border-border-subtle rounded-lg text-[13px] focus:outline-none focus:border-border-strong resize-none"
+                      />
+                    </div>
+                  </div>
+
                   {/* Notes */}
                   <div>
                     <label className="block text-[11px] font-medium text-ink-secondary uppercase tracking-wide mb-1.5">

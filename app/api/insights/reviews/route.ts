@@ -261,10 +261,24 @@ async function getOccupancyData(): Promise<Map<string, { bookings: number; night
 
 export async function GET() {
   try {
-    // Read CSV file
+    // Read Booking.com CSV
     const csvPath = path.join(process.cwd(), "data", "reviews.csv");
     const csvContent = fs.readFileSync(csvPath, "utf-8");
-    const reviews = parseCSV(csvContent);
+    const reviews: any[] = parseCSV(csvContent);
+
+    // Also read manually added reviews (Airbnb etc, entered via booking form)
+    const isVercel = process.env.VERCEL === "1";
+    const manualDir = isVercel ? "/tmp" : path.join(process.cwd(), "data");
+    const manualPath = path.join(manualDir, "manual_reviews.csv");
+    if (fs.existsSync(manualPath)) {
+      try {
+        const manualContent = fs.readFileSync(manualPath, "utf-8");
+        const manualReviews = parseCSV(manualContent);
+        reviews.push(...manualReviews);
+      } catch {
+        // ignore
+      }
+    }
     
     // Filter reviews to Jan 2025 onward only
     const cutoffDate = new Date("2025-01-01");
