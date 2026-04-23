@@ -261,7 +261,7 @@ export default function InsightsPage() {
               </button>
               <div className="text-right">
                 <p className="text-[32px] font-serif text-gold">{stats.overallAverage.toFixed(1)}</p>
-                <p className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary">{stats.totalReviews} reviews</p>
+                <a href="/reviews" className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary hover:text-ink-primary transition-colors underline">{stats.totalReviews} reviews</a>
               </div>
             </div>
           </div>
@@ -542,8 +542,8 @@ export default function InsightsPage() {
             {/* Year-over-Year Comparison */}
             <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Year-over-Year Comparison</h2>
-              <div className="grid grid-cols-3 gap-6">
-                {[2023, 2024, 2025].map(year => {
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[2023, 2024, 2025, 2026].map(year => {
                   const yearMonths = stats.monthlyRatings.filter(m => m.month.startsWith(year.toString()));
                   const avg = yearMonths.length > 0
                     ? yearMonths.reduce((sum, m) => sum + m.avgScore, 0) / yearMonths.length

@@ -34,13 +34,17 @@ export async function GET(request: NextRequest) {
       .select("sentiment, review_score");
 
     let avgScore = 0;
+    let scoredCount = 0;
     if (allReviews && allReviews.length > 0) {
       allReviews.forEach((r: { sentiment: string; review_score: number }) => {
         const s = (r.sentiment || "neutral") as keyof typeof sentimentCounts;
         if (s in sentimentCounts) sentimentCounts[s]++;
-        avgScore += r.review_score || 0;
+        if (r.review_score && r.review_score > 0) {
+          avgScore += r.review_score;
+          scoredCount++;
+        }
       });
-      avgScore = avgScore / allReviews.length;
+      if (scoredCount > 0) avgScore = avgScore / scoredCount;
     }
 
     return NextResponse.json({
