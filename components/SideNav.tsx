@@ -22,6 +22,9 @@ const NAV_ITEMS = [
       <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
     </svg>
   )},
+];
+
+const TOOLS_ITEMS = [
   { href: "/expenses", label: "Expenses", icon: (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z" /><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8" /><path d="M12 17.5v.5M12 6v.5" />
@@ -30,6 +33,14 @@ const NAV_ITEMS = [
   { href: "/invoice", label: "Invoices", icon: (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
       <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />
+    </svg>
+  )},
+];
+
+const DEV_ITEMS = [
+  { href: "/guests", label: "Guides", icon: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" /><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
     </svg>
   )},
 ];
@@ -76,11 +87,34 @@ export function DesktopSidebar() {
         </a>
       </div>
 
-      {/* Nav — flat list */}
-      <nav className="flex-1 py-2 px-2 lg:px-3 space-y-0.5">
-        {NAV_ITEMS.map(({ href, label, icon }) => (
-          <NavLink key={href} href={href} label={label} icon={icon} isActive={pathname === href} />
-        ))}
+      {/* Nav */}
+      <nav className="flex-1 py-2 px-2 lg:px-3">
+        {/* Main */}
+        <div className="space-y-0.5">
+          {NAV_ITEMS.map(({ href, label, icon }) => (
+            <NavLink key={href} href={href} label={label} icon={icon} isActive={pathname === href} />
+          ))}
+        </div>
+
+        {/* Tools */}
+        <div className="mt-5">
+          <span className="text-[10px] font-light text-ink-tertiary tracking-[0.06em] px-3 hidden lg:block mb-1">Tools</span>
+          <div className="space-y-0.5">
+            {TOOLS_ITEMS.map(({ href, label, icon }) => (
+              <NavLink key={href} href={href} label={label} icon={icon} isActive={pathname === href} />
+            ))}
+          </div>
+        </div>
+
+        {/* Dev */}
+        <div className="mt-5">
+          <span className="text-[10px] font-light text-ink-tertiary tracking-[0.06em] px-3 hidden lg:block mb-1">Dev</span>
+          <div className="space-y-0.5">
+            {DEV_ITEMS.map(({ href, label, icon }) => (
+              <NavLink key={href} href={href} label={label} icon={icon} isActive={pathname === href} />
+            ))}
+          </div>
+        </div>
       </nav>
 
       {/* Admin — pinned to bottom */}
@@ -94,7 +128,7 @@ export function DesktopSidebar() {
 // Mobile slide-out
 export default function SideNav({ onClose }: SideNavProps) {
   const pathname = usePathname();
-  const allLinks = [...NAV_ITEMS, ADMIN_ITEM];
+  const allLinks = [...NAV_ITEMS, ...TOOLS_ITEMS, ...DEV_ITEMS, ADMIN_ITEM];
 
   return (
     <>
