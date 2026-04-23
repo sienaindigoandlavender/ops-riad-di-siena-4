@@ -659,8 +659,11 @@ export default function HomePage() {
                             onClick={() => !booking && handleCellClick(room, date)}
                           >
                             {isStart && booking ? (
+                              (() => {
+                                const isPast = booking.checkOut && booking.checkOut.split("T")[0] < toDateStr(new Date());
+                                return (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center`}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center ${isPast ? "opacity-35" : ""}`}
                                 style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -669,6 +672,8 @@ export default function HomePage() {
                               >
                                 <div className="truncate uppercase">{booking.guestName}</div>
                                                               </div>
+                                );
+                              })()
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink-tertiary">
@@ -724,8 +729,11 @@ export default function HomePage() {
                             onClick={() => !booking && handleCellClick(room, date)}
                           >
                             {isStart && booking ? (
+                              (() => {
+                                const isPast = booking.checkOut && booking.checkOut.split("T")[0] < toDateStr(new Date());
+                                return (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center`}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center ${isPast ? "opacity-35" : ""}`}
                                 style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -734,6 +742,8 @@ export default function HomePage() {
                               >
                                 <div className="truncate uppercase">{booking.guestName}</div>
                                                               </div>
+                                );
+                              })()
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink-tertiary">
