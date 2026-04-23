@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import PasswordGate from "@/components/PasswordGate";
 import LoadingScreen from "@/components/LoadingScreen";
 import ImportModal from "@/components/ImportModal";
+import SideNav from "@/components/SideNav";
 
 interface Booking {
   id: string;
@@ -1857,31 +1858,7 @@ We look forward to welcoming you! ✨`
           onImportComplete={fetchBookings}
         />
       )}
-      {/* Side navigation */}
-      {showNav && (
-        <>
-          <div className="fixed inset-0 bg-black/20 z-50 modal-overlay" onClick={() => setShowNav(false)} />
-          <nav className="fixed top-0 right-0 h-full w-72 bg-white border-l border-border-subtle z-50 flex flex-col modal-panel" style={{ animationName: 'none', animation: 'slide-in-right 200ms cubic-bezier(0.22, 1, 0.36, 1) both' }}>
-            <div className="flex items-center justify-between px-7 py-6 border-b border-border-subtle">
-              <span className="text-[11px] font-medium text-ink-tertiary tracking-[0.08em]">NAVIGATION</span>
-              <button onClick={() => setShowNav(false)} className="w-7 h-7 flex items-center justify-center text-ink-tertiary hover:text-ink-primary transition-colors">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M4 4l8 8M12 4l-8 8" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex-1 px-7 py-6 space-y-1">
-              <a href="/" className="block py-3 text-[12px] text-ink-primary font-light uppercase tracking-[0.08em] border-b border-border-subtle">Calendar</a>
-              <a href="/guests" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Guests</a>
-              <a href="/team" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Team</a>
-              <a href="/expenses" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Expenses</a>
-              <a href="/insights" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Insights</a>
-              <a href="/invoice" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Invoices</a>
-              <a href="/admin" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Admin</a>
-            </div>
-          </nav>
-        </>
-      )}
+      {showNav && <SideNav onClose={() => setShowNav(false)} />}
     </div>
     </PasswordGate>
   );
