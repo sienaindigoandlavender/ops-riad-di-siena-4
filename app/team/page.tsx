@@ -1191,7 +1191,7 @@ See you soon!
       {/* Footer - City Tax Summary */}
       <div className="fixed bottom-0 left-0 right-0 bg-cream border-t border-border-subtle px-6 py-3">
         <div className="max-w-lg mx-auto">
-          {taxStats && (
+          {taxStats?.monthly && (
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wide text-ink-tertiary font-medium">City Tax</span>
               <div className="flex items-center gap-4">
