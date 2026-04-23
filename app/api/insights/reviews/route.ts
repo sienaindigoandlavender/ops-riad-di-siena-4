@@ -69,37 +69,52 @@ function parseCSVLine(line: string): string[] {
   return result;
 }
 
-// Extract issues from negative reviews
-function extractIssues(reviews: any[]): { issue: string; count: number; examples: string[]; category: string }[] {
+// Extract issues from negative reviews, with recent-vs-previous trend
+function extractIssues(reviews: any[]): { issue: string; count: number; recentCount: number; previousCount: number; trend: "up" | "down" | "flat"; examples: string[]; category: string }[] {
   const issuePatterns: { pattern: RegExp; category: string; issue: string }[] = [
-    { pattern: /cold|fre[díi]o|freddo|heating|heater|climatiza/i, category: "Temperature", issue: "Room too cold / heating issues" },
-    { pattern: /hot|calor|caldo|air condition|ac |a\/c/i, category: "Temperature", issue: "Room too hot / AC issues" },
-    { pattern: /noise|ruido|bruit|rumore|loud|music/i, category: "Noise", issue: "Noise from outside / neighbors" },
-    { pattern: /smell|odor|olor|odeur/i, category: "Cleanliness", issue: "Bad smell in room/bathroom" },
-    { pattern: /light|luz|luce|lamp|lighting/i, category: "Facilities", issue: "Insufficient lighting" },
-    { pattern: /bathroom|baño|bagno|shower|douche/i, category: "Bathroom", issue: "Bathroom issues (small/maintenance)" },
-    { pattern: /window|ventana|finestra|ventilation|ventilación/i, category: "Room", issue: "No window / poor ventilation" },
-    { pattern: /wifi|internet|connection/i, category: "Facilities", issue: "WiFi / internet problems" },
-    { pattern: /direction|map|find|encontrar|trouver|lost|perdu/i, category: "Access", issue: "Difficult to find / directions" },
-    { pattern: /staff|personal|personnel|unfriendly/i, category: "Service", issue: "Staff-related feedback" },
-    { pattern: /breakfast|desayuno|petit.déjeuner|colazione/i, category: "Food", issue: "Breakfast feedback" },
+    { pattern: /cold|fre[díi]o|freddo|heating|heater|climatiza/i, category: "Temperature", issue: "Heating / room too cold" },
+    { pattern: /hot|calor|caldo|air condition|ac |a\/c/i, category: "Temperature", issue: "Cooling / AC issues" },
+    { pattern: /humid|moisture|damp|mold|mould|mildew|moisi|muffa/i, category: "Humidity", issue: "Humidity / dampness" },
+    { pattern: /plumb|leak|drain|water pressure|water didn|pipe|tuyau|fuite|tubatura/i, category: "Plumbing", issue: "Plumbing / water issues" },
+    { pattern: /noise|ruido|bruit|rumore|loud|music|prayer|azan/i, category: "Noise", issue: "Noise complaints" },
+    { pattern: /smell|odor|olor|odeur|stink/i, category: "Cleanliness", issue: "Odor / smell" },
+    { pattern: /light|luz|luce|lamp|lighting|dark/i, category: "Facilities", issue: "Lighting" },
+    { pattern: /bathroom|baño|bagno|shower|douche|toilet/i, category: "Bathroom", issue: "Bathroom" },
+    { pattern: /window|ventana|finestra|ventilation|ventilación|air flow/i, category: "Room", issue: "Ventilation / windows" },
+    { pattern: /wifi|internet|connection|connexion/i, category: "Facilities", issue: "WiFi / internet" },
+    { pattern: /direction|map|find|encontrar|trouver|lost|perdu|hard to find/i, category: "Access", issue: "Wayfinding" },
+    { pattern: /staff|personal|personnel|unfriendly|rude/i, category: "Service", issue: "Staff feedback" },
+    { pattern: /breakfast|desayuno|petit.déjeuner|colazione/i, category: "Food", issue: "Breakfast" },
     { pattern: /tax|city.tax|tourist.tax/i, category: "Pricing", issue: "City tax surprise" },
-    { pattern: /clean|limpi|propre|pulito/i, category: "Cleanliness", issue: "Cleanliness concerns" },
-    { pattern: /bed|cama|lit|letto|mattress/i, category: "Comfort", issue: "Bed/mattress comfort" },
+    { pattern: /clean|limpi|propre|pulito|dirt|dust/i, category: "Cleanliness", issue: "Cleanliness" },
+    { pattern: /bed|cama|lit|letto|mattress|pillow/i, category: "Comfort", issue: "Bed / mattress" },
   ];
-  
-  const issueMap: Map<string, { count: number; examples: string[]; category: string }> = new Map();
-  
+
+  // 12-month rolling window
+  const now = new Date();
+  const twelveMonthsAgo = new Date(now);
+  twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+  const twentyFourMonthsAgo = new Date(now);
+  twentyFourMonthsAgo.setMonth(twentyFourMonthsAgo.getMonth() - 24);
+
+  const issueMap: Map<string, { count: number; recentCount: number; previousCount: number; examples: string[]; category: string }> = new Map();
+
   reviews.forEach(review => {
     const negativeText = review["Negative review"] || "";
     if (!negativeText || negativeText.toLowerCase() === "nada" || negativeText.toLowerCase() === "nothing" || negativeText.toLowerCase() === "niente" || negativeText.toLowerCase() === "rien") {
       return;
     }
-    
+
+    const reviewDate = review["Review date"] ? new Date(review["Review date"]) : null;
+    const isRecent = reviewDate && reviewDate >= twelveMonthsAgo;
+    const isPrevious = reviewDate && reviewDate >= twentyFourMonthsAgo && reviewDate < twelveMonthsAgo;
+
     issuePatterns.forEach(({ pattern, category, issue }) => {
       if (pattern.test(negativeText)) {
-        const existing = issueMap.get(issue) || { count: 0, examples: [], category };
+        const existing = issueMap.get(issue) || { count: 0, recentCount: 0, previousCount: 0, examples: [], category };
         existing.count++;
+        if (isRecent) existing.recentCount++;
+        if (isPrevious) existing.previousCount++;
         if (existing.examples.length < 3 && negativeText.length > 5) {
           existing.examples.push(negativeText.substring(0, 150));
         }
@@ -107,10 +122,17 @@ function extractIssues(reviews: any[]): { issue: string; count: number; examples
       }
     });
   });
-  
+
   return Array.from(issueMap.entries())
-    .map(([issue, data]) => ({ issue, ...data }))
-    .sort((a, b) => b.count - a.count);
+    .map(([issue, data]) => {
+      // Trend: compare recent 12 months vs previous 12 months
+      let trend: "up" | "down" | "flat" = "flat";
+      const delta = data.recentCount - data.previousCount;
+      if (delta >= 2) trend = "up";
+      else if (delta <= -2) trend = "down";
+      return { issue, ...data, trend };
+    })
+    .sort((a, b) => b.recentCount - a.recentCount);
 }
 
 // Calculate monthly ratings
