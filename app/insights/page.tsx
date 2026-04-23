@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import AppHeader from "@/components/AppHeader";
 
 interface ReviewStats {
   totalReviews: number;
@@ -195,6 +196,7 @@ export default function InsightsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#faf9f7] flex items-center justify-center">
+      <AppHeader />
         <div className="animate-pulse text-ink-secondary">Loading insights...</div>
       </div>
     );

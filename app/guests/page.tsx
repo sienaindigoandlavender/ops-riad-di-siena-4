@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import AppHeader from "@/components/AppHeader";
 
 interface Guest {
   booking_id: string;
@@ -152,6 +153,7 @@ export default function GuestsPage() {
 
   return (
     <div className="min-h-screen bg-cream">
+      <AppHeader />
       {/* Header */}
       <header className="border-b border-border-subtle py-5 px-6">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
