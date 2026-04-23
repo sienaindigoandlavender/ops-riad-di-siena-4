@@ -920,7 +920,7 @@ export default function HomePage() {
                                 }
                               }}
                               className={`
-                                w-full aspect-square flex items-center justify-center text-[12px] active:scale-95 transition-transform
+                                w-full aspect-square flex items-center justify-center text-[12px] active:scale-95 active:bg-linen transition-all duration-150
                                 ${bgClass} ${textClass}
                                 ${isToday && !booking ? "ring-1 ring-ink-primary text-ink-primary font-semibold" : ""}
                                 ${isToday && booking ? "ring-1 ring-accent font-bold" : ""}
@@ -1033,7 +1033,7 @@ export default function HomePage() {
                           >
                             {isStart && booking ? (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] transition-all flex flex-col justify-center`}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center`}
                                 style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -1100,7 +1100,7 @@ export default function HomePage() {
                           >
                             {isStart && booking ? (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] transition-all flex flex-col justify-center`}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center`}
                                 style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
