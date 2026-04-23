@@ -1042,8 +1042,7 @@ export default function HomePage() {
                                 }}
                               >
                                 <div className="truncate">{booking.guestName}</div>
-                                <div className="text-[10px] opacity-75">{booking.nights}n</div>
-                              </div>
+                                                              </div>
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink-tertiary">
@@ -1109,8 +1108,7 @@ export default function HomePage() {
                                 }}
                               >
                                 <div className="truncate">{booking.guestName}</div>
-                                <div className="text-[10px] opacity-75">{booking.nights}n</div>
-                              </div>
+                                                              </div>
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink-tertiary">
