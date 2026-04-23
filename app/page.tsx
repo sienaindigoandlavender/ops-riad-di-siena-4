@@ -81,7 +81,7 @@ const DOUARIA_ROOMS = ["Bliss", "Joy", "Love"];
 const ALL_ROOMS = [...RIAD_ROOMS, ...DOUARIA_ROOMS];
 
 // Source options for new bookings
-const BOOKING_SOURCES = ["Website", "WhatsApp", "Direct", "Email", "Other"];
+const BOOKING_SOURCES = ["Website", "WhatsApp", "Direct", "Email", "Airbnb", "Booking.com", "Other"];
 
 export default function HomePage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -1484,7 +1484,9 @@ We look forward to welcoming you! ✨`
       {/* New Booking Modal - Riad Brand Design */}
       {newBooking && (
         <div className="fixed inset-0 bg-[#2B2623]/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-parchment shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col">
+          <div className="bg-parchment shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col rounded-xl overflow-hidden">
+            {/* Source color strip */}
+            <div className={`h-1.5 w-full ${getSourceColor(newBookingForm.isBlackout ? "blocked" : newBookingForm.source)} transition-colors duration-300`} />
             {/* Header - Fixed */}
             <div className="p-6 border-b border-foreground/10 flex-shrink-0">
               <div className="flex items-center justify-between">
