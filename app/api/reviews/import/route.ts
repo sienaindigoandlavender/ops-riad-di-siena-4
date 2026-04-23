@@ -5,14 +5,17 @@ import * as path from "path";
 
 export const dynamic = "force-dynamic";
 
-function parseCSVLine(line: string): string[] {
-  const result: string[] = [];
+// Full CSV parser that respects quoted fields spanning multiple lines
+function parseCSV(text: string): string[][] {
+  const rows: string[][] = [];
   let current = "";
+  let row: string[] = [];
   let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
+
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
     if (inQuotes) {
-      if (c === '"' && line[i + 1] === '"') {
+      if (c === '"' && text[i + 1] === '"') {
         current += '"';
         i++;
       } else if (c === '"') {
@@ -24,15 +27,24 @@ function parseCSVLine(line: string): string[] {
       if (c === '"') {
         inQuotes = true;
       } else if (c === ",") {
-        result.push(current.trim());
+        row.push(current.trim());
+        current = "";
+      } else if (c === "\n" || c === "\r") {
+        if (c === "\r" && text[i + 1] === "\n") i++;
+        row.push(current.trim());
+        if (row.some((v) => v.length > 0)) rows.push(row);
+        row = [];
         current = "";
       } else {
         current += c;
       }
     }
   }
-  result.push(current.trim());
-  return result;
+  if (current.length > 0 || row.length > 0) {
+    row.push(current.trim());
+    if (row.some((v) => v.length > 0)) rows.push(row);
+  }
+  return rows;
 }
 
 const THEME_KEYWORDS: Record<string, string[]> = {
@@ -100,12 +112,13 @@ export async function POST(request: Request) {
     }
 
     const csvContent = fs.readFileSync(csvPath, "utf-8");
-    const lines = csvContent.split("\n").filter((l) => l.trim());
-    if (lines.length < 2) {
+    const allRows = parseCSV(csvContent);
+    if (allRows.length < 2) {
       return NextResponse.json({ error: "CSV is empty" }, { status: 400 });
     }
 
-    const rows = lines.slice(1).map(parseCSVLine);
+    // Skip the header row
+    const rows = allRows.slice(1);
 
     let imported = 0;
     let skipped = 0;
