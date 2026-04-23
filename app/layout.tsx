@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { DesktopSidebar } from "@/components/SideNav";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -24,7 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-cream text-ink antialiased">
-        {children}
+        <div className="flex min-h-screen">
+          <DesktopSidebar />
+          <main className="flex-1 min-w-0">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );

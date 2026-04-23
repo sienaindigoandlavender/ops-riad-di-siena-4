@@ -17,7 +17,7 @@ export default function AppHeader() {
 
           <button
             onClick={() => setShowNav(true)}
-            className="w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-full hover:bg-linen transition-colors"
+            className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-full hover:bg-linen transition-colors"
             aria-label="Open navigation"
           >
             <span className="block w-[18px] h-[1.5px] bg-ink-primary" />
