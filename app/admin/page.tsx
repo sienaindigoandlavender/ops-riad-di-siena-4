@@ -358,7 +358,7 @@ export default function AdminDashboard() {
             {/* Primary Tools */}
             <div className="space-y-3 mb-14">
               <Link
-                href="/admin/calendar"
+                href="/"
                 className="block p-6 bg-cream rounded-lg border border-border-subtle hover:border-border transition-colors"
               >
                 <h2 className="font-serif text-[18px] text-ink-primary mb-1">Calendar</h2>
