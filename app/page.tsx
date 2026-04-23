@@ -935,7 +935,7 @@ export default function HomePage() {
                     </div>
                     {/* Room name */}
                     <div className="px-3 py-2.5 border-t border-border-subtle">
-                      <div className="text-[12px] font-medium text-ink-primary uppercase tracking-[0.04em]">{room}</div>
+                      <div className="text-[12px] font-light text-ink-primary uppercase tracking-[0.04em]">{room}</div>
                     </div>
                   </div>
                 );
@@ -990,7 +990,7 @@ export default function HomePage() {
                 </tr>
                 {RIAD_ROOMS.map((room) => (
                   <tr key={room}>
-                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-[13px] font-medium text-ink-primary uppercase tracking-[0.04em]">
+                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-[13px] font-light text-ink-primary uppercase tracking-[0.04em]">
                       {room}
                     </td>
                     {(() => {
@@ -1057,7 +1057,7 @@ export default function HomePage() {
                 </tr>
                 {DOUARIA_ROOMS.map((room) => (
                   <tr key={room}>
-                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-[13px] font-medium text-ink-primary uppercase tracking-[0.04em]">
+                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-[13px] font-light text-ink-primary uppercase tracking-[0.04em]">
                       {room}
                     </td>
                     {(() => {
