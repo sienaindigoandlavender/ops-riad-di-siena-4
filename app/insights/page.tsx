@@ -551,10 +551,11 @@ export default function InsightsPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[2023, 2024, 2025, 2026].map(year => {
                   const yearMonths = stats.monthlyRatings.filter(m => m.month.startsWith(year.toString()));
-                  const avg = yearMonths.length > 0
-                    ? yearMonths.reduce((sum, m) => sum + m.avgScore, 0) / yearMonths.length
-                    : 0;
+                  // Weight each month's avgScore by its review count so the
+                  // year average reflects actual reviews, not monthly averages
                   const count = yearMonths.reduce((sum, m) => sum + m.count, 0);
+                  const weightedTotal = yearMonths.reduce((sum, m) => sum + m.avgScore * m.count, 0);
+                  const avg = count > 0 ? weightedTotal / count : 0;
                   
                   return (
                     <div key={year} className="text-center p-4 bg-parchment rounded-lg">
