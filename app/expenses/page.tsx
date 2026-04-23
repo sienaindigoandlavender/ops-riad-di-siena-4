@@ -333,7 +333,7 @@ export default function ExpensesPage() {
 
   return (
     <div className="min-h-screen bg-[#faf9f7]">
-      {/* Header */}
+      <AppHeader />
       <header className="bg-cream border-b border-border-subtle">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">

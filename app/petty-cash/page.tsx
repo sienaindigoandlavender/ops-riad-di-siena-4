@@ -133,6 +133,7 @@ export default function PettyCashPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-cream">
+      <AppHeader />
       {/* Header */}
       <header className="border-b border-white/10">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">

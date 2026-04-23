@@ -277,6 +277,7 @@ export default function TaxPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-parchment flex items-center justify-center">
+      <AppHeader />
         <div className="animate-pulse text-ink-tertiary">Loading...</div>
       </div>
     }>
