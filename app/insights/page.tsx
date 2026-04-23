@@ -262,6 +262,27 @@ export default function InsightsPage() {
               <div className="text-right">
                 <p className="text-[32px] font-serif text-gold">{stats.overallAverage.toFixed(1)}</p>
                 <a href="/reviews" className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary hover:text-ink-primary transition-colors underline">{stats.totalReviews} reviews</a>
+                {(() => {
+                  // Projected score: if the last 12 months' average quality
+                  // continues, where does the 36-month weighted score trend?
+                  const last12 = stats.monthlyRatings.slice(-12);
+                  const last12Count = last12.reduce((s, m) => s + m.count, 0);
+                  const last12Avg = last12Count > 0
+                    ? last12.reduce((s, m) => s + m.avgScore * m.count, 0) / last12Count
+                    : 0;
+                  if (last12Avg === 0 || last12Count < 10) return null;
+                  const delta = last12Avg - stats.overallAverage;
+                  // If we keep scoring the last-12-month average for the next
+                  // 12 months, the weighted score decays toward that value
+                  const projected = stats.overallAverage + delta * 0.65;
+                  const arrow = projected > stats.overallAverage ? "↑" : projected < stats.overallAverage ? "↓" : "→";
+                  const arrowColor = projected > stats.overallAverage + 0.05 ? "text-sage" : projected < stats.overallAverage - 0.05 ? "text-brick" : "text-ink-tertiary";
+                  return (
+                    <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mt-2 font-light">
+                      Trending <span className={`${arrowColor} font-medium`}>{arrow} {projected.toFixed(1)}</span>
+                    </p>
+                  );
+                })()}
               </div>
             </div>
           </div>
@@ -551,10 +572,11 @@ export default function InsightsPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[2023, 2024, 2025, 2026].map(year => {
                   const yearMonths = stats.monthlyRatings.filter(m => m.month.startsWith(year.toString()));
-                  const avg = yearMonths.length > 0
-                    ? yearMonths.reduce((sum, m) => sum + m.avgScore, 0) / yearMonths.length
-                    : 0;
+                  // Weight each month's avgScore by its review count so the
+                  // year average reflects actual reviews, not monthly averages
                   const count = yearMonths.reduce((sum, m) => sum + m.count, 0);
+                  const weightedTotal = yearMonths.reduce((sum, m) => sum + m.avgScore * m.count, 0);
+                  const avg = count > 0 ? weightedTotal / count : 0;
                   
                   return (
                     <div key={year} className="text-center p-4 bg-parchment rounded-lg">
