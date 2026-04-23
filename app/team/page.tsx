@@ -959,7 +959,7 @@ See you soon!
                   </button>
                 </div>
 
-                <div className="max-h-[400px] overflow-y-auto">
+                <div className="max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   {calendarMonths.map(({ year, month, days }) => (
                     <div key={`${year}-${month}`} className="mb-6">
                       <p className="text-sm font-light tracking-[0.04em] text-ink-body mb-4 text-center">
@@ -1064,7 +1064,7 @@ See you soon!
                   autoFocus
                 />
               </div>
-              <div className="max-h-64 overflow-y-auto">
+              <div className="max-h-64 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {searchLoading ? (
                   <div className="px-5 pb-5 text-center text-ink-tertiary text-[13px]">Searching...</div>
                 ) : searchResults.length > 0 ? (
