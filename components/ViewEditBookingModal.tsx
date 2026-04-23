@@ -1,52 +1,8 @@
 "use client";
 
 import { useState } from "react";
-
-// TODO: move to types/booking.ts
-interface Booking {
-  id: string;
-  guestName: string;
-  room: string;
-  property: string;
-  checkIn: string;
-  checkOut: string;
-  nights: number;
-  source: string;
-  status: string;
-  email?: string;
-  phone?: string;
-  rowIndex?: number;
-  firstName?: string;
-  lastName?: string;
-  country?: string;
-  language?: string;
-  notes?: string;
-  arrivalTime?: string;
-}
-
-// TODO: extract to lib/constants.ts
-const RIAD_ROOMS = ["Hidden Gem", "Jewel Box", "Trésor Caché"];
-const DOUARIA_ROOMS = ["Bliss", "Joy", "Love"];
-const ALL_ROOMS = [...RIAD_ROOMS, ...DOUARIA_ROOMS];
-const BOOKING_SOURCES = ["Website", "WhatsApp", "Direct", "Email", "Airbnb", "Booking.com", "Other"];
-
-const getSourceColor = (source: string): string => {
-  const s = (source || "").trim().toLowerCase();
-  if (s.includes("blackout") || s.includes("blocked")) return "bg-[#3D3832]";
-  if (s.includes("airbnb")) return "bg-[#CEAEA8]";
-  if (s.includes("booking")) return "bg-[#A2B4BF]";
-  if (s.includes("website")) return "bg-[#C5AD84]";
-  return "bg-[#A3AD95]";
-};
-
-const getSourceTextColor = (source: string): string => {
-  const s = (source || "").trim().toLowerCase();
-  if (s.includes("blackout") || s.includes("blocked")) return "text-[#E8E4DF]";
-  if (s.includes("airbnb")) return "text-[#4A3530]";
-  if (s.includes("booking")) return "text-[#2E3E47]";
-  if (s.includes("website")) return "text-[#3E3318]";
-  return "text-[#2E3A28]";
-};
+import { RIAD_ROOMS, ALL_ROOMS, BOOKING_SOURCES, getSourceColor, getSourceTextColor } from "@/lib/constants";
+import type { Booking } from "@/types/booking";
 
 interface ViewEditBookingModalProps {
   booking: Booking;
