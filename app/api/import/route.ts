@@ -783,27 +783,33 @@ export async function POST(request: NextRequest) {
     const today = new Date().toISOString().split("T")[0];
     const sourceLabel = source === "booking.com" ? "Booking.com" : "Airbnb";
 
-    for (const [bookingId, guest] of existingByBookingId) {
+    const stale: { bookingId: string; guest: MasterGuest }[] = [];
+    existingByBookingId.forEach((guest, bookingId) => {
       const guestSource = (guest.source || "").toLowerCase();
       const matchesSource =
         (source === "airbnb" && guestSource.includes("airbnb")) ||
         (source === "booking.com" && guestSource.includes("booking"));
 
-      if (!matchesSource) continue;
+      if (!matchesSource) return;
 
       const status = (guest.status || "").toLowerCase();
-      if (status === "cancelled" || status === "canceled") continue;
+      if (status === "cancelled" || status === "canceled") return;
 
       const checkIn = guest.check_in ? String(guest.check_in).split("T")[0] : "";
-      if (!checkIn || checkIn < today) continue;
+      if (!checkIn || checkIn < today) return;
 
       if (!incomingBookingIds.has(bookingId)) {
-        await updateGuestByBookingId(bookingId, { status: "cancelled" });
-        results.cancelled++;
-        results.changes.push(
-          `Cancelled (missing from ${sourceLabel} export): ${guest.first_name} ${guest.last_name} - ${checkIn} (${bookingId})`
-        );
+        stale.push({ bookingId, guest });
       }
+    });
+
+    for (const { bookingId, guest } of stale) {
+      const checkIn = guest.check_in ? String(guest.check_in).split("T")[0] : "";
+      await updateGuestByBookingId(bookingId, { status: "cancelled" });
+      results.cancelled++;
+      results.changes.push(
+        `Cancelled (missing from ${sourceLabel} export): ${guest.first_name} ${guest.last_name} - ${checkIn} (${bookingId})`
+      );
     }
 
     return NextResponse.json({
