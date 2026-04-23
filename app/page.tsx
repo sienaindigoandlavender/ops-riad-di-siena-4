@@ -654,7 +654,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-baseline gap-3 shrink-0">
               <h1 className="text-[15px] md:text-[16px] font-medium text-ink-primary tracking-[0.04em] normal-case">RIAD DI SIENA</h1>
-              <p className="text-[11px] text-ink-tertiary tracking-[0.03em] hidden sm:block normal-case">Operations</p>
+              <p className="text-[11px] text-ink-tertiary tracking-[0.03em] hidden sm:block normal-case font-light">Operations</p>
             </div>
 
             {/* Import Buttons + Burger */}
@@ -794,23 +794,23 @@ export default function HomePage() {
           <div className="hidden md:flex items-center gap-4 h-[34px] text-[10px]">
             <div className="flex items-center gap-1.5">
               <div className="w-[7px] h-[7px] bg-[#A2B4BF]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Booking.com</span>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Booking.com</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-[7px] h-[7px] bg-[#CEAEA8]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Airbnb</span>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Airbnb</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-[7px] h-[7px] bg-[#C5AD84]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Website</span>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Website</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-[7px] h-[7px] bg-[#A3AD95]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Direct</span>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Direct</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-[7px] h-[7px] bg-[#3D3832]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Blocked</span>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Blocked</span>
             </div>
           </div>
         </div>
@@ -961,7 +961,7 @@ export default function HomePage() {
             <table className="w-full border-collapse min-w-[1400px] table-fixed">
               <thead>
                 <tr>
-                  <th className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-left text-[10px] font-medium text-ink-tertiary tracking-[0.08em] w-36">
+                  <th className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-left text-[10px] font-light text-ink-tertiary tracking-[0.08em] w-36">
                     Room
                   </th>
                   {dates.map((date, idx) => (
@@ -985,7 +985,7 @@ export default function HomePage() {
                 {/* The Riad */}
                 <tr>
                   <td colSpan={dates.length + 1} className="bg-bone px-3 py-2 border-b border-border-subtle">
-                    <span className="text-[10px] font-medium text-ink-tertiary tracking-[0.1em]">THE RIAD</span>
+                    <span className="text-[10px] font-light text-ink-tertiary tracking-[0.1em]">THE RIAD</span>
                   </td>
                 </tr>
                 {RIAD_ROOMS.map((room) => (
@@ -1052,7 +1052,7 @@ export default function HomePage() {
                 {/* The Douaria */}
                 <tr>
                   <td colSpan={dates.length + 1} className="bg-bone px-3 py-2 border-b border-border-subtle">
-                    <span className="text-[10px] font-medium text-ink-tertiary tracking-[0.1em]">THE DOUARIA</span>
+                    <span className="text-[10px] font-light text-ink-tertiary tracking-[0.1em]">THE DOUARIA</span>
                   </td>
                 </tr>
                 {DOUARIA_ROOMS.map((room) => (

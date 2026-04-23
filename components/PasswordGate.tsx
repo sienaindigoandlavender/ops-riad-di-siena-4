@@ -69,7 +69,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
             <h1 className="text-[20px] sm:text-[22px] font-medium text-ink-primary tracking-[0.03em] leading-relaxed pt-1 normal-case">
               Riad di Siena
             </h1>
-            <p className="text-[11px] text-ink-tertiary tracking-[0.06em] mt-2 mb-1">OPERATIONS</p>
+            <p className="text-[11px] text-ink-tertiary tracking-[0.06em] mt-2 mb-1 font-light">OPERATIONS</p>
           </div>
 
           <form onSubmit={handleSubmit}>
