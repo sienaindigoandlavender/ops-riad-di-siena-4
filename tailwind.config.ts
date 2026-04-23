@@ -9,70 +9,74 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Slow-dreamy warm neutrals
-        sand: "#FBF9F4",
-        cream: "#FBF9F4",
-        parchment: "#F7F2EA",
-        linen: "#EEE8DB",
-        bone: "#FAF7F0",
-        background: "#FBF9F4",
-        foreground: "#2B2623",
-        // Warm ink system
+        // Zara-minimal neutrals (pure white + near-black)
+        sand: "#FFFFFF",
+        cream: "#FFFFFF",
+        parchment: "#FAFAFA",
+        linen: "#F5F5F5",
+        bone: "#F7F7F7",
+        background: "#FFFFFF",
+        foreground: "#000000",
         ink: {
-          DEFAULT: "#3E3630",
-          primary: "#2B2623",
-          body: "#3E3630",
-          secondary: "#6B5F55",
-          tertiary: "#9C8E82",
-          inverse: "#EDE5D8",
+          DEFAULT: "#1A1A1A",
+          primary: "#000000",
+          body: "#1A1A1A",
+          secondary: "#666666",
+          tertiary: "#999999",
+          inverse: "#FFFFFF",
         },
-        // Muted accent palette
         accent: {
-          DEFAULT: "#A8826F",
-          soft: "#E8DDD4",
-          strong: "#6B4E3D",
+          DEFAULT: "#000000",
+          soft: "#F5F5F5",
+          strong: "#000000",
         },
-        sage: "#8B9D7F",
+        // Pastel booking source colors — preserved
+        sage: "#9DA88F",
         gold: "#C4A574",
-        dusty: "#7B8A99",
-        rose: "#B08A8A",
-        forest: "#6B7B6E",
+        dusty: "#A8BDC8",
+        rose: "#C9A5A0",
+        forest: "#5C4220",
         brick: "#B07A6F",
-        // Semantic
-        success: "#8B9D7F",
+        success: "#9DA88F",
         warning: "#C4A574",
         danger: "#B07A6F",
-        info: "#7B8A99",
-        // Borders
+        info: "#A8BDC8",
         border: {
-          subtle: "#E5DCCF",
-          DEFAULT: "#D4C8B8",
-          strong: "#B8A997",
+          subtle: "#EEEEEE",
+          DEFAULT: "#D4D4D4",
+          strong: "#999999",
         },
         muted: {
-          DEFAULT: "#EEE8DB",
-          foreground: "#6B5F55",
+          DEFAULT: "#F5F5F5",
+          foreground: "#666666",
         },
       },
       fontFamily: {
-        serif: ["Fraunces", "Playfair Display", "Georgia", "serif"],
-        sans: ["General Sans", "Space Grotesk", "system-ui", "sans-serif"],
+        // Serif aliased to sans — Zara minimalism has no serifs
+        serif: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
       },
       fontSize: {
-        base: ["1.0625rem", { lineHeight: "1.6" }],
+        base: ["0.875rem", { lineHeight: "1.5" }],
       },
       boxShadow: {
-        xs: "0 1px 2px rgba(75, 58, 47, 0.04)",
-        sm: "0 2px 8px rgba(75, 58, 47, 0.04), 0 1px 3px rgba(75, 58, 47, 0.06)",
-        md: "0 2px 8px rgba(75, 58, 47, 0.04), 0 8px 24px rgba(75, 58, 47, 0.06)",
-        lg: "0 4px 12px rgba(75, 58, 47, 0.06), 0 16px 40px rgba(75, 58, 47, 0.08)",
-        xl: "0 8px 24px rgba(75, 58, 47, 0.08), 0 32px 64px rgba(75, 58, 47, 0.10)",
+        // Minimal, subtle shadows only
+        xs: "0 1px 2px rgba(0, 0, 0, 0.03)",
+        sm: "0 1px 2px rgba(0, 0, 0, 0.04)",
+        md: "0 2px 4px rgba(0, 0, 0, 0.04)",
+        lg: "0 4px 12px rgba(0, 0, 0, 0.06)",
+        xl: "0 8px 24px rgba(0, 0, 0, 0.08)",
       },
       borderRadius: {
-        sm: "6px",
-        md: "10px",
-        lg: "16px",
-        xl: "24px",
+        // Sharp corners — Zara aesthetic
+        sm: "0",
+        md: "0",
+        lg: "0",
+        xl: "0",
+      },
+      letterSpacing: {
+        // Tight tracking for uppercase labels
+        wider: "0.1em",
       },
       transitionTimingFunction: {
         gentle: "cubic-bezier(0.22, 1, 0.36, 1)",
@@ -84,7 +88,7 @@ const config: Config = {
       },
       keyframes: {
         "fade-rise": {
-          from: { opacity: "0", transform: "translateY(12px)" },
+          from: { opacity: "0", transform: "translateY(8px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
         breathe: {
@@ -93,7 +97,7 @@ const config: Config = {
         },
       },
       animation: {
-        "fade-rise": "fade-rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "fade-rise": "fade-rise 300ms cubic-bezier(0.22, 1, 0.36, 1) both",
         breathe: "breathe 2s cubic-bezier(0.22, 1, 0.36, 1) infinite",
       },
     },

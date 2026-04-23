@@ -64,11 +64,11 @@ export default function PasswordGate({ children }: PasswordGateProps) {
       />
 
       {/* Warm overlay */}
-      <div className="absolute inset-0 bg-[#2B2623]/55" />
+      <div className="absolute inset-0 bg-black/55" />
 
       {/* Password form */}
       <div className="relative z-10 w-full max-w-sm mx-4 fade-rise">
-        <div className="bg-[#FBF9F4]/95 backdrop-blur-sm rounded-xl shadow-lg p-8">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg p-8">
           {/* Logo/Title */}
           <div className="text-center mb-8">
             <h1 className="font-serif text-[22px] font-normal text-ink-primary tracking-wide">

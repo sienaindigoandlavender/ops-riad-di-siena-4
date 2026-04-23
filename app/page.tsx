@@ -39,7 +39,8 @@ const getSourceColor = (source: string): string => {
   if (s.includes("blackout") || s.includes("blocked")) return "bg-[#5C4F45]";
   if (s.includes("airbnb")) return "bg-[#C9A5A0]";
   if (s.includes("booking")) return "bg-[#A8BDC8]";
-  // Website, WhatsApp, Direct, Email, Other all get olive green
+  if (s.includes("website")) return "bg-[#C4A574]";
+  // WhatsApp, Direct, Email, Other get sage
   return "bg-[#9DA88F]";
 };
 
@@ -48,6 +49,7 @@ const getSourceTextColor = (source: string): string => {
   if (s.includes("blackout") || s.includes("blocked")) return "text-ink-inverse";
   if (s.includes("airbnb")) return "text-[#6B4E3D]";
   if (s.includes("booking")) return "text-[#4A5C66]";
+  if (s.includes("website")) return "text-[#5C4220]";
   return "text-[#4A5440]";
 };
 
@@ -79,7 +81,7 @@ const DOUARIA_ROOMS = ["Bliss", "Joy", "Love"];
 const ALL_ROOMS = [...RIAD_ROOMS, ...DOUARIA_ROOMS];
 
 // Source options for new bookings
-const BOOKING_SOURCES = ["Website", "WhatsApp", "Direct", "Email", "Other"];
+const BOOKING_SOURCES = ["Website", "WhatsApp", "Direct", "Email", "Airbnb", "Booking.com", "Other"];
 
 export default function HomePage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -788,6 +790,10 @@ export default function HomePage() {
               <span className="text-ink-secondary">Airbnb</span>
             </div>
             <div className="flex items-center gap-1.5">
+              <div className="w-3 h-3 rounded bg-[#C4A574]"></div>
+              <span className="text-ink-secondary">Website</span>
+            </div>
+            <div className="flex items-center gap-1.5">
               <div className="w-3 h-3 rounded bg-[#9DA88F]"></div>
               <span className="text-ink-secondary">Direct</span>
             </div>
@@ -884,6 +890,9 @@ export default function HomePage() {
                             } else if (s.includes("booking")) {
                               bgClass = "bg-[#A8BDC8]/40";
                               textClass = "text-[#4A5C66]";
+                            } else if (s.includes("website")) {
+                              bgClass = "bg-[#C4A574]/40";
+                              textClass = "text-[#5C4220]";
                             } else {
                               bgClass = "bg-[#9DA88F]/40";
                               textClass = "text-[#4A5440]";
@@ -928,6 +937,7 @@ export default function HomePage() {
         <div className="flex items-center justify-center gap-3 pt-2 text-[10px]">
           <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#A8BDC8]/40"></div><span className="text-ink-tertiary">Booking</span></div>
           <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#C9A5A0]/40"></div><span className="text-ink-tertiary">Airbnb</span></div>
+          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#C4A574]/40"></div><span className="text-ink-tertiary">Website</span></div>
           <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#9DA88F]/40"></div><span className="text-ink-tertiary">Direct</span></div>
           <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#5C4F45]/20"></div><span className="text-ink-tertiary">Blocked</span></div>
         </div>
@@ -1102,7 +1112,7 @@ export default function HomePage() {
 
       {/* View/Edit Booking Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
             <div className="p-6 border-b border-border-subtle">
               <div className="flex items-center justify-between">
@@ -1473,8 +1483,10 @@ We look forward to welcoming you! ✨`
 
       {/* New Booking Modal - Riad Brand Design */}
       {newBooking && (
-        <div className="fixed inset-0 bg-[#2B2623]/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-parchment shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-parchment shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col rounded-xl overflow-hidden">
+            {/* Source color strip */}
+            <div className={`h-1.5 w-full ${getSourceColor(newBookingForm.isBlackout ? "blocked" : newBookingForm.source)} transition-colors duration-300`} />
             {/* Header - Fixed */}
             <div className="p-6 border-b border-foreground/10 flex-shrink-0">
               <div className="flex items-center justify-between">
@@ -1820,7 +1832,7 @@ We look forward to welcoming you! ✨`
       {/* Send Confirmation Modal */}
       {/* Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
             <div className="p-6 border-b border-border-subtle">
               <div className="flex items-center justify-between">
