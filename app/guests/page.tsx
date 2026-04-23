@@ -282,7 +282,7 @@ export default function GuestsPage() {
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2.5 mb-1.5">
-                            <h3 className="text-[15px] font-semibold text-ink-primary truncate">{guest.guest_name || "Unknown Guest"}</h3>
+                            <h3 className="text-[15px] font-light text-ink-primary truncate uppercase tracking-[0.04em]">{guest.guest_name || "Unknown Guest"}</h3>
                             {guest.country && (
                               <span className="text-[13px] text-ink-tertiary">{guest.country}</span>
                             )}
