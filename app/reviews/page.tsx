@@ -84,20 +84,26 @@ export default function ReviewsPage() {
     }
   };
 
+  const [importMsg, setImportMsg] = useState("");
+
   useEffect(() => {
     fetchReviews();
   }, [filter]);
 
   const handleImport = async () => {
     setImporting(true);
+    setImportMsg("");
     try {
       const res = await fetch("/api/reviews/import", { method: "POST" });
       const json = await res.json();
       if (json.success) {
+        setImportMsg(`Imported ${json.imported} reviews (${json.skipped} skipped)`);
         await fetchReviews();
+      } else {
+        setImportMsg(`Error: ${json.error || "Unknown error"}`);
       }
-    } catch {
-      // silent
+    } catch (e) {
+      setImportMsg(`Network error: ${e}`);
     } finally {
       setImporting(false);
     }
@@ -111,13 +117,20 @@ export default function ReviewsPage() {
         {/* Sub-header */}
         <div className="border-b border-border-subtle px-6 py-3 flex items-center justify-between">
           <h2 className="text-[12px] font-light text-ink-secondary uppercase tracking-[0.08em]">Reviews</h2>
-          <button
-            onClick={handleImport}
-            disabled={importing}
-            className="text-[11px] px-4 h-[34px] border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary active:scale-[0.97] transition-all duration-150 disabled:opacity-50"
-          >
-            {importing ? "Importing..." : "Import from CSV"}
-          </button>
+          <div className="flex items-center gap-3">
+            {importMsg && (
+              <span className={`text-[11px] font-light normal-case tracking-normal ${importMsg.startsWith("Error") || importMsg.startsWith("Network") ? "text-brick" : "text-sage"}`}>
+                {importMsg}
+              </span>
+            )}
+            <button
+              onClick={handleImport}
+              disabled={importing}
+              className="text-[11px] px-4 h-[34px] border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary active:scale-[0.97] transition-all duration-150 disabled:opacity-50"
+            >
+              {importing ? "Importing..." : "Import from CSV"}
+            </button>
+          </div>
         </div>
 
         {/* Stats strip */}
