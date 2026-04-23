@@ -198,6 +198,7 @@ export default function InsightsPage() {
 
   return (
     <div className="min-h-screen bg-[#faf9f7]">
+      <AppHeader />
       {/* Hidden file input */}
       <input
         type="file"
