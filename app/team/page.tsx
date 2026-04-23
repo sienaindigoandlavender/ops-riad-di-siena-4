@@ -1,36 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useCallback, useRef, Component, type ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import PasswordGate from "@/components/PasswordGate";
 import PoliceRegistrationForm from "@/components/PoliceRegistrationForm";
-
-// Error boundary to catch and display runtime errors
-class ErrorBoundary extends Component<{ children: ReactNode }, { error: string | null }> {
-  constructor(props: { children: ReactNode }) {
-    super(props);
-    this.state = { error: null };
-  }
-  static getDerivedStateFromError(error: Error) {
-    return { error: error.message };
-  }
-  render() {
-    if (this.state.error) {
-      return (
-        <div className="min-h-screen bg-white flex items-center justify-center p-6">
-          <div className="max-w-md text-center">
-            <p className="text-[13px] text-ink-primary mb-2">Something went wrong</p>
-            <p className="text-[12px] text-ink-tertiary font-mono break-all">{this.state.error}</p>
-            <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 border border-border text-[11px] text-ink-secondary hover:text-ink-primary">
-              Reload
-            </button>
-          </div>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
 
 interface GuestSummary {
   booking_id: string;
@@ -425,7 +398,7 @@ function GuestCard({
         ) : (
           <button
             onClick={() => { setEditingNotesId(guest.booking_id); setNotesText(""); }}
-            className="text-xs text-foreground/40 hover:text-foreground/60 flex items-center gap-1"
+            className="text-xs text-ink-tertiary hover:text-ink-secondary flex items-center gap-1"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -888,7 +861,6 @@ See you soon!
   }
 
   return (
-    <ErrorBoundary>
     <PasswordGate>
     <div className="min-h-screen bg-cream pb-16">
       {/* Header */}
@@ -917,7 +889,7 @@ See you soon!
             {showSearch && (
               <div className="absolute right-0 top-12 w-80 bg-sand shadow-lg z-50 overflow-hidden">
                 <div className="p-6">
-                  <label className="block text-[10px] tracking-wider uppercase text-foreground/40 mb-2">
+                  <label className="block text-[10px] tracking-wider uppercase text-ink-tertiary mb-2">
                     Search guests
                   </label>
                   <input
@@ -925,13 +897,13 @@ See you soon!
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Name or booking ID..."
-                    className="w-full py-3 bg-transparent border-b border-foreground/20 focus:border-foreground/40 focus:outline-none text-foreground transition-colors text-[14px]"
+                    className="w-full py-3 bg-transparent border-b border-border focus:border-border-strong focus:outline-none text-ink-primary transition-colors text-[14px]"
                     autoFocus
                   />
                 </div>
                 <div className="max-h-80 overflow-y-auto">
                   {searchLoading ? (
-                    <div className="px-6 pb-6 text-center text-foreground/40 text-[13px]">Searching...</div>
+                    <div className="px-6 pb-6 text-center text-ink-tertiary text-[13px]">Searching...</div>
                   ) : searchResults.length > 0 ? (
                     <div className="px-6 pb-6 space-y-2">
                       {searchResults.map((guest) => (
@@ -943,9 +915,9 @@ See you soon!
                       ))}
                     </div>
                   ) : searchQuery.length >= 2 ? (
-                    <div className="px-6 pb-6 text-center text-foreground/40 text-[13px]">No results found</div>
+                    <div className="px-6 pb-6 text-center text-ink-tertiary text-[13px]">No results found</div>
                   ) : (
-                    <div className="px-6 pb-6 text-center text-foreground/40 text-[13px]">Type to search...</div>
+                    <div className="px-6 pb-6 text-center text-ink-tertiary text-[13px]">Type to search...</div>
                   )}
                 </div>
               </div>
@@ -1015,18 +987,18 @@ See you soon!
                 <div className="flex items-center justify-between mb-6">
                   <button
                     onClick={() => {/* scroll up */}}
-                    className="w-8 h-8 flex items-center justify-center text-foreground/40 hover:text-foreground transition-colors"
+                    className="w-8 h-8 flex items-center justify-center text-ink-tertiary hover:text-ink-primary transition-colors"
                   >
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <polyline points="10,2 5,8 10,14" />
                     </svg>
                   </button>
-                  <span className="text-sm tracking-wide text-foreground/70">
+                  <span className="text-sm tracking-wide text-ink-body">
                     Select Date
                   </span>
                   <button
                     onClick={() => {/* scroll down */}}
-                    className="w-8 h-8 flex items-center justify-center text-foreground/40 hover:text-foreground transition-colors"
+                    className="w-8 h-8 flex items-center justify-center text-ink-tertiary hover:text-ink-primary transition-colors"
                   >
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <polyline points="6,2 11,8 6,14" />
@@ -1037,14 +1009,14 @@ See you soon!
                 <div className="max-h-[400px] overflow-y-auto">
                   {calendarMonths.map(({ year, month, days }) => (
                     <div key={`${year}-${month}`} className="mb-6">
-                      <p className="text-sm tracking-wide text-foreground/70 mb-4 text-center">
+                      <p className="text-sm tracking-wide text-ink-body mb-4 text-center">
                         {monthNames[month]} {year}
                       </p>
                       
                       {/* Day headers */}
                       <div className="grid grid-cols-7 mb-2">
                         {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) => (
-                          <div key={d} className="text-center text-[10px] tracking-wider text-foreground/30 uppercase">
+                          <div key={d} className="text-center text-[10px] tracking-wider text-ink-tertiary uppercase">
                             {d}
                           </div>
                         ))}
@@ -1069,9 +1041,9 @@ See you soon!
                               }}
                               className={`
                                 aspect-square flex items-center justify-center text-sm relative transition-all
-                                ${isSelected ? "bg-foreground text-sand" : ""}
-                                ${isTodayDate && !isSelected ? "bg-foreground/10" : ""}
-                                ${!isSelected ? "text-foreground/70 hover:bg-foreground/5" : ""}
+                                ${isSelected ? "bg-ink-primary text-white" : ""}
+                                ${isTodayDate && !isSelected ? "bg-linen" : ""}
+                                ${!isSelected ? "text-ink-body hover:bg-parchment" : ""}
                               `}
                             >
                               {day}
@@ -1084,14 +1056,14 @@ See you soon!
                 </div>
 
                 {/* Legend */}
-                <div className="flex items-center gap-6 mt-4 pt-4 border-t border-foreground/10">
+                <div className="flex items-center gap-6 mt-4 pt-4 border-t border-border-subtle">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-foreground" />
-                    <span className="text-[10px] tracking-wide text-foreground/40 uppercase">Selected</span>
+                    <div className="w-4 h-4 bg-ink-primary" />
+                    <span className="text-[10px] tracking-wide text-ink-tertiary uppercase">Selected</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-foreground/10" />
-                    <span className="text-[10px] tracking-wide text-foreground/40 uppercase">Today</span>
+                    <div className="w-4 h-4 bg-linen" />
+                    <span className="text-[10px] tracking-wide text-ink-tertiary uppercase">Today</span>
                   </div>
                 </div>
               </div>
@@ -1254,6 +1226,5 @@ See you soon!
       )}
     </div>
     </PasswordGate>
-    </ErrorBoundary>
   );
 }
