@@ -657,25 +657,25 @@ export default function HomePage() {
               <p className="text-[11px] text-ink-tertiary tracking-[0.03em] hidden sm:block normal-case font-light">Operations</p>
             </div>
 
-            {/* Import Buttons + Burger */}
+            {/* Import Buttons (desktop only) + Burger */}
             <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-end">
               <button
                 onClick={() => openImportModal("booking")}
-                className="flex items-center gap-1.5 px-3 md:px-4 py-2 border border-border hover:border-ink-tertiary text-ink-secondary hover:text-ink-primary transition-colors text-[11px]"
+                className="hidden md:flex items-center gap-1.5 px-4 py-2 border border-border hover:border-ink-tertiary text-ink-secondary hover:text-ink-primary transition-colors text-[11px]"
               >
                 <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
-                <span className="hidden sm:inline">Import</span> Booking.com
+                Import Booking.com
               </button>
               <button
                 onClick={() => openImportModal("airbnb")}
-                className="flex items-center gap-1.5 px-3 md:px-4 py-2 border border-border hover:border-ink-tertiary text-ink-secondary hover:text-ink-primary transition-colors text-[11px]"
+                className="hidden md:flex items-center gap-1.5 px-4 py-2 border border-border hover:border-ink-tertiary text-ink-secondary hover:text-ink-primary transition-colors text-[11px]"
               >
                 <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
-                <span className="hidden sm:inline">Import</span> Airbnb
+                Import Airbnb
               </button>
 
               {/* Burger menu */}
@@ -793,23 +793,23 @@ export default function HomePage() {
           {/* Legend */}
           <div className="hidden md:flex items-center gap-4 h-[34px] text-[10px]">
             <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] bg-[#A2B4BF]"></div>
+              <div className="w-[7px] h-[7px] rounded-full bg-[#A2B4BF]"></div>
               <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Booking.com</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] bg-[#CEAEA8]"></div>
+              <div className="w-[7px] h-[7px] rounded-full bg-[#CEAEA8]"></div>
               <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Airbnb</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] bg-[#C5AD84]"></div>
+              <div className="w-[7px] h-[7px] rounded-full bg-[#C5AD84]"></div>
               <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Website</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] bg-[#A3AD95]"></div>
+              <div className="w-[7px] h-[7px] rounded-full bg-[#A3AD95]"></div>
               <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Direct</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] bg-[#3D3832]"></div>
+              <div className="w-[7px] h-[7px] rounded-full bg-[#3D3832]"></div>
               <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Blocked</span>
             </div>
           </div>
@@ -946,13 +946,24 @@ export default function HomePage() {
 
         {/* Mobile legend */}
         <div className="flex items-center justify-center gap-3 pt-2 text-[10px]">
-          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#A2B4BF]/50"></div><span className="text-ink-tertiary">Booking</span></div>
-          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#CEAEA8]/50"></div><span className="text-ink-tertiary">Airbnb</span></div>
-          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#C5AD84]/50"></div><span className="text-ink-tertiary">Website</span></div>
-          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#A3AD95]/50"></div><span className="text-ink-tertiary">Direct</span></div>
-          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#3D3832]/40"></div><span className="text-ink-tertiary">Blocked</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#A2B4BF]/50"></div><span className="text-ink-tertiary">Booking</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#CEAEA8]/50"></div><span className="text-ink-tertiary">Airbnb</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#C5AD84]/50"></div><span className="text-ink-tertiary">Website</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#A3AD95]/50"></div><span className="text-ink-tertiary">Direct</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#3D3832]/40"></div><span className="text-ink-tertiary">Blocked</span></div>
         </div>
       </div>
+
+      {/* Mobile FAB: Add booking */}
+      <button
+        onClick={() => handleCellClick(RIAD_ROOMS[0], new Date())}
+        className="md:hidden fixed bottom-6 right-6 z-40 w-12 h-12 bg-ink-primary text-white flex items-center justify-center shadow-lg active:scale-95 transition-transform"
+        aria-label="New booking"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M10 4v12M4 10h12" />
+        </svg>
+      </button>
 
       {/* Calendar Grid - Desktop only */}
       <div className="hidden md:block px-10 py-6">
@@ -1949,13 +1960,13 @@ We look forward to welcoming you! ✨`
               </button>
             </div>
             <div className="flex-1 px-7 py-6 space-y-1">
-              <a href="/" className="block py-3 text-[13px] text-ink-primary font-medium border-b border-border-subtle normal-case tracking-normal">Calendar</a>
-              <a href="/guests" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Guests</a>
-              <a href="/team" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Team</a>
-              <a href="/expenses" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Expenses</a>
-              <a href="/insights" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Insights</a>
-              <a href="/invoice" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Invoices</a>
-              <a href="/admin" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Admin</a>
+              <a href="/" className="block py-3 text-[12px] text-ink-primary font-light uppercase tracking-[0.08em] border-b border-border-subtle">Calendar</a>
+              <a href="/guests" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Guests</a>
+              <a href="/team" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Team</a>
+              <a href="/expenses" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Expenses</a>
+              <a href="/insights" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Insights</a>
+              <a href="/invoice" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Invoices</a>
+              <a href="/admin" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Admin</a>
             </div>
           </nav>
         </>

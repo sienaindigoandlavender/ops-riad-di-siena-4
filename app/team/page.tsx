@@ -27,6 +27,7 @@ interface TodayData {
   date: string;
   checkIns: GuestSummary[];
   checkOuts: GuestSummary[];
+  inHouse: GuestSummary[];
 }
 
 interface TaxStats {
@@ -151,192 +152,198 @@ function GuestCard({
   const taxPaid = !!guest.city_tax_paid;
 
   return (
-    <div className="bg-cream border border-border-subtle rounded-lg p-4 space-y-3">
-      {/* Header row */}
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <p className="font-medium text-[15px] text-ink-primary">{guest.guest_name}</p>
-            <ChannelBadge channel={guest.channel} />
+    <div className="bg-white border border-border-subtle">
+      {/* Band 1: Identity */}
+      <div className="px-5 pt-5 pb-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="font-light text-[15px] text-ink-primary uppercase tracking-[0.04em]">{guest.guest_name}</p>
+              <ChannelBadge channel={guest.channel} />
+            </div>
+            <p className="text-ink-tertiary text-[12px] mt-0.5">
+              {guest.room && `${guest.room} · `}{guest.property}
+            </p>
           </div>
-          <p className="text-ink-secondary text-[13px] mt-1">
-            {guest.room && `${guest.room} · `}
-            {guest.property}
-          </p>
-          {/* Contact buttons */}
-          {(guest.phone || guest.email) && (
-            <div className="flex items-center gap-2 mt-2 flex-wrap">
-              {guest.phone && (
-                <>
-                  <a
-                    href={`https://wa.me/${guest.phone.replace(/[^0-9]/g, "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-sage/20 text-forest hover:bg-sage/30 font-light"
-                  >
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                    WhatsApp
-                  </a>
-                  <a
-                    href={`tel:${guest.phone}`}
-                    className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-parchment text-ink-secondary hover:bg-linen font-light"
-                  >
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    Call
-                  </a>
-                  {isCheckIn && (
-                    <button
-                      onClick={() => sendDirectionsWhatsApp(guest)}
-                      className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-dusty/15 text-dusty hover:bg-dusty/25 font-light"
-                    >
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      Send Directions
-                    </button>
-                  )}
-                </>
-              )}
-              {guest.email && (
-                <a
-                  href={`mailto:${guest.email}`}
-                  className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-parchment text-ink-secondary hover:bg-linen font-light"
-                >
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  Email
-                </a>
-              )}
+
+          {/* Time display */}
+          {!isCheckIn && (
+            <div className="text-right shrink-0">
+              <p className="font-medium text-[24px] text-ink-primary leading-none">11:00</p>
+              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mt-1">Check-out by</p>
             </div>
           )}
+          {isCheckIn && (
+            <>
+              {guest.arrival_time ? (
+                <div className="text-right shrink-0">
+                  <p className="font-medium text-[24px] text-ink-primary leading-none">{guest.arrival_time}</p>
+                  <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mt-1">Arrival</p>
+                </div>
+              ) : (
+                <div className="text-right shrink-0">
+                  {activeGuestId === guest.booking_id ? (
+                    <div className="space-y-2">
+                      <input
+                        type="time"
+                        value={manualTime}
+                        onChange={(e) => setManualTime(e.target.value)}
+                        className="w-24 px-2 py-1.5 text-sm border border-border"
+                      />
+                      <div className="flex gap-1.5 justify-end">
+                        <button
+                          onClick={() => saveManualTime(guest)}
+                          disabled={saving || !manualTime}
+                          className="text-[10px] px-2.5 py-1 bg-ink-primary text-white disabled:opacity-50"
+                        >
+                          {saving ? "..." : "Save"}
+                        </button>
+                        <button
+                          onClick={() => setActiveGuestId(null)}
+                          className="text-[10px] px-2.5 py-1 border border-border text-ink-secondary"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5">
+                      <p className="text-gold text-[11px] font-light">No arrival time</p>
+                      <div className="flex flex-col gap-1">
+                        {guest.phone && (
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => sendArrivalWhatsApp(guest)}
+                              className="text-[10px] px-2 py-1 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary"
+                            >
+                              Send Form
+                            </button>
+                            <button
+                              onClick={() => copyArrivalLink(guest)}
+                              className="text-[10px] px-2 py-1 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary"
+                            >
+                              {copiedId === guest.booking_id ? "Copied!" : "Copy Link"}
+                            </button>
+                          </div>
+                        )}
+                        <button
+                          onClick={() => {
+                            setActiveGuestId(guest.booking_id);
+                            setManualTime("");
+                          }}
+                          className="text-[10px] px-2 py-1 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary"
+                        >
+                          Enter Time
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          )}
         </div>
-
-        {/* Arrival time section (only for check-ins) */}
-        {isCheckIn && (
-          <>
-            {guest.arrival_time ? (
-              <div className="text-right">
-                <p className="font-semibold text-[22px] text-sage">{guest.arrival_time}</p>
-                <p className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary mt-0.5">Arrival</p>
-              </div>
-            ) : (
-              <div className="text-right">
-                {activeGuestId === guest.booking_id ? (
-                  <div className="space-y-2">
-                    <input
-                      type="time"
-                      value={manualTime}
-                      onChange={(e) => setManualTime(e.target.value)}
-                      className="w-24 px-2 py-1 text-sm border border-border rounded"
-                    />
-                    <div className="flex gap-1.5 justify-end">
-                      <button
-                        onClick={() => saveManualTime(guest)}
-                        disabled={saving || !manualTime}
-                        className="text-[11px] px-2 py-1 bg-sage text-cream rounded disabled:opacity-50"
-                      >
-                        {saving ? "..." : "Save"}
-                      </button>
-                      <button
-                        onClick={() => setActiveGuestId(null)}
-                        className="text-[11px] px-2 py-1 bg-parchment text-ink-secondary rounded"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-1.5">
-                    <p className="text-gold text-[11px] font-medium">No arrival time</p>
-                    <div className="flex flex-col gap-1">
-                      {guest.phone && (
-                        <div className="flex gap-1">
-                          <button
-                            onClick={() => sendArrivalWhatsApp(guest)}
-                            className="text-[10px] px-2 py-1 bg-sage/20 text-forest rounded hover:bg-sage/30"
-                          >
-                            Send Form
-                          </button>
-                          <button
-                            onClick={() => copyArrivalLink(guest)}
-                            className="text-[10px] px-2 py-1 bg-parchment text-ink-secondary rounded hover:bg-linen"
-                          >
-                            {copiedId === guest.booking_id ? "Copied!" : "Copy Link"}
-                          </button>
-                        </div>
-                      )}
-                      <button
-                        onClick={() => {
-                          setActiveGuestId(guest.booking_id);
-                          setManualTime("");
-                        }}
-                        className="text-[10px] px-2 py-1 bg-parchment text-ink-secondary rounded hover:bg-linen"
-                      >
-                        Enter Time
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </>
-        )}
       </div>
 
-      {/* Stay info */}
-      <div className="grid grid-cols-3 gap-3 py-2 border-t border-border-subtle">
-        <div>
-          <p className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary">Nights</p>
-          <p className="text-[14px] font-medium">{guest.nights}</p>
-        </div>
-        <div>
-          <p className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary">Guests</p>
-          <p className="text-[14px] font-medium">{guest.guests}</p>
-        </div>
-        {cityTax !== null && (
-          <div>
-            <p className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary">City Tax</p>
-            <div className="flex items-center gap-2">
-              <p className="text-[14px] font-medium">€{cityTax.toFixed(2)}</p>
-              {taxPaid ? (
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-sage/20 text-forest font-medium">
-                  PAID
-                </span>
-              ) : (
-                <button
-                  onClick={() => markTaxPaid(guest)}
-                  disabled={isMarkingTax}
-                  className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded bg-gold/20 text-gold hover:bg-gold/25 font-medium transition-colors disabled:opacity-50"
+      {/* Band 2: Contact actions */}
+      {(guest.phone || guest.email) && (
+        <div className="px-5 py-3 border-t border-border-subtle">
+          <div className="flex items-center gap-2 flex-wrap">
+            {guest.phone && (
+              <>
+                <a
+                  href={`https://wa.me/${guest.phone.replace(/[^0-9]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors font-light"
+                >
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                  WhatsApp
+                </a>
+                <a
+                  href={`tel:${guest.phone}`}
+                  className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors font-light"
                 >
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  {isMarkingTax ? "..." : "Mark Paid"}
-                </button>
-              )}
-            </div>
+                  Call
+                </a>
+                {isCheckIn && (
+                  <button
+                    onClick={() => sendDirectionsWhatsApp(guest)}
+                    className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors font-light"
+                  >
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Directions
+                  </button>
+                )}
+              </>
+            )}
+            {guest.email && (
+              <a
+                href={`mailto:${guest.email}`}
+                className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors font-light"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Email
+              </a>
+            )}
           </div>
-        )}
+        </div>
+      )}
+
+      {/* Band 3: Stay info + admin */}
+      <div className="px-5 py-3 border-t border-border-subtle">
+        <div className="flex items-end justify-between">
+          <div className="flex gap-6">
+            <div>
+              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Nights</p>
+              <p className="text-[14px] font-medium text-ink-primary">{guest.nights}</p>
+            </div>
+            <div>
+              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Guests</p>
+              <p className="text-[14px] font-medium text-ink-primary">{guest.guests}</p>
+            </div>
+            {cityTax !== null && (
+              <div>
+                <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">City Tax</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-[14px] font-medium text-ink-primary">€{cityTax.toFixed(2)}</p>
+                  {taxPaid ? (
+                    <span className="text-[9px] font-light px-1.5 py-0.5 bg-sage/15 text-forest tracking-[0.06em]">PAID</span>
+                  ) : (
+                    <button
+                      onClick={() => markTaxPaid(guest)}
+                      disabled={isMarkingTax}
+                      className="text-[9px] px-2 py-0.5 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors disabled:opacity-50"
+                    >
+                      {isMarkingTax ? "..." : "Mark Paid"}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="text-[11px] text-ink-tertiary font-light">
+            {guest.check_in?.split("T")[0]} → {guest.check_out?.split("T")[0]}
+          </div>
+        </div>
       </div>
 
-      {/* Dates row */}
-      <div className="flex gap-4 text-[12px] text-ink-secondary">
-        <span>In: {guest.check_in?.split("T")[0]}</span>
-        <span>Out: {guest.check_out?.split("T")[0]}</span>
-      </div>
-
-      {/* Police Registration button - only for check-ins */}
+      {/* Band 3b: Police + admin actions (check-ins only) */}
       {isCheckIn && (
-        <div className="pt-2">
+        <div className="px-5 py-3 border-t border-border-subtle">
           <button
             onClick={() => onOpenPoliceForm(guest)}
-            className="inline-flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full bg-dusty/15 text-dusty hover:bg-dusty/25 font-light transition-colors"
+            className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors font-light"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -346,67 +353,69 @@ function GuestCard({
         </div>
       )}
 
-      {/* Special requests */}
-      {guest.special_requests && (
-        <div className="pt-2 border-t border-border-subtle">
-          <p className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary mb-1">Guest Requests</p>
-          <p className="text-[13px] text-ink-body">{guest.special_requests}</p>
+      {/* Band 4: Requests + Notes */}
+      {(guest.special_requests || true) && (
+        <div className="px-5 py-3 border-t border-border-subtle space-y-3">
+          {guest.special_requests && (
+            <div>
+              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mb-1">Guest Requests</p>
+              <p className="text-[13px] text-ink-body">{guest.special_requests}</p>
+            </div>
+          )}
+
+          {/* Staff notes */}
+          {isEditing ? (
+            <div className="space-y-2">
+              <textarea
+                value={notesText}
+                onChange={(e) => setNotesText(e.target.value)}
+                placeholder="Add internal notes..."
+                className="w-full px-3 py-2 text-[13px] border border-border resize-none normal-case tracking-normal"
+                rows={2}
+                autoFocus
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={() => saveNotes(guest)}
+                  disabled={savingNotes}
+                  className="text-[11px] px-3 py-1.5 bg-ink-primary text-white disabled:opacity-50"
+                >
+                  {savingNotes ? "Saving..." : "Save"}
+                </button>
+                <button
+                  onClick={() => setEditingNotesId(null)}
+                  className="text-[11px] px-3 py-1.5 border border-border text-ink-secondary"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+        ) : guest.notes ? (
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Staff Notes</p>
+                <button
+                  onClick={() => { setEditingNotesId(guest.booking_id); setNotesText(guest.notes); }}
+                  className="text-[10px] text-ink-tertiary hover:text-ink-primary transition-colors"
+                >
+                  Edit
+                </button>
+              </div>
+              <p className="text-[13px] text-ink-body whitespace-pre-wrap">{guest.notes}</p>
+            </div>
+          ) : (
+            <button
+              onClick={() => { setEditingNotesId(guest.booking_id); setNotesText(""); }}
+              className="text-[11px] text-ink-tertiary hover:text-ink-secondary flex items-center gap-1.5 font-light normal-case tracking-normal"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+              </svg>
+              Add staff notes
+            </button>
+          )}
         </div>
       )}
-
-      {/* Staff notes */}
-      <div className="pt-2 border-t border-border-subtle">
-        {isEditing ? (
-          <div className="space-y-2">
-            <textarea
-              value={notesText}
-              onChange={(e) => setNotesText(e.target.value)}
-              placeholder="Add internal notes..."
-              className="w-full px-3 py-2 text-[13px] border border-border rounded resize-none"
-              rows={2}
-              autoFocus
-            />
-            <div className="flex gap-2">
-              <button
-                onClick={() => saveNotes(guest)}
-                disabled={savingNotes}
-                className="text-[11px] px-3 py-1.5 bg-accent text-cream rounded hover:bg-accent-strong disabled:opacity-50"
-              >
-                {savingNotes ? "Saving..." : "Save Note"}
-              </button>
-              <button
-                onClick={() => setEditingNotesId(null)}
-                className="text-[11px] px-3 py-1.5 bg-parchment text-ink-secondary rounded hover:bg-linen"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : guest.notes ? (
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <p className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary">Staff Notes</p>
-              <button
-                onClick={() => { setEditingNotesId(guest.booking_id); setNotesText(guest.notes); }}
-                className="text-[10px] text-ink-tertiary hover:text-ink-secondary"
-              >
-                Edit
-              </button>
-            </div>
-            <p className="text-[13px] text-ink-body whitespace-pre-wrap">{guest.notes}</p>
-          </div>
-        ) : (
-          <button
-            onClick={() => { setEditingNotesId(guest.booking_id); setNotesText(""); }}
-            className="text-xs text-ink-tertiary hover:text-ink-secondary flex items-center gap-1"
-          >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            Add staff notes
-          </button>
-        )}
-      </div>
     </div>
   );
 }
@@ -423,7 +432,7 @@ function SearchResultCard({ guest, onSelect }: { guest: GuestSummary; onSelect: 
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <p className="font-medium text-[14px] text-ink-primary">{guest.guest_name}</p>
+            <p className="font-light text-[14px] text-ink-primary uppercase tracking-[0.04em]">{guest.guest_name}</p>
             <ChannelBadge channel={guest.channel} />
           </div>
           <p className="text-ink-secondary text-[12px] mt-0.5">
@@ -454,6 +463,7 @@ export default function TeamPage() {
   const [activeGuestId, setActiveGuestId] = useState<string | null>(null);
   const [manualTime, setManualTime] = useState("");
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<"arrivals" | "inhouse" | "departures">("arrivals");
 
   // Notes editing
   const [editingNotesId, setEditingNotesId] = useState<string | null>(null);
@@ -619,6 +629,11 @@ See you soon!
                 ? { ...g, notes: notesText }
                 : g
             ),
+            inHouse: prev.inHouse.map(g =>
+              g.booking_id === guest.booking_id
+                ? { ...g, notes: notesText }
+                : g
+            ),
           };
         });
         setEditingNotesId(null);
@@ -643,6 +658,7 @@ See you soon!
           date: json.date || date,
           checkIns: json.checkIns || json.checkingIn || [],
           checkOuts: json.checkOuts || json.checkingOut || [],
+          inHouse: json.inHouse || [],
         });
         setError(null);
       }
@@ -1094,98 +1110,255 @@ See you soon!
         </div>
       )}
 
-      <div className="p-6 space-y-8">
-        {/* Check-ins */}
-        <section>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-sage/20 flex items-center justify-center">
-              <svg className="w-4 h-4 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14" />
-              </svg>
-            </div>
-            <h2 className="text-[11px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Arrivals</h2>
-            <span className="ml-auto font-serif text-[28px] text-ink-primary">{data.checkIns.length}</span>
-          </div>
+      {/* Tab control */}
+      <div className="px-6 pt-4 pb-0">
+        <div className="flex items-center gap-0 border-b border-border-subtle">
+          <button
+            onClick={() => setActiveTab("arrivals")}
+            className={`flex items-center gap-2 px-4 py-3 text-[11px] tracking-[0.08em] transition-colors relative ${
+              activeTab === "arrivals"
+                ? "text-ink-primary"
+                : "text-ink-tertiary hover:text-ink-secondary"
+            }`}
+          >
+            <span className="normal-case font-light">Arrivals</span>
+            <span className="font-medium text-[13px] normal-case">{data.checkIns.length}</span>
+            {activeTab === "arrivals" && (
+              <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-ink-primary" />
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab("inhouse")}
+            className={`flex items-center gap-2 px-4 py-3 text-[11px] tracking-[0.08em] transition-colors relative ${
+              activeTab === "inhouse"
+                ? "text-ink-primary"
+                : "text-ink-tertiary hover:text-ink-secondary"
+            }`}
+          >
+            <span className="normal-case font-light">In-house</span>
+            <span className="font-medium text-[13px] normal-case">{data.inHouse.length}</span>
+            {activeTab === "inhouse" && (
+              <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-ink-primary" />
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab("departures")}
+            className={`flex items-center gap-2 px-4 py-3 text-[11px] tracking-[0.08em] transition-colors relative ${
+              activeTab === "departures"
+                ? "text-ink-primary"
+                : "text-ink-tertiary hover:text-ink-secondary"
+            }`}
+          >
+            <span className="normal-case font-light">Departures</span>
+            <span className="font-medium text-[13px] normal-case">{data.checkOuts.length}</span>
+            {activeTab === "departures" && (
+              <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-ink-primary" />
+            )}
+          </button>
+        </div>
+      </div>
 
-          {data.checkIns.length === 0 ? (
-            <p className="text-ink-tertiary text-[13px] py-4">No arrivals today</p>
-          ) : (
-            <div className="space-y-3">
-              {data.checkIns.map((guest) => (
-                <GuestCard
-                  key={guest.booking_id}
-                  guest={guest}
-                  isCheckIn={true}
-                  editingNotesId={editingNotesId}
-                  notesText={notesText}
-                  setEditingNotesId={setEditingNotesId}
-                  setNotesText={setNotesText}
-                  saveNotes={saveNotes}
-                  savingNotes={savingNotes}
-                  copiedId={copiedId}
-                  activeGuestId={activeGuestId}
-                  setActiveGuestId={setActiveGuestId}
-                  manualTime={manualTime}
-                  setManualTime={setManualTime}
-                  saveManualTime={saveManualTime}
-                  saving={saving}
-                  copyArrivalLink={copyArrivalLink}
-                  sendArrivalWhatsApp={sendArrivalWhatsApp}
-                  sendDirectionsWhatsApp={sendDirectionsWhatsApp}
-                  onOpenPoliceForm={setPoliceFormGuest}
-                  markTaxPaid={markTaxPaid}
-                  markingTaxId={markingTaxId}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+      <div className="p-6">
+        {/* Arrivals */}
+        {activeTab === "arrivals" && (
+          <section>
+            {data.checkIns.length === 0 ? (
+              <p className="text-ink-tertiary text-[13px] py-8 font-light normal-case tracking-normal">No arrivals today</p>
+            ) : (
+              <div className="space-y-3">
+                {data.checkIns.map((guest) => (
+                  <GuestCard
+                    key={guest.booking_id}
+                    guest={guest}
+                    isCheckIn={true}
+                    editingNotesId={editingNotesId}
+                    notesText={notesText}
+                    setEditingNotesId={setEditingNotesId}
+                    setNotesText={setNotesText}
+                    saveNotes={saveNotes}
+                    savingNotes={savingNotes}
+                    copiedId={copiedId}
+                    activeGuestId={activeGuestId}
+                    setActiveGuestId={setActiveGuestId}
+                    manualTime={manualTime}
+                    setManualTime={setManualTime}
+                    saveManualTime={saveManualTime}
+                    saving={saving}
+                    copyArrivalLink={copyArrivalLink}
+                    sendArrivalWhatsApp={sendArrivalWhatsApp}
+                    sendDirectionsWhatsApp={sendDirectionsWhatsApp}
+                    onOpenPoliceForm={setPoliceFormGuest}
+                    markTaxPaid={markTaxPaid}
+                    markingTaxId={markingTaxId}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
-        {/* Check-outs */}
-        <section>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
-              <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </div>
-            <h2 className="text-[11px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Departures</h2>
-            <span className="ml-auto font-serif text-[28px] text-ink-primary">{data.checkOuts.length}</span>
-          </div>
+        {/* In-house */}
+        {activeTab === "inhouse" && (
+          <section>
+            {data.inHouse.length === 0 ? (
+              <p className="text-ink-tertiary text-[13px] py-8 font-light normal-case tracking-normal">No guests in-house today</p>
+            ) : (
+              <div className="space-y-3">
+                {data.inHouse.map((guest) => {
+                  const checkInDate = new Date(guest.check_in + "T12:00:00");
+                  const selectedDateObj = new Date(data.date + "T12:00:00");
+                  const nightNumber = Math.floor((selectedDateObj.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                  const totalNights = guest.nights || 1;
 
-          {data.checkOuts.length === 0 ? (
-            <p className="text-ink-tertiary text-[13px] py-4">No departures today</p>
-          ) : (
-            <div className="space-y-3">
-              {data.checkOuts.map((guest) => (
-                <GuestCard
-                  key={guest.booking_id}
-                  guest={guest}
-                  isCheckIn={false}
-                  editingNotesId={editingNotesId}
-                  notesText={notesText}
-                  setEditingNotesId={setEditingNotesId}
-                  setNotesText={setNotesText}
-                  saveNotes={saveNotes}
-                  savingNotes={savingNotes}
-                  copiedId={copiedId}
-                  activeGuestId={activeGuestId}
-                  setActiveGuestId={setActiveGuestId}
-                  manualTime={manualTime}
-                  setManualTime={setManualTime}
-                  saveManualTime={saveManualTime}
-                  saving={saving}
-                  copyArrivalLink={copyArrivalLink}
-                  sendArrivalWhatsApp={sendArrivalWhatsApp}
-                  sendDirectionsWhatsApp={sendDirectionsWhatsApp}
-                  onOpenPoliceForm={setPoliceFormGuest}
-                  markTaxPaid={markTaxPaid}
-                  markingTaxId={markingTaxId}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+                  return (
+                    <div key={guest.booking_id} className="bg-white border border-border-subtle">
+                      {/* Band 1: Identity */}
+                      <div className="px-5 pt-5 pb-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <p className="font-light text-[15px] text-ink-primary uppercase tracking-[0.04em]">{guest.guest_name}</p>
+                              <ChannelBadge channel={guest.channel} />
+                            </div>
+                            <p className="text-ink-tertiary text-[12px] mt-0.5">
+                              {guest.room && `${guest.room} · `}{guest.property}
+                            </p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="font-medium text-[24px] text-ink-primary leading-none">{nightNumber}<span className="text-ink-tertiary text-[14px] font-light">/{totalNights}</span></p>
+                            <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mt-1">Night</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Band 2: Contact */}
+                      {(guest.phone || guest.email) && (
+                        <div className="px-5 py-3 border-t border-border-subtle">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {guest.phone && (
+                              <>
+                                <a
+                                  href={`https://wa.me/${guest.phone.replace(/[^0-9]/g, "")}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors font-light"
+                                >
+                                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                  </svg>
+                                  WhatsApp
+                                </a>
+                                <a
+                                  href={`tel:${guest.phone}`}
+                                  className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors font-light"
+                                >
+                                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                  </svg>
+                                  Call
+                                </a>
+                              </>
+                            )}
+                            {guest.email && (
+                              <a
+                                href={`mailto:${guest.email}`}
+                                className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary transition-colors font-light"
+                              >
+                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Email
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Band 3: Stay info */}
+                      <div className="px-5 py-3 border-t border-border-subtle">
+                        <div className="flex items-end justify-between">
+                          <div className="flex gap-6">
+                            <div>
+                              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Nights</p>
+                              <p className="text-[14px] font-medium text-ink-primary">{guest.nights}</p>
+                            </div>
+                            <div>
+                              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Guests</p>
+                              <p className="text-[14px] font-medium text-ink-primary">{guest.guests}</p>
+                            </div>
+                            <div>
+                              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Room status</p>
+                              <p className="text-[14px] font-medium text-ink-tertiary">—</p>
+                            </div>
+                          </div>
+                          <div className="text-[11px] text-ink-tertiary font-light">
+                            {guest.check_in?.split("T")[0]} → {guest.check_out?.split("T")[0]}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Band 4: Requests + Notes */}
+                      {(guest.special_requests || guest.notes) && (
+                        <div className="px-5 py-3 border-t border-border-subtle space-y-2">
+                          {guest.special_requests && (
+                            <div>
+                              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mb-1">Guest Requests</p>
+                              <p className="text-[13px] text-ink-body">{guest.special_requests}</p>
+                            </div>
+                          )}
+                          {guest.notes && (
+                            <div>
+                              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mb-1">Staff Notes</p>
+                              <p className="text-[13px] text-ink-body whitespace-pre-wrap">{guest.notes}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Departures */}
+        {activeTab === "departures" && (
+          <section>
+            {data.checkOuts.length === 0 ? (
+              <p className="text-ink-tertiary text-[13px] py-8 font-light normal-case tracking-normal">No departures today</p>
+            ) : (
+              <div className="space-y-3">
+                {data.checkOuts.map((guest) => (
+                  <GuestCard
+                    key={guest.booking_id}
+                    guest={guest}
+                    isCheckIn={false}
+                    editingNotesId={editingNotesId}
+                    notesText={notesText}
+                    setEditingNotesId={setEditingNotesId}
+                    setNotesText={setNotesText}
+                    saveNotes={saveNotes}
+                    savingNotes={savingNotes}
+                    copiedId={copiedId}
+                    activeGuestId={activeGuestId}
+                    setActiveGuestId={setActiveGuestId}
+                    manualTime={manualTime}
+                    setManualTime={setManualTime}
+                    saveManualTime={saveManualTime}
+                    saving={saving}
+                    copyArrivalLink={copyArrivalLink}
+                    sendArrivalWhatsApp={sendArrivalWhatsApp}
+                    sendDirectionsWhatsApp={sendDirectionsWhatsApp}
+                    onOpenPoliceForm={setPoliceFormGuest}
+                    markTaxPaid={markTaxPaid}
+                    markingTaxId={markingTaxId}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        )}
       </div>
 
       {/* Footer - City Tax Summary */}

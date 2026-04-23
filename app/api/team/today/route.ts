@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
 
     const checkIns = active.filter((g) => g.check_in === today);
     const checkOuts = active.filter((g) => g.check_out === today);
+    const inHouse = active.filter((g) => g.check_in <= today && g.check_out > today);
 
     const formatGuest = (g: MasterGuest) => ({
       booking_id: g.booking_id || "",
@@ -52,6 +53,7 @@ export async function GET(request: NextRequest) {
       date: today,
       checkIns: checkIns.map(formatGuest),
       checkOuts: checkOuts.map(formatGuest),
+      inHouse: inHouse.map(formatGuest),
     });
   } catch (error) {
     console.error("Team today error:", error);
