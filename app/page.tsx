@@ -983,13 +983,13 @@ export default function HomePage() {
                         }
                         
                         const booking = getBookingForRoomDate(room, date);
-                        const isStart = booking && isBookingStart(booking, date);
+                        const isStart = booking && (isBookingStart(booking, date) || idx === 0);
                         const span = isStart ? getBookingSpan(booking!, room, idx) : 1;
-                        
+
                         if (isStart && span > 1) {
                           skipUntil = idx + span;
                         }
-                        
+
                         cells.push(
                           <td
                             key={idx}
@@ -1050,13 +1050,13 @@ export default function HomePage() {
                         }
                         
                         const booking = getBookingForRoomDate(room, date);
-                        const isStart = booking && isBookingStart(booking, date);
+                        const isStart = booking && (isBookingStart(booking, date) || idx === 0);
                         const span = isStart ? getBookingSpan(booking!, room, idx) : 1;
-                        
+
                         if (isStart && span > 1) {
                           skipUntil = idx + span;
                         }
-                        
+
                         cells.push(
                           <td
                             key={idx}
