@@ -135,6 +135,58 @@ function extractIssues(reviews: any[]): { issue: string; count: number; recentCo
     .sort((a, b) => b.recentCount - a.recentCount);
 }
 
+// Extract highlights (things guests love) from positive reviews
+function extractHighlights(reviews: any[]): { highlight: string; count: number; recentCount: number; previousCount: number; trend: "up" | "down" | "flat"; category: string }[] {
+  const highlightPatterns: { pattern: RegExp; category: string; highlight: string }[] = [
+    { pattern: /staff|host|welcome|friendly|helpful|kind|attentive|service|zahra|mouad|owner|manager|gentil|amable|accoglien|gentile/i, category: "Hospitality", highlight: "Warm hospitality" },
+    { pattern: /breakfast|food|homemade|cuisine|colazione|desayuno|petit.déjeuner|délicieux|delicious|fresh|fait maison|meal/i, category: "Breakfast", highlight: "Breakfast" },
+    { pattern: /location|close to|near|jemaa|medina|souks|centre|walk|central|easy to|proche de|ubicazione|posizione/i, category: "Location", highlight: "Central location" },
+    { pattern: /decorat|design|beautiful|charming|authentic|traditional|riad|courtyard|patio|arredament|tradizional|authentique|décor|aesthetic|atmosphere|ambiance/i, category: "Design", highlight: "Design & atmosphere" },
+    { pattern: /clean|spotless|tidy|limpio|propre|pulito|sauber|impeccable|well kept/i, category: "Cleanliness", highlight: "Cleanliness" },
+    { pattern: /comfort|cozy|comfy|bed|mattress|sleep|comoda|confortable|douillet|heimelig|relax/i, category: "Comfort", highlight: "Comfort" },
+    { pattern: /value|worth|price|good deal|rapport qualit|prezzo|precio|buon.*prezzo|great deal|reasonable/i, category: "Value", highlight: "Good value" },
+    { pattern: /quiet|peaceful|calm|silence|tranquil|silencio|paisible|tranquillo|oasis/i, category: "Atmosphere", highlight: "Peaceful / quiet" },
+    { pattern: /recommend|recommand|raccoman|come back|return|stay again|nous revien|again|must visit/i, category: "Loyalty", highlight: "Would recommend" },
+  ];
+
+  const now = new Date();
+  const twelveMonthsAgo = new Date(now);
+  twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+  const twentyFourMonthsAgo = new Date(now);
+  twentyFourMonthsAgo.setMonth(twentyFourMonthsAgo.getMonth() - 24);
+
+  const highlightMap: Map<string, { count: number; recentCount: number; previousCount: number; category: string }> = new Map();
+
+  reviews.forEach(review => {
+    const positiveText = review["Positive review"] || "";
+    if (!positiveText || positiveText.length < 5) return;
+
+    const reviewDate = review["Review date"] ? new Date(review["Review date"]) : null;
+    const isRecent = reviewDate && reviewDate >= twelveMonthsAgo;
+    const isPrevious = reviewDate && reviewDate >= twentyFourMonthsAgo && reviewDate < twelveMonthsAgo;
+
+    highlightPatterns.forEach(({ pattern, category, highlight }) => {
+      if (pattern.test(positiveText)) {
+        const existing = highlightMap.get(highlight) || { count: 0, recentCount: 0, previousCount: 0, category };
+        existing.count++;
+        if (isRecent) existing.recentCount++;
+        if (isPrevious) existing.previousCount++;
+        highlightMap.set(highlight, existing);
+      }
+    });
+  });
+
+  return Array.from(highlightMap.entries())
+    .map(([highlight, data]) => {
+      let trend: "up" | "down" | "flat" = "flat";
+      const delta = data.recentCount - data.previousCount;
+      if (delta >= 2) trend = "up";
+      else if (delta <= -2) trend = "down";
+      return { highlight, ...data, trend };
+    })
+    .sort((a, b) => b.recentCount - a.recentCount);
+}
+
 // Calculate monthly ratings
 function calculateMonthlyRatings(reviews: any[]): { month: string; avgScore: number; count: number; categories: Record<string, number> }[] {
   const monthlyData: Map<string, { scores: number[]; staff: number[]; cleanliness: number[]; location: number[]; facilities: number[]; comfort: number[]; value: number[] }> = new Map();
@@ -292,6 +344,7 @@ export async function GET() {
     // Issues use ALL reviews for accurate trend comparison
     // (recent 12mo vs previous 12mo, regardless of display cutoff)
     const issues = extractIssues(reviews);
+    const highlights = extractHighlights(reviews);
 
     // Everything else uses filtered reviews (Jan 2025+)
     const monthlyRatings = calculateMonthlyRatings(filteredReviews);
@@ -363,6 +416,7 @@ export async function GET() {
       overallAverage: overallAvg,
       distribution,
       issues,
+      highlights,
       monthlyRatings,
       sentiment,
       correlation: {

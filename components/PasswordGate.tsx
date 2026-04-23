@@ -15,14 +15,22 @@ export default function PasswordGate({ children }: PasswordGateProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const auth = sessionStorage.getItem("ops_authenticated");
-    setIsAuthenticated(auth === "true");
+    // Persist auth for 30 days using localStorage + expiry timestamp
+    const stored = localStorage.getItem("ops_auth_expires");
+    if (stored && parseInt(stored) > Date.now()) {
+      setIsAuthenticated(true);
+    } else {
+      // Clean up expired entry
+      if (stored) localStorage.removeItem("ops_auth_expires");
+      setIsAuthenticated(false);
+    }
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === CORRECT_PASSWORD) {
-      sessionStorage.setItem("ops_authenticated", "true");
+      const expiryMs = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
+      localStorage.setItem("ops_auth_expires", String(expiryMs));
       setIsAuthenticated(true);
       setError(false);
     } else {
