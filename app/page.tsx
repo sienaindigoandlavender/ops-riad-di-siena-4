@@ -91,6 +91,7 @@ export default function HomePage() {
     return today;
   });
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [showNav, setShowNav] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     firstName: "",
@@ -656,7 +657,7 @@ export default function HomePage() {
               <p className="text-[11px] text-ink-tertiary tracking-[0.03em] hidden sm:block">Operations</p>
             </div>
 
-            {/* Import Buttons */}
+            {/* Import Buttons + Burger */}
             <div className="flex items-center gap-2 md:gap-3">
               <button
                 onClick={() => openImportModal("booking")}
@@ -675,6 +676,16 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
                 <span className="hidden sm:inline">Import</span> Airbnb
+              </button>
+
+              {/* Burger menu */}
+              <button
+                onClick={() => setShowNav(true)}
+                className="ml-2 w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-full hover:bg-linen transition-colors"
+                aria-label="Open navigation"
+              >
+                <span className="block w-[18px] h-[1.5px] bg-ink-primary" />
+                <span className="block w-[18px] h-[1.5px] bg-ink-primary" />
               </button>
             </div>
           </div>
@@ -949,7 +960,7 @@ export default function HomePage() {
             <table className="w-full border-collapse min-w-[1400px] table-fixed">
               <thead>
                 <tr>
-                  <th className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-left text-[11px] font-medium text-ink-secondary uppercase tracking-wide w-32">
+                  <th className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-left text-[10px] font-medium text-ink-tertiary tracking-[0.08em] w-36">
                     Room
                   </th>
                   {dates.map((date, idx) => (
@@ -978,7 +989,7 @@ export default function HomePage() {
                 </tr>
                 {RIAD_ROOMS.map((room) => (
                   <tr key={room}>
-                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-[13px] font-medium text-ink-primary">
+                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-[13px] font-medium text-ink-primary">
                       {room}
                     </td>
                     {(() => {
@@ -1045,7 +1056,7 @@ export default function HomePage() {
                 </tr>
                 {DOUARIA_ROOMS.map((room) => (
                   <tr key={room}>
-                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle p-3 text-[13px] font-medium text-ink-primary">
+                    <td className="sticky left-0 z-10 bg-cream border-b border-r border-border-subtle px-4 py-3 text-[13px] font-medium text-ink-primary">
                       {room}
                     </td>
                     {(() => {
@@ -1111,8 +1122,8 @@ export default function HomePage() {
 
       {/* View/Edit Booking Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
+        <div className="fixed inset-0 bg-black/35 backdrop-blur-[2px] flex items-center justify-center z-50 modal-overlay">
+          <div className="bg-white shadow-lg w-full max-w-lg mx-4 modal-panel">
             <div className="p-6 border-b border-border-subtle">
               <div className="flex items-center justify-between">
                 <h2 className="font-serif text-[18px] text-ink-primary">
@@ -1480,38 +1491,38 @@ We look forward to welcoming you! ✨`
         </div>
       )}
 
-      {/* New Booking Modal - Riad Brand Design */}
+      {/* New Booking Modal */}
       {newBooking && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-parchment shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col rounded-xl overflow-hidden">
+        <div className="fixed inset-0 bg-black/35 backdrop-blur-[2px] flex items-center justify-center z-50 modal-overlay">
+          <div className="bg-white shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col overflow-hidden modal-panel">
             {/* Source color strip */}
-            <div className={`h-1.5 w-full ${getSourceColor(newBookingForm.isBlackout ? "blocked" : newBookingForm.source)} transition-colors duration-300`} />
-            {/* Header - Fixed */}
-            <div className="p-6 border-b border-foreground/10 flex-shrink-0">
+            <div className={`h-1 w-full ${getSourceColor(newBookingForm.isBlackout ? "blocked" : newBookingForm.source)} transition-colors duration-300`} />
+            {/* Header */}
+            <div className="px-7 py-5 border-b border-border-subtle flex-shrink-0">
               <div className="flex items-center justify-between">
-                <h2 className="font-serif text-[20px] text-foreground/90">New Booking</h2>
+                <h2 className="text-[16px] font-medium text-ink-primary tracking-[0.02em]">New Booking</h2>
                 <button
                   onClick={() => setNewBooking(null)}
-                  className="w-8 h-8 flex items-center justify-center text-foreground/40 hover:text-foreground transition-colors"
+                  className="w-7 h-7 flex items-center justify-center text-ink-tertiary hover:text-ink-primary transition-colors"
                 >
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M4 4l8 8M12 4l-8 8" />
                   </svg>
                 </button>
               </div>
             </div>
 
-            {/* Form Content - Scrollable (hidden scrollbar) */}
-            <div className="p-6 space-y-6 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {/* Form Content */}
+            <div className="px-7 py-6 space-y-7 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {/* Blackout Toggle */}
-              <label className="flex items-center gap-3 cursor-pointer">
+              <label className="flex items-center gap-3 cursor-pointer group">
                 <input
                   type="checkbox"
                   checked={newBookingForm.isBlackout}
                   onChange={(e) => setNewBookingForm({ ...newBookingForm, isBlackout: e.target.checked })}
-                  className="w-4 h-4 accent-foreground"
+                  className="w-4 h-4 accent-[#111]"
                 />
-                <span className="text-[13px] text-foreground/70">Block dates (no guest)</span>
+                <span className="text-[11px] text-ink-secondary group-hover:text-ink-primary transition-colors normal-case tracking-[0.02em]">Block dates (no guest)</span>
               </label>
 
               {!newBookingForm.isBlackout && (
@@ -1519,38 +1530,38 @@ We look forward to welcoming you! ✨`
                   {/* Name Row */}
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                      <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                         First Name *
                       </label>
                       <input
                         type="text"
                         value={newBookingForm.firstName}
                         onChange={(e) => setNewBookingForm({ ...newBookingForm, firstName: e.target.value })}
-                        className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 focus:outline-none focus:border-foreground/40 transition-colors"
+                        className="w-full bg-transparent border-b border-border pb-3 text-[14px] text-ink-primary focus:outline-none focus:border-ink-tertiary transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                      <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                         Last Name
                       </label>
                       <input
                         type="text"
                         value={newBookingForm.lastName}
                         onChange={(e) => setNewBookingForm({ ...newBookingForm, lastName: e.target.value })}
-                        className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 focus:outline-none focus:border-foreground/40 transition-colors"
+                        className="w-full bg-transparent border-b border-border pb-3 text-[14px] text-ink-primary focus:outline-none focus:border-ink-tertiary transition-colors"
                       />
                     </div>
                   </div>
 
                   {/* Source */}
                   <div>
-                    <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                    <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                       Source
                     </label>
                     <select
                       value={newBookingForm.source}
                       onChange={(e) => setNewBookingForm({ ...newBookingForm, source: e.target.value })}
-                      className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 focus:outline-none focus:border-foreground/40 transition-colors cursor-pointer"
+                      className="w-full bg-transparent border-b border-border pb-3 text-[14px] text-ink-primary focus:outline-none focus:border-ink-tertiary transition-colors cursor-pointer"
                     >
                       {BOOKING_SOURCES.map((src) => (
                         <option key={src} value={src}>{src}</option>
@@ -1561,25 +1572,25 @@ We look forward to welcoming you! ✨`
                   {/* Email & Phone Row */}
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                      <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                         Email
                       </label>
                       <input
                         type="email"
                         value={newBookingForm.email}
                         onChange={(e) => setNewBookingForm({ ...newBookingForm, email: e.target.value })}
-                        className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 focus:outline-none focus:border-foreground/40 transition-colors"
+                        className="w-full bg-transparent border-b border-border pb-3 text-[14px] text-ink-primary focus:outline-none focus:border-ink-tertiary transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                      <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                         Phone
                       </label>
                       <input
                         type="tel"
                         value={newBookingForm.phone}
                         onChange={(e) => setNewBookingForm({ ...newBookingForm, phone: e.target.value })}
-                        className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 focus:outline-none focus:border-foreground/40 transition-colors"
+                        className="w-full bg-transparent border-b border-border pb-3 text-[14px] text-ink-primary focus:outline-none focus:border-ink-tertiary transition-colors"
                       />
                     </div>
                   </div>
@@ -1587,7 +1598,7 @@ We look forward to welcoming you! ✨`
                   {/* Country & Language Row */}
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                      <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                         Country
                       </label>
                       <input
@@ -1595,17 +1606,17 @@ We look forward to welcoming you! ✨`
                         value={newBookingForm.country}
                         onChange={(e) => setNewBookingForm({ ...newBookingForm, country: e.target.value })}
                         placeholder="e.g. France"
-                        className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 placeholder:text-foreground/30 focus:outline-none focus:border-foreground/40 transition-colors"
+                        className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 placeholder:text-ink-tertiary focus:outline-none focus:border-foreground/40 transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                      <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                         Language
                       </label>
                       <select
                         value={newBookingForm.language}
                         onChange={(e) => setNewBookingForm({ ...newBookingForm, language: e.target.value })}
-                        className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 focus:outline-none focus:border-foreground/40 transition-colors cursor-pointer"
+                        className="w-full bg-transparent border-b border-border pb-3 text-[14px] text-ink-primary focus:outline-none focus:border-ink-tertiary transition-colors cursor-pointer"
                       >
                         <option value="">Select...</option>
                         <option value="English">English</option>
@@ -1621,7 +1632,7 @@ We look forward to welcoming you! ✨`
 
                   {/* Notes */}
                   <div>
-                    <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                    <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                       Notes / Comments
                     </label>
                     <textarea
@@ -1629,18 +1640,18 @@ We look forward to welcoming you! ✨`
                       onChange={(e) => setNewBookingForm({ ...newBookingForm, notes: e.target.value })}
                       rows={3}
                       placeholder="Special requests, arrival details, etc."
-                      className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 placeholder:text-foreground/30 focus:outline-none focus:border-foreground/40 transition-colors resize-none"
+                      className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 placeholder:text-ink-tertiary focus:outline-none focus:border-foreground/40 transition-colors resize-none"
                     />
                   </div>
 
                   {/* Agreed Rates Section */}
-                  <div className="pt-4 border-t border-foreground/10">
-                    <div className="text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-4">
+                  <div className="pt-4 border-t border-border-subtle">
+                    <div className="text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-4">
                       Agreed Rates
                     </div>
                     <div className="grid grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                        <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                           Rate per Night (€)
                         </label>
                         <input
@@ -1648,11 +1659,11 @@ We look forward to welcoming you! ✨`
                           value={newBookingForm.ratePerNight}
                           onChange={(e) => setNewBookingForm({ ...newBookingForm, ratePerNight: e.target.value })}
                           placeholder="e.g. 150"
-                          className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 placeholder:text-foreground/30 focus:outline-none focus:border-foreground/40 transition-colors"
+                          className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 placeholder:text-ink-tertiary focus:outline-none focus:border-foreground/40 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                        <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                           Total (€)
                         </label>
                         <input
@@ -1660,12 +1671,12 @@ We look forward to welcoming you! ✨`
                           value={newBookingForm.totalEur}
                           onChange={(e) => setNewBookingForm({ ...newBookingForm, totalEur: e.target.value })}
                           placeholder="e.g. 450"
-                          className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 placeholder:text-foreground/30 focus:outline-none focus:border-foreground/40 transition-colors"
+                          className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 placeholder:text-ink-tertiary focus:outline-none focus:border-foreground/40 transition-colors"
                         />
                       </div>
                     </div>
                     {newBookingForm.checkIn && newBookingForm.checkOut && newBookingForm.ratePerNight && (
-                      <div className="mt-3 text-[11px] text-foreground/40">
+                      <div className="mt-3 text-[11px] text-ink-tertiary">
                         {(() => {
                           const nights = Math.ceil((new Date(newBookingForm.checkOut).getTime() - new Date(newBookingForm.checkIn).getTime()) / (1000 * 60 * 60 * 24));
                           const calculated = nights * parseFloat(newBookingForm.ratePerNight);
@@ -1679,13 +1690,13 @@ We look forward to welcoming you! ✨`
 
               {/* Room */}
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.08em] text-foreground/40 mb-2">
+                <label className="block text-[10px] uppercase tracking-[0.1em] text-ink-secondary mb-2">
                   Room
                 </label>
                 <select
                   value={newBookingForm.room}
                   onChange={(e) => setNewBookingForm({ ...newBookingForm, room: e.target.value })}
-                  className="w-full bg-transparent border-b border-foreground/20 pb-3 text-[14px] text-foreground/90 focus:outline-none focus:border-foreground/40 transition-colors cursor-pointer"
+                  className="w-full bg-transparent border-b border-border pb-3 text-[14px] text-ink-primary focus:outline-none focus:border-ink-tertiary transition-colors cursor-pointer"
                 >
                   {ALL_ROOMS.map((room) => (
                     <option key={room} value={room}>{room}</option>
@@ -1694,9 +1705,9 @@ We look forward to welcoming you! ✨`
               </div>
 
               {/* Calendar Date Picker */}
-              <div className="border-t border-foreground/10 pt-6">
+              <div className="border-t border-border-subtle pt-6">
                 {/* Step Indicator */}
-                <div className="text-[10px] uppercase tracking-[0.15em] text-foreground/40 mb-4">
+                <div className="text-[10px] uppercase tracking-[0.12em] text-ink-tertiary mb-4">
                   {selectingDate === "checkIn" ? "Step 1 of 2 — Select Check-in" : "Step 2 of 2 — Select Check-out"}
                 </div>
 
@@ -1736,7 +1747,7 @@ We look forward to welcoming you! ✨`
                 {/* Day Headers */}
                 <div className="grid grid-cols-7">
                   {["SU", "MO", "TU", "WE", "TH", "FR", "SA"].map((day) => (
-                    <div key={day} className="h-10 flex items-center justify-center text-[11px] text-foreground/40">
+                    <div key={day} className="h-10 flex items-center justify-center text-[11px] text-ink-tertiary">
                       {day}
                     </div>
                   ))}
@@ -1788,17 +1799,17 @@ We look forward to welcoming you! ✨`
                 <div className="flex items-center gap-6 mt-5">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 bg-foreground" />
-                    <span className="text-[10px] text-foreground/40 uppercase tracking-[0.1em]">Selected</span>
+                    <span className="text-[10px] text-ink-tertiary uppercase tracking-[0.08em]">Selected</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 bg-foreground/15" />
-                    <span className="text-[10px] text-foreground/40 uppercase tracking-[0.1em]">Unavailable</span>
+                    <span className="text-[10px] text-ink-tertiary uppercase tracking-[0.08em]">Unavailable</span>
                   </div>
                 </div>
 
                 {/* Selected Dates Display */}
                 {newBookingForm.checkIn && (
-                  <div className="mt-4 pt-4 border-t border-foreground/10 text-[12px] text-foreground/60">
+                  <div className="mt-4 pt-4 border-t border-border-subtle text-[12px] text-ink-secondary">
                     {new Date(newBookingForm.checkIn + "T12:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
                     {newBookingForm.checkOut && (
                       <> — {new Date(newBookingForm.checkOut + "T12:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</>
@@ -1809,17 +1820,17 @@ We look forward to welcoming you! ✨`
             </div>
 
             {/* Footer - Fixed */}
-            <div className="p-6 border-t border-foreground/10 flex gap-4 flex-shrink-0">
+            <div className="px-7 py-5 border-t border-border-subtle flex gap-4 flex-shrink-0">
               <button
                 onClick={() => setNewBooking(null)}
-                className="flex-1 py-3 text-[11px] uppercase tracking-[0.08em] font-medium border border-foreground/20 text-foreground/70 hover:border-foreground/40 transition-colors"
+                className="flex-1 py-3 text-[11px] uppercase tracking-[0.08em] font-medium border border-border text-ink-secondary hover:border-ink-tertiary hover:text-ink-primary transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={saveNewBooking}
                 disabled={savingBooking}
-                className="flex-1 py-3 text-[11px] uppercase tracking-[0.08em] font-medium bg-foreground text-cream hover:bg-foreground/90 transition-colors disabled:opacity-50"
+                className="flex-1 py-3 text-[11px] uppercase tracking-[0.08em] font-medium bg-ink-primary text-white hover:bg-black transition-colors disabled:opacity-50"
               >
                 {savingBooking ? "Saving..." : newBookingForm.isBlackout ? "Block Dates" : "Add Booking"}
               </button>
@@ -1831,8 +1842,8 @@ We look forward to welcoming you! ✨`
       {/* Send Confirmation Modal */}
       {/* Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
+        <div className="fixed inset-0 bg-black/35 backdrop-blur-[2px] flex items-center justify-center z-50 modal-overlay">
+          <div className="bg-white shadow-lg w-full max-w-lg mx-4 modal-panel">
             <div className="p-6 border-b border-border-subtle">
               <div className="flex items-center justify-between">
                 <h2 className="font-serif text-[18px] text-ink-primary">
@@ -1922,6 +1933,31 @@ We look forward to welcoming you! ✨`
             </div>
           </div>
         </div>
+      )}
+      {/* Side navigation */}
+      {showNav && (
+        <>
+          <div className="fixed inset-0 bg-black/20 z-50 modal-overlay" onClick={() => setShowNav(false)} />
+          <nav className="fixed top-0 right-0 h-full w-72 bg-white border-l border-border-subtle z-50 flex flex-col modal-panel" style={{ animationName: 'none', animation: 'slide-in-right 200ms cubic-bezier(0.22, 1, 0.36, 1) both' }}>
+            <div className="flex items-center justify-between px-7 py-6 border-b border-border-subtle">
+              <span className="text-[11px] font-medium text-ink-tertiary tracking-[0.08em]">NAVIGATION</span>
+              <button onClick={() => setShowNav(false)} className="w-7 h-7 flex items-center justify-center text-ink-tertiary hover:text-ink-primary transition-colors">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M4 4l8 8M12 4l-8 8" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 px-7 py-6 space-y-1">
+              <a href="/" className="block py-3 text-[13px] text-ink-primary font-medium border-b border-border-subtle normal-case tracking-normal">Calendar</a>
+              <a href="/guests" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Guests</a>
+              <a href="/team" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Team</a>
+              <a href="/expenses" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Expenses</a>
+              <a href="/insights" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Insights</a>
+              <a href="/invoice" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Invoices</a>
+              <a href="/admin" className="block py-3 text-[13px] text-ink-secondary hover:text-ink-primary border-b border-border-subtle transition-colors normal-case tracking-normal">Admin</a>
+            </div>
+          </nav>
+        </>
       )}
     </div>
     </PasswordGate>
