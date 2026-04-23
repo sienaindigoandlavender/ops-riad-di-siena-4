@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import LoadingScreen from "@/components/LoadingScreen";
 
 interface Booking {
   Booking_ID: string;
@@ -394,9 +395,7 @@ function BookingsContent() {
 
       <main className="container mx-auto px-6 py-8">
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="w-8 h-8 border-2 border-border-subtle border-t-black rounded-full animate-spin" />
-          </div>
+          <LoadingScreen />
         ) : bookings.length === 0 ? (
           <div className="text-center py-20 text-[13px] text-ink-tertiary">
             No bookings found.

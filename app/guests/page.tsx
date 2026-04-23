@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import AppHeader from "@/components/AppHeader";
+import LoadingScreen from "@/components/LoadingScreen";
 
 interface Guest {
   booking_id: string;
@@ -180,9 +181,7 @@ export default function GuestsPage() {
 
       <main className="max-w-5xl mx-auto px-6 py-8">
         {loading ? (
-          <div className="flex justify-center py-24">
-            <div className="w-6 h-6 border-2 border-border-subtle border-t-black/40 rounded-full animate-spin" />
-          </div>
+          <LoadingScreen />
         ) : (
           <>
             {/* Tabs */}

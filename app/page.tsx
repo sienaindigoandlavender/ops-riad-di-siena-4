@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import PasswordGate from "@/components/PasswordGate";
+import LoadingScreen from "@/components/LoadingScreen";
 
 interface Booking {
   id: string;
@@ -664,9 +665,7 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-cream flex items-center justify-center">
-        <div className="text-ink-tertiary text-[13px]">Loading calendar...</div>
-      </div>
+      <LoadingScreen />
     );
   }
 
