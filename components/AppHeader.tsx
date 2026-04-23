@@ -8,7 +8,7 @@ export default function AppHeader() {
 
   return (
     <>
-      <div className="bg-white border-b border-border-subtle">
+      <div className="md:hidden bg-white border-b border-border-subtle">
         <div className="px-4 py-4 md:px-10 md:py-5 flex items-center justify-between">
           <a href="/" className="flex items-baseline gap-3 shrink-0">
             <span className="text-[15px] md:text-[16px] font-medium text-ink-primary tracking-[0.04em] normal-case">RIAD DI SIENA</span>
