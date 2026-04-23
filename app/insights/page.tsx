@@ -239,7 +239,7 @@ export default function InsightsPage() {
 
       {/* Header */}
       <header className="bg-cream border-b border-border-subtle">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
               <Link href="/admin" className="text-[11px] uppercase tracking-[0.1em] text-ink-tertiary hover:text-ink-secondary">
@@ -335,7 +335,7 @@ export default function InsightsPage() {
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-4 py-6">
         {/* Overview Tab */}
         {activeTab === "overview" && (
           <div className="space-y-8">

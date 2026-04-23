@@ -885,7 +885,7 @@ See you soon!
       <AppHeader />
 
       {/* Row 2: Date navigation */}
-      <div className="border-b border-border-subtle px-4 py-4">
+      <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Previous */}
           <button
@@ -1104,7 +1104,7 @@ See you soon!
         activeTab={activeTab}
       />
 
-      <div className="p-6">
+      <div className="px-4 py-4">
         {/* Arrivals */}
         {activeTab === "arrivals" && (
           <section>

@@ -256,7 +256,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-cream">
       {/* Header */}
       <div className="md:hidden bg-cream border-b border-border-subtle">
-        <div className="px-4 py-5 md:px-10 md:py-6">
+        <div className="px-4 py-4 md:px-4 md:py-4">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-baseline gap-3 shrink-0 md:hidden">
               <h1 className="text-[15px] font-medium text-ink-primary tracking-[0.04em] normal-case">RIAD DI SIENA</h1>
@@ -299,7 +299,7 @@ export default function HomePage() {
       </div>
 
       {/* Calendar Navigation */}
-      <div className="bg-cream px-4 md:px-6 py-2.5">
+      <div className="bg-cream px-4 md:px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Unified control cluster */}
           <div className="flex items-center border border-border-subtle divide-x divide-border-subtle">
@@ -593,7 +593,7 @@ export default function HomePage() {
       </button>
 
       {/* Calendar Grid - Desktop only */}
-      <div className="hidden md:block px-10 py-6">
+      <div className="hidden md:block px-4 py-4">
         <div className="bg-cream border border-border-subtle overflow-hidden">
           <div ref={scrollRef} className="overflow-x-auto">
             <table className="w-full border-collapse min-w-[1400px] table-fixed">
