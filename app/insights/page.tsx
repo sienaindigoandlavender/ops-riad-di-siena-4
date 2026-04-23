@@ -17,6 +17,14 @@ interface ReviewStats {
     examples: string[];
     category: string;
   }>;
+  highlights: Array<{
+    highlight: string;
+    count: number;
+    recentCount: number;
+    previousCount: number;
+    trend: "up" | "down" | "flat";
+    category: string;
+  }>;
   monthlyRatings: Array<{
     month: string;
     avgScore: number;
@@ -237,6 +245,7 @@ export default function InsightsPage() {
                 ← Back to Admin
               </Link>
               <h1 className="text-[28px] font-serif text-ink-primary mt-1">Review Insights</h1>
+              <p className="text-[11px] font-light text-ink-tertiary tracking-[0.04em] mt-1 normal-case">Based on guest reviews from January 2025 onward</p>
             </div>
             <div className="flex items-center gap-6">
               {/* Upload button */}
@@ -395,6 +404,44 @@ export default function InsightsPage() {
               </div>
               {stats.issues.length === 0 && (
                 <p className="text-ink-tertiary text-[13px] py-4 text-center font-light normal-case tracking-normal">No issues flagged</p>
+              )}
+            </section>
+
+            {/* Top Highlights - what guests love */}
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <div className="flex items-baseline justify-between mb-4">
+                <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary">Top Highlights</h2>
+                <p className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary">Last 12 months · what guests love most</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {(stats.highlights || []).slice(0, 6).map((item) => {
+                  const trendArrow = item.trend === "up" ? "↑" : item.trend === "down" ? "↓" : "→";
+                  const trendColor = item.trend === "up" ? "text-sage" : item.trend === "down" ? "text-brick" : "text-ink-tertiary";
+                  const trendLabel = item.trend === "up" ? "Growing" : item.trend === "down" ? "Less mentioned" : "Stable";
+                  const delta = item.recentCount - item.previousCount;
+                  return (
+                    <div key={item.highlight} className="flex items-center justify-between p-4 border border-border-subtle bg-white">
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary">{item.category}</p>
+                        <p className="text-[14px] font-light text-ink-primary uppercase tracking-[0.02em] mt-1">{item.highlight}</p>
+                        <p className="text-[11px] text-ink-tertiary mt-1 font-light normal-case tracking-normal">
+                          {item.recentCount} {item.recentCount === 1 ? "mention" : "mentions"} recently
+                          {item.previousCount > 0 && `, ${item.previousCount} before`}
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0 ml-4">
+                        <p className={`text-[24px] font-medium ${trendColor} leading-none`}>{trendArrow}</p>
+                        <p className={`text-[9px] uppercase tracking-[0.08em] font-light mt-1 ${trendColor}`}>{trendLabel}</p>
+                        {delta !== 0 && (
+                          <p className="text-[10px] text-ink-tertiary mt-0.5 font-light">{delta > 0 ? "+" : ""}{delta}</p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {(!stats.highlights || stats.highlights.length === 0) && (
+                <p className="text-ink-tertiary text-[13px] py-4 text-center font-light normal-case tracking-normal">No highlights yet</p>
               )}
             </section>
 
