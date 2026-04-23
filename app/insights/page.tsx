@@ -242,10 +242,7 @@ export default function InsightsPage() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <Link href="/admin" className="text-[11px] uppercase tracking-[0.1em] text-ink-tertiary hover:text-ink-secondary">
-                ← Back to Admin
-              </Link>
-              <h1 className="text-[28px] font-serif text-ink-primary mt-1">Review Insights</h1>
+              <h1 className="text-[28px] font-serif text-ink-primary">Review Insights</h1>
               <p className="text-[11px] font-light text-ink-tertiary tracking-[0.04em] mt-1 normal-case">Based on guest reviews from January 2025 onward</p>
             </div>
             <div className="flex items-center gap-6">
