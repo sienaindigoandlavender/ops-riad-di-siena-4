@@ -215,7 +215,7 @@ export default function InsightsPage() {
 
   // Get last 36 months for the chart
   const last36Months = stats.monthlyRatings.slice(-36);
-  const maxNights = Math.max(...stats.correlation.data.map(d => d.occupancyNights), 1);
+  const maxNights = Math.max(...(stats.correlation?.data || []).map(d => d.occupancyNights), 1);
 
   return (
     <div className="min-h-screen bg-[#faf9f7]">
@@ -557,7 +557,7 @@ export default function InsightsPage() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {["staff", "cleanliness", "location", "facilities", "comfort", "value"].map(cat => {
                   const recent = last36Months.slice(-12);
-                  const avg = recent.reduce((sum, m) => sum + (m.categories[cat] || 0), 0) / recent.filter(m => m.categories[cat] > 0).length;
+                  const avg = recent.reduce((sum, m) => sum + (m.categories?.[cat] || 0), 0) / (recent.filter(m => m.categories?.[cat] && m.categories[cat] > 0).length || 1);
                   const color = avg >= 9.5 ? "text-sage" : avg >= 9 ? "text-sage" : avg >= 8.5 ? "text-gold" : "text-gold";
                   
                   return (
@@ -731,7 +731,7 @@ export default function InsightsPage() {
         )}
 
         {/* ADR Tab */}
-        {activeTab === "adr" && adrStats && (
+        {activeTab === "adr" && adrStats?.overall && adrStats?.trend && adrStats?.monthly && (
           <div className="space-y-8">
             {/* ADR Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
