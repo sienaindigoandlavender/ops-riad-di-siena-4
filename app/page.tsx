@@ -693,9 +693,10 @@ export default function HomePage() {
       </div>
 
       {/* Calendar Navigation */}
-      <div className="bg-cream border-b border-border-subtle px-4 md:px-10 py-3">
+      <div className="bg-cream border-b border-border-subtle px-4 md:px-10 py-2.5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1 md:gap-2">
+          {/* Unified control cluster */}
+          <div className="flex items-center border border-border-subtle divide-x divide-border-subtle">
             {/* Month dropdown */}
             <div className="relative" ref={datePickerRef}>
               <button
@@ -705,7 +706,7 @@ export default function HomePage() {
                   }
                   setShowDatePicker(!showDatePicker);
                 }}
-                className="flex items-center gap-2 px-3 py-1.5 border border-border-subtle hover:border-border transition-colors text-[12px]"
+                className="flex items-center gap-2 px-3.5 h-[34px] hover:bg-parchment transition-colors text-[12px]"
               >
                 <span className="font-medium text-ink-primary normal-case tracking-normal">
                   {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
@@ -749,26 +750,26 @@ export default function HomePage() {
             {/* Today button */}
             <button
               onClick={goToToday}
-              className="px-3 py-1.5 text-[11px] text-ink-secondary border border-border-subtle hover:border-border transition-colors"
+              className="px-3.5 h-[34px] text-[11px] text-ink-secondary hover:bg-parchment transition-colors"
             >
               Today
             </button>
 
-            {/* Week back/forward arrows - desktop only, side by side */}
-            <div className="hidden md:flex items-center">
+            {/* Week back/forward arrows */}
+            <div className="hidden md:contents">
               <button
                 onClick={() => navigateWeek(-1)}
-                className="p-2 hover:bg-parchment rounded-lg transition-colors"
+                className="w-[34px] h-[34px] flex items-center justify-center hover:bg-parchment transition-colors"
               >
-                <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <button
                 onClick={() => navigateWeek(1)}
-                className="p-2 hover:bg-parchment rounded-lg transition-colors"
+                className="w-[34px] h-[34px] flex items-center justify-center hover:bg-parchment transition-colors"
               >
-                <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
@@ -780,36 +781,36 @@ export default function HomePage() {
                 setLoading(true);
                 fetchBookings().finally(() => setLoading(false));
               }}
-              className="p-2 text-ink-secondary hover:bg-parchment rounded-lg transition-colors"
+              className="w-[34px] h-[34px] flex items-center justify-center hover:bg-parchment transition-colors"
               title="Refresh bookings"
             >
-              <svg className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className={`w-3.5 h-3.5 text-ink-tertiary ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
             </button>
           </div>
 
           {/* Legend */}
-          <div className="hidden md:flex items-center gap-5 text-[10px] tracking-[0.04em]">
+          <div className="hidden md:flex items-center gap-4 h-[34px] text-[10px]">
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 bg-[#A2B4BF]"></div>
-              <span className="text-ink-tertiary normal-case">Booking.com</span>
+              <div className="w-[7px] h-[7px] bg-[#A2B4BF]"></div>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Booking.com</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 bg-[#CEAEA8]"></div>
-              <span className="text-ink-tertiary normal-case">Airbnb</span>
+              <div className="w-[7px] h-[7px] bg-[#CEAEA8]"></div>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Airbnb</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 bg-[#C5AD84]"></div>
-              <span className="text-ink-tertiary normal-case">Website</span>
+              <div className="w-[7px] h-[7px] bg-[#C5AD84]"></div>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Website</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 bg-[#A3AD95]"></div>
-              <span className="text-ink-tertiary normal-case">Direct</span>
+              <div className="w-[7px] h-[7px] bg-[#A3AD95]"></div>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Direct</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 bg-[#3D3832]"></div>
-              <span className="text-ink-tertiary normal-case">Blocked</span>
+              <div className="w-[7px] h-[7px] bg-[#3D3832]"></div>
+              <span className="text-ink-tertiary normal-case tracking-[0.02em]">Blocked</span>
             </div>
           </div>
         </div>
@@ -1014,15 +1015,15 @@ export default function HomePage() {
                           <td
                             key={idx}
                             colSpan={isStart ? span : 1}
-                            className={`border-b border-r border-border-subtle p-1 h-14 ${
+                            className={`border-b border-r border-border-subtle p-[3px] h-[54px] ${
                               isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : "bg-cream"
                             } ${!booking ? "cursor-pointer hover:bg-parchment group" : ""}`}
                             onClick={() => !booking && handleCellClick(room, date)}
                           >
                             {isStart && booking ? (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2 py-1.5 text-[11px] font-medium truncate cursor-pointer hover:brightness-95 transition-all`}
-                                style={{ minHeight: "38px" }}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] transition-all flex flex-col justify-center`}
+                                style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedBooking(booking);
@@ -1081,15 +1082,15 @@ export default function HomePage() {
                           <td
                             key={idx}
                             colSpan={isStart ? span : 1}
-                            className={`border-b border-r border-border-subtle p-1 h-14 ${
+                            className={`border-b border-r border-border-subtle p-[3px] h-[54px] ${
                               isToday(date) ? "bg-parchment" : isWeekend(date) ? "bg-bone" : "bg-cream"
                             } ${!booking ? "cursor-pointer hover:bg-parchment group" : ""}`}
                             onClick={() => !booking && handleCellClick(room, date)}
                           >
                             {isStart && booking ? (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2 py-1.5 text-[11px] font-medium truncate cursor-pointer hover:brightness-95 transition-all`}
-                                style={{ minHeight: "38px" }}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] transition-all flex flex-col justify-center`}
+                                style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedBooking(booking);
