@@ -6,7 +6,6 @@ interface PasswordGateProps {
   children: React.ReactNode;
 }
 
-// Password is checked against environment variable or fallback
 const CORRECT_PASSWORD = process.env.NEXT_PUBLIC_OPS_PASSWORD || "c0usc0us*2344";
 
 export default function PasswordGate({ children }: PasswordGateProps) {
@@ -16,7 +15,6 @@ export default function PasswordGate({ children }: PasswordGateProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    // Check if already authenticated
     const auth = sessionStorage.getItem("ops_authenticated");
     setIsAuthenticated(auth === "true");
   }, []);
@@ -33,27 +31,24 @@ export default function PasswordGate({ children }: PasswordGateProps) {
     }
   };
 
-  // Loading state — gentle pulse instead of spinner
   if (isAuthenticated === null) {
     return (
-      <div className="min-h-screen bg-cream flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div
-          className="w-2 h-2 rounded-full bg-accent"
-          style={{ animation: "breathe 2s cubic-bezier(0.22, 1, 0.36, 1) infinite" }}
+          className="w-1.5 h-1.5 rounded-full bg-ink-tertiary"
+          style={{ animation: "breathe 2s ease-in-out infinite" }}
         />
       </div>
     );
   }
 
-  // Authenticated - show content
   if (isAuthenticated) {
     return <>{children}</>;
   }
 
-  // Password gate — warm, dreamy aesthetic
   return (
-    <div className="min-h-screen relative flex items-center justify-center">
-      {/* Blurred background image */}
+    <div className="min-h-screen min-h-[100dvh] relative flex items-start justify-center pt-[25vh] sm:pt-0 sm:items-center overflow-y-auto">
+      {/* Blurred background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -63,22 +58,22 @@ export default function PasswordGate({ children }: PasswordGateProps) {
         }}
       />
 
-      {/* Warm overlay */}
-      <div className="absolute inset-0 bg-black/55" />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50" />
 
-      {/* Password form */}
-      <div className="relative z-10 w-full max-w-sm mx-4 fade-rise">
-        <div className="bg-white/95 backdrop-blur-sm shadow-lg p-10">
-          {/* Logo/Title */}
+      {/* Login card */}
+      <div className="relative z-10 w-full max-w-[360px] mx-5 mb-8 fade-rise">
+        <div className="bg-white/95 backdrop-blur-sm shadow-md px-8 py-10 sm:px-10 sm:py-12">
+          {/* Title */}
           <div className="text-center mb-8">
-            <h1 className="font-serif text-[22px] font-normal text-ink-primary tracking-wide">
+            <h1 className="text-[20px] sm:text-[22px] font-medium text-ink-primary tracking-[0.03em] leading-relaxed pt-1 normal-case">
               Riad di Siena
             </h1>
-            <p className="text-[13px] text-ink-tertiary mt-1.5">Operations</p>
+            <p className="text-[11px] text-ink-tertiary tracking-[0.06em] mt-2 mb-1">OPERATIONS</p>
           </div>
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-5">
+            <div className="mb-6">
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -89,11 +84,11 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                   }}
                   placeholder="Password"
                   autoFocus
-                  className={`w-full px-4 py-3 pr-12 text-[14px] text-ink-primary bg-cream border focus:outline-none transition-all duration-200 placeholder:text-ink-tertiary ${
+                  className={`w-full h-[44px] px-4 pr-12 text-[14px] text-ink-primary bg-white border transition-all duration-200 placeholder:text-ink-tertiary normal-case tracking-normal ${
                     error
-                      ? "border-brick focus:ring-brick/20"
-                      : "border-border-subtle focus:ring-accent/15 focus:border-accent"
-                  }`}
+                      ? "border-brick focus:border-brick focus:ring-1 focus:ring-brick/20"
+                      : "border-border focus:border-ink-primary focus:ring-1 focus:ring-ink-primary/10"
+                  } focus:outline-none`}
                 />
                 <button
                   type="button"
@@ -102,7 +97,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                     e.preventDefault();
                     setShowPassword(!showPassword);
                   }}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 p-3 text-ink-tertiary hover:text-ink-secondary transition-colors duration-300 ease-gentle touch-manipulation"
+                  className="absolute right-0 top-0 w-[44px] h-[44px] flex items-center justify-center text-ink-tertiary hover:text-ink-secondary transition-colors touch-manipulation"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
@@ -118,15 +113,15 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                 </button>
               </div>
               {error && (
-                <p className="text-[12px] text-brick mt-2">That doesn&apos;t seem right &mdash; mind trying again?</p>
+                <p className="text-[12px] text-brick mt-2 normal-case tracking-normal">Incorrect password</p>
               )}
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 bg-accent text-cream text-[12px] border border-ink-primary hover:bg-white hover:text-ink-primary transition-all duration-200"
+              className="w-full h-[48px] bg-ink-primary text-white text-[12px] tracking-[0.08em] hover:bg-black transition-colors duration-200"
             >
-              Enter
+              ENTER
             </button>
           </form>
         </div>

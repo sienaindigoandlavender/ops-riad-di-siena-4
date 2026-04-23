@@ -651,14 +651,14 @@ export default function HomePage() {
       {/* Header */}
       <div className="bg-cream border-b border-border-subtle">
         <div className="px-4 py-5 md:px-10 md:py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-baseline gap-3">
-              <h1 className="text-[15px] md:text-[16px] font-medium text-ink-primary tracking-[0.04em]">RIAD DI SIENA</h1>
-              <p className="text-[11px] text-ink-tertiary tracking-[0.03em] hidden sm:block">Operations</p>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-baseline gap-3 shrink-0">
+              <h1 className="text-[15px] md:text-[16px] font-medium text-ink-primary tracking-[0.04em] normal-case">RIAD DI SIENA</h1>
+              <p className="text-[11px] text-ink-tertiary tracking-[0.03em] hidden sm:block normal-case">Operations</p>
             </div>
 
             {/* Import Buttons + Burger */}
-            <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-end">
               <button
                 onClick={() => openImportModal("booking")}
                 className="flex items-center gap-1.5 px-3 md:px-4 py-2 border border-border hover:border-ink-tertiary text-ink-secondary hover:text-ink-primary transition-colors text-[11px]"
@@ -815,10 +815,10 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Mobile View - Booking.com style: mini calendars per room */}
-      <div className="block md:hidden px-4 pb-4">
+      {/* Mobile View */}
+      <div className="block md:hidden px-4 pb-6">
         {/* Month navigation */}
-        <div className="flex items-center justify-between py-3">
+        <div className="flex items-center justify-between py-4">
           <button
             onClick={() => setDatePickerMonth(prev => {
               const m = prev.month - 1;
@@ -826,13 +826,13 @@ export default function HomePage() {
               jumpToDate(new Date(next.year, next.month, 1));
               return next;
             })}
-            className="p-2 -ml-2"
+            className="w-11 h-11 flex items-center justify-center -ml-2 hover:bg-linen transition-colors"
           >
             <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <span className="text-[16px] font-medium text-ink-primary">
+          <span className="text-[15px] font-medium text-ink-primary normal-case tracking-normal">
             {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
           </span>
           <button
@@ -842,22 +842,22 @@ export default function HomePage() {
               jumpToDate(new Date(next.year, next.month, 1));
               return next;
             })}
-            className="p-2 -mr-2"
+            className="w-11 h-11 flex items-center justify-center -mr-2 hover:bg-linen transition-colors"
           >
             <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
 
-        {/* Room mini-calendars in 2-column grid */}
+        {/* Room mini-calendars */}
         {[
           { label: "The Riad", rooms: RIAD_ROOMS },
           { label: "The Douaria", rooms: DOUARIA_ROOMS },
         ].map((group) => (
-          <div key={group.label} className="mb-4">
-            <div className="text-[10px] font-medium text-ink-secondary uppercase tracking-wide mb-2 px-1">{group.label}</div>
-            <div className="grid grid-cols-2 gap-3">
+          <div key={group.label} className="mb-5">
+            <div className="text-[10px] font-medium text-ink-tertiary tracking-[0.1em] mb-3 px-1">{group.label.toUpperCase()}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {group.rooms.map((room) => {
                 // Build calendar cells for this month
                 const { year, month } = datePickerMonth;
@@ -872,12 +872,12 @@ export default function HomePage() {
                 const todayStr = toDateStr(new Date());
 
                 return (
-                  <div key={room} className="bg-cream rounded-xl border border-border-subtle overflow-hidden">
+                  <div key={room} className="bg-white border border-border-subtle overflow-hidden">
                     {/* Mini calendar grid */}
-                    <div className="p-2.5">
-                      <div className="grid grid-cols-7 text-center gap-y-0.5">
+                    <div className="p-3">
+                      <div className="grid grid-cols-7 text-center gap-y-1">
                         {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-                          <div key={i} className="text-[9px] text-ink-tertiary font-medium leading-5">{d}</div>
+                          <div key={i} className="text-[9px] text-ink-tertiary font-medium leading-5 tracking-wide">{d}</div>
                         ))}
                         {cells.map((dayNum, idx) => {
                           if (dayNum === null) return <div key={idx} className="w-full aspect-square" />;
@@ -919,9 +919,9 @@ export default function HomePage() {
                                 }
                               }}
                               className={`
-                                w-full aspect-square flex items-center justify-center text-[11px] rounded-sm
+                                w-full aspect-square flex items-center justify-center text-[12px] active:scale-95 transition-transform
                                 ${bgClass} ${textClass}
-                                ${isToday && !booking ? "ring-1 ring-accent text-accent-strong font-bold" : ""}
+                                ${isToday && !booking ? "ring-1 ring-ink-primary text-ink-primary font-semibold" : ""}
                                 ${isToday && booking ? "ring-1 ring-accent font-bold" : ""}
                                 ${booking ? "font-medium" : ""}
                               `}
@@ -933,8 +933,8 @@ export default function HomePage() {
                       </div>
                     </div>
                     {/* Room name */}
-                    <div className="px-2.5 pb-2.5">
-                      <div className="text-[12px] font-medium text-ink-body">{room}</div>
+                    <div className="px-3 py-2.5 border-t border-border-subtle">
+                      <div className="text-[12px] font-medium text-ink-primary normal-case tracking-normal">{room}</div>
                     </div>
                   </div>
                 );
