@@ -2,61 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Slow-dreamy typography: Fraunces (serif) + General Sans (sans) */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=General+Sans:wght@300;400;500;600;700&display=swap');
-
 /* ----------------------------------------------------------------
-   Design tokens (CSS custom properties)
+   Zara-minimal design tokens
    ---------------------------------------------------------------- */
 :root {
   /* Backgrounds */
-  --bg-base: #FBF9F4;
-  --bg-subtle: #F7F2EA;
-  --bg-muted: #EEE8DB;
+  --bg-base: #FFFFFF;
+  --bg-subtle: #FAFAFA;
+  --bg-muted: #F5F5F5;
   --bg-elevated: #FFFFFF;
 
   /* Ink */
-  --ink-primary: #2B2623;
-  --ink-body: #3E3630;
-  --ink-secondary: #6B5F55;
-  --ink-tertiary: #9C8E82;
+  --ink-primary: #000000;
+  --ink-body: #1A1A1A;
+  --ink-secondary: #666666;
+  --ink-tertiary: #999999;
 
-  /* Accent */
-  --accent: #A8826F;
-  --accent-soft: #E8DDD4;
-  --accent-strong: #6B4E3D;
+  /* Accent — black for primary actions */
+  --accent: #000000;
+  --accent-soft: #F5F5F5;
+  --accent-strong: #000000;
 
-  /* Semantic */
-  --success: #8B9D7F;
+  /* Pastel booking source colors */
+  --success: #9DA88F;
   --warning: #C4A574;
   --danger: #B07A6F;
-  --info: #7B8A99;
+  --info: #A8BDC8;
 
-  /* Borders */
-  --border-subtle: #E5DCCF;
-  --border-default: #D4C8B8;
-  --border-strong: #B8A997;
+  /* Borders — hairline */
+  --border-subtle: #EEEEEE;
+  --border-default: #D4D4D4;
+  --border-strong: #999999;
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(75, 58, 47, 0.04), 0 1px 3px rgba(75, 58, 47, 0.06);
-  --shadow-md: 0 2px 8px rgba(75, 58, 47, 0.04), 0 8px 24px rgba(75, 58, 47, 0.06);
-  --shadow-lg: 0 4px 12px rgba(75, 58, 47, 0.06), 0 16px 40px rgba(75, 58, 47, 0.08);
+  /* Minimal shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.06);
 
   /* Motion */
   --ease-gentle: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
-  --duration-fast: 150ms;
-  --duration-base: 300ms;
-  --duration-slow: 500ms;
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
 }
 
 /* ----------------------------------------------------------------
-   Base styles
+   Base styles — clean sans-serif, neutral
    ---------------------------------------------------------------- */
 html {
-  font-family: 'General Sans', 'Space Grotesk', system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
   color: var(--ink-body);
   background: var(--bg-base);
   -webkit-font-smoothing: antialiased;
@@ -72,16 +69,16 @@ body {
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Fraunces', 'Playfair Display', Georgia, serif;
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
   color: var(--ink-primary);
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 ::selection {
-  background: var(--accent-soft);
-  color: var(--ink-primary);
+  background: #000000;
+  color: #FFFFFF;
 }
 
 /* ----------------------------------------------------------------
@@ -90,7 +87,7 @@ h1, h2, h3, h4 {
 @keyframes fade-rise {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -109,52 +106,42 @@ h1, h2, h3, h4 {
   }
 }
 
-@keyframes gentle-pulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
 /* ----------------------------------------------------------------
    Utility classes
    ---------------------------------------------------------------- */
 .fade-rise {
-  animation: fade-rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fade-rise 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .stagger > *:nth-child(1) { animation-delay: 0ms; }
-.stagger > *:nth-child(2) { animation-delay: 60ms; }
-.stagger > *:nth-child(3) { animation-delay: 120ms; }
-.stagger > *:nth-child(4) { animation-delay: 180ms; }
-.stagger > *:nth-child(5) { animation-delay: 240ms; }
-.stagger > *:nth-child(6) { animation-delay: 300ms; }
+.stagger > *:nth-child(2) { animation-delay: 40ms; }
+.stagger > *:nth-child(3) { animation-delay: 80ms; }
+.stagger > *:nth-child(4) { animation-delay: 120ms; }
+.stagger > *:nth-child(5) { animation-delay: 160ms; }
+.stagger > *:nth-child(6) { animation-delay: 200ms; }
 
-/* Warm scrollbar */
+/* Minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-subtle);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--border-default);
-  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-strong);
 }
 
-/* Focus styles */
+/* Focus styles — thin black outline */
 *:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline: 1px solid var(--ink-primary);
+  outline-offset: 2px;
 }
 
 /* ----------------------------------------------------------------

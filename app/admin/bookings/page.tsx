@@ -478,7 +478,7 @@ function BookingsContent() {
       {/* Detail Modal */}
       {selectedBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-[#2B2623]/40" onClick={() => setSelectedBooking(null)} />
+          <div className="absolute inset-0 bg-black/40" onClick={() => setSelectedBooking(null)} />
           <div className="relative bg-cream rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-cream border-b border-border-subtle p-5 flex items-center justify-between rounded-t-lg">
               <h2 className="font-serif text-[18px] text-ink-primary">Booking Details</h2>

@@ -1112,7 +1112,7 @@ export default function HomePage() {
 
       {/* View/Edit Booking Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
             <div className="p-6 border-b border-border-subtle">
               <div className="flex items-center justify-between">
@@ -1483,7 +1483,7 @@ We look forward to welcoming you! ✨`
 
       {/* New Booking Modal - Riad Brand Design */}
       {newBooking && (
-        <div className="fixed inset-0 bg-[#2B2623]/40 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-parchment shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col rounded-xl overflow-hidden">
             {/* Source color strip */}
             <div className={`h-1.5 w-full ${getSourceColor(newBookingForm.isBlackout ? "blocked" : newBookingForm.source)} transition-colors duration-300`} />
@@ -1832,7 +1832,7 @@ We look forward to welcoming you! ✨`
       {/* Send Confirmation Modal */}
       {/* Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
             <div className="p-6 border-b border-border-subtle">
               <div className="flex items-center justify-between">

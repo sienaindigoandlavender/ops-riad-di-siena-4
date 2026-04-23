@@ -624,7 +624,7 @@ export default function CalendarPage() {
 
       {/* Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50 p-4" onClick={() => setSelectedBooking(null)}>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setSelectedBooking(null)}>
           <div className="bg-white rounded-lg max-w-md w-full relative" onClick={(e) => e.stopPropagation()}>
             {/* Modal Header */}
             <div className="sticky top-0 bg-white rounded-t-lg border-b border-border-subtle px-5 py-5 flex items-center justify-between">
@@ -680,7 +680,7 @@ export default function CalendarPage() {
 
       {/* New Booking Modal */}
       {newBooking && (
-        <div className="fixed inset-0 bg-[#2B2623]/40 flex items-center justify-center z-50 p-4" onClick={() => setNewBooking(null)}>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setNewBooking(null)}>
           <div className="bg-white rounded-lg max-w-md w-full relative" onClick={(e) => e.stopPropagation()}>
             {/* Modal Header */}
             <div className="sticky top-0 bg-white rounded-t-lg border-b border-border-subtle px-5 py-5 flex items-center justify-between">
