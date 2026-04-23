@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingScreen from "@/components/LoadingScreen";
+import AppHeader from "@/components/AppHeader";
 
 interface Room {
   Room_ID: string;
@@ -129,6 +130,7 @@ export default function AddReservationPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-cream flex items-center justify-center">
+      <AppHeader />
         <div className="w-8 h-8 border-2 border-border-subtle border-t-black/60 rounded-full animate-spin" />
       </div>
     );

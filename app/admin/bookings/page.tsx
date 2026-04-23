@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import LoadingScreen from "@/components/LoadingScreen";
+import AppHeader from "@/components/AppHeader";
 
 interface Booking {
   Booking_ID: string;
@@ -305,6 +306,7 @@ function BookingsContent() {
 
   return (
     <div className="min-h-screen bg-cream">
+      <AppHeader />
       {/* Search Bar - Top */}
       <div className="border-b border-border-subtle bg-bone py-4 px-6">
         <div className="container mx-auto">

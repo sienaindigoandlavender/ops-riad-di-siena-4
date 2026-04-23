@@ -145,23 +145,60 @@ export default function SideNav({ onClose }: SideNavProps) {
             </svg>
           </button>
         </div>
-        <div className="flex-1 px-7 py-2 space-y-1">
-          {allLinks.map(({ href, label }) => {
-            const isActive = pathname === href;
-            return (
-              <a
-                key={href}
-                href={href}
-                className={`block py-3 text-[13px] transition-colors ${
-                  isActive
-                    ? "text-ink-primary font-medium"
-                    : "text-ink-secondary font-normal hover:text-ink-primary"
-                }`}
-              >
-                {label}
-              </a>
-            );
-          })}
+        <div className="flex-1 px-7 py-2">
+          {/* Main */}
+          <div className="space-y-1">
+            {NAV_ITEMS.map(({ href, label }) => {
+              const isActive = pathname === href;
+              return (
+                <a key={href} href={href} className={`block py-3 text-[13px] transition-colors ${isActive ? "text-ink-primary font-medium" : "text-ink-secondary font-normal hover:text-ink-primary"}`}>
+                  {label}
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Tools */}
+          <div className="mt-5">
+            <span className="text-[10px] font-light text-ink-tertiary tracking-[0.06em] mb-1 block">Tools</span>
+            <div className="space-y-1">
+              {TOOLS_ITEMS.map(({ href, label }) => {
+                const isActive = pathname === href;
+                return (
+                  <a key={href} href={href} className={`block py-3 text-[13px] transition-colors ${isActive ? "text-ink-primary font-medium" : "text-ink-secondary font-normal hover:text-ink-primary"}`}>
+                    {label}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Dev */}
+          <div className="mt-5">
+            <span className="text-[10px] font-light text-ink-tertiary tracking-[0.06em] mb-1 block">Dev</span>
+            <div className="space-y-1">
+              {DEV_ITEMS.map(({ href, label }) => {
+                const isActive = pathname === href;
+                return (
+                  <a key={href} href={href} className={`block py-3 text-[13px] transition-colors ${isActive ? "text-ink-primary font-medium" : "text-ink-secondary font-normal hover:text-ink-primary"}`}>
+                    {label}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Admin */}
+          <div className="mt-5">
+            {(() => {
+              const isActive = pathname === ADMIN_ITEM.href;
+              return (
+                <a href={ADMIN_ITEM.href} className={`block py-3 text-[13px] transition-colors ${isActive ? "text-ink-primary font-medium" : "text-ink-secondary font-normal hover:text-ink-primary"}`}>
+                  {ADMIN_ITEM.label}
+                </a>
+              );
+            })()}
+          </div>
         </div>
       </nav>
     </>

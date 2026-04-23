@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import AppHeader from "@/components/AppHeader";
 
 const STAFF_CATEGORIES = [
   "Breakfast Box",
@@ -140,6 +141,7 @@ export default function ZahraExpensesPage() {
 
   return (
     <div className="min-h-screen bg-[#faf9f7]">
+      <AppHeader />
       {/* Header */}
       <header className="bg-cream border-b border-border-subtle">
         <div className="max-w-xl mx-auto px-6 py-6">

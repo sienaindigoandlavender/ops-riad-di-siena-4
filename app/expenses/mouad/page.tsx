@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import AppHeader from "@/components/AppHeader";
 
 const STAFF_CATEGORIES = [
   "Rent",
@@ -136,6 +137,7 @@ export default function MouadExpensesPage() {
 
   return (
     <div className="min-h-screen bg-[#faf9f7]">
+      <AppHeader />
       {/* Header */}
       <header className="bg-cream border-b border-border-subtle">
         <div className="max-xl mx-auto px-6 py-6">
