@@ -41,18 +41,18 @@ export default function TodaySummaryStrip({ date, counts: propCounts, onStatTap,
   ];
 
   return (
-    <div className="flex items-center border-b border-border-subtle divide-x divide-border-subtle">
+    <div className="flex items-center border-b border-border-subtle overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       {stats.map(({ key, label, count }) => (
         <button
           key={key}
           onClick={() => onStatTap?.(key)}
           disabled={!onStatTap}
-          className={`flex-1 py-2.5 flex items-center justify-center gap-2 transition-all duration-150 relative ${
-            onStatTap ? "cursor-pointer hover:bg-parchment" : "cursor-default"
+          className={`flex-1 min-w-[100px] h-[48px] flex items-center justify-center gap-2 transition-all duration-150 relative shrink-0 ${
+            onStatTap ? "cursor-pointer hover:bg-parchment active:scale-[0.97]" : "cursor-default"
           }`}
         >
-          <span className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">{label}</span>
-          <span className={`text-[14px] font-medium ${activeTab === key ? "text-ink-primary" : "text-ink-tertiary"}`}>{count}</span>
+          <span className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary">{label}</span>
+          <span className={`text-[15px] font-medium ${activeTab === key ? "text-ink-primary" : "text-ink-tertiary"}`}>{count}</span>
           {activeTab === key && (
             <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-ink-primary" />
           )}
