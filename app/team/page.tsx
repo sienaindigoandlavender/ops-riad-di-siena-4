@@ -6,6 +6,7 @@ import PasswordGate from "@/components/PasswordGate";
 import PoliceRegistrationForm from "@/components/PoliceRegistrationForm";
 import TodaySummaryStrip from "@/components/TodaySummaryStrip";
 import AppHeader from "@/components/AppHeader";
+import LoadingScreen from "@/components/LoadingScreen";
 
 interface GuestSummary {
   booking_id: string;
@@ -873,7 +874,7 @@ See you soon!
   if (!data) {
     return (
       <div className="min-h-screen bg-cream flex items-center justify-center">
-        <p className="text-ink-tertiary text-[13px]">Loading...</p>
+        <LoadingScreen />
       </div>
     );
   }

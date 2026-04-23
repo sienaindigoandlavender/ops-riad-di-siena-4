@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import AppHeader from "@/components/AppHeader";
+import LoadingScreen from "@/components/LoadingScreen";
 
 interface Booking {
   Booking_ID: string;
@@ -186,13 +187,11 @@ export default function AdminDashboard() {
 
       <main className="container mx-auto px-6 py-10 max-w-4xl">
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="w-8 h-8 border-2 border-border-subtle border-t-black rounded-full animate-spin" />
-          </div>
+          <LoadingScreen />
         ) : (
           <>
             {/* Quick Stats */}
-            <div className="grid grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-12">
               <div className="text-center bg-cream rounded-lg border border-border-subtle p-5">
                 <p className="text-[28px] font-serif text-ink-primary">{stats.newBookings}</p>
                 <p className="text-[11px] uppercase tracking-[0.08em] text-ink-tertiary mt-1">Pending</p>
