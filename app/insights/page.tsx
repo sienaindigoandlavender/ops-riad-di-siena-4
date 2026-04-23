@@ -510,41 +510,6 @@ export default function InsightsPage() {
         {/* 3-Year Trends Tab */}
         {activeTab === "trends" && (
           <div className="space-y-6">
-            {/* Rating Trend Chart */}
-            <section className="bg-cream rounded-lg border border-border-subtle p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Average Rating Over Time</h2>
-              <div className="h-64 flex items-end gap-1">
-                {last36Months.map((month, idx) => {
-                  const height = ((month.avgScore - 7) / 3) * 100; // Scale 7-10 to 0-100%
-                  const color = month.avgScore >= 9.5 ? "bg-sage" : month.avgScore >= 9 ? "bg-sage" : month.avgScore >= 8.5 ? "bg-gold" : "bg-gold/100";
-                  const isCurrentMonth = idx === last36Months.length - 1;
-                  
-                  return (
-                    <div key={month.month} className="flex-1 flex flex-col items-center group relative">
-                      <div
-                        className={`w-full ${color} ${isCurrentMonth ? "ring-2 ring-gold" : ""} rounded-t transition-all hover:opacity-80`}
-                        style={{ height: `${Math.max(4, height)}%` }}
-                      />
-                      {/* Tooltip */}
-                      <div className="absolute bottom-full mb-2 hidden group-hover:block bg-ink-primary text-cream text-[11px] px-2 py-1 rounded whitespace-nowrap z-10">
-                        {month.month}: {month.avgScore.toFixed(1)} ({month.count} reviews)
-                      </div>
-                      {/* Show year labels */}
-                      {(idx === 0 || month.month.endsWith("-01")) && (
-                        <span className="text-[9px] text-ink-tertiary mt-1 -rotate-45 origin-left">
-                          {month.month.substring(0, 7)}
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex justify-between mt-4 text-[11px] text-ink-tertiary">
-                <span>Scale: 7.0 - 10.0</span>
-                <span>Hover for details</span>
-              </div>
-            </section>
-
             {/* Category Trends */}
             <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Category Averages (Last 12 Months)</h2>
