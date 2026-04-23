@@ -258,8 +258,8 @@ export default function HomePage() {
       <div className="bg-cream border-b border-border-subtle">
         <div className="px-4 py-5 md:px-10 md:py-6">
           <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-baseline gap-3 shrink-0">
-              <h1 className="text-[15px] md:text-[16px] font-medium text-ink-primary tracking-[0.04em] normal-case">RIAD DI SIENA</h1>
+            <div className="flex items-baseline gap-3 shrink-0 md:hidden">
+              <h1 className="text-[15px] font-medium text-ink-primary tracking-[0.04em] normal-case">RIAD DI SIENA</h1>
               <p className="text-[11px] text-ink-tertiary tracking-[0.03em] hidden sm:block normal-case font-light">Operations</p>
             </div>
 
