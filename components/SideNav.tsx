@@ -112,12 +112,12 @@ export function DesktopSidebar() {
             </div>
           )}
         </div>
-
-        {/* Admin */}
-        <div className="mt-4">
-          <NavLink href={ADMIN_ITEM.href} label={ADMIN_ITEM.label} icon={ADMIN_ITEM.icon} isActive={pathname === ADMIN_ITEM.href} />
-        </div>
       </nav>
+
+      {/* Admin — pinned to bottom */}
+      <div className="py-3 px-2 lg:px-3">
+        <NavLink href={ADMIN_ITEM.href} label={ADMIN_ITEM.label} icon={ADMIN_ITEM.icon} isActive={pathname === ADMIN_ITEM.href} />
+      </div>
     </aside>
   );
 }
