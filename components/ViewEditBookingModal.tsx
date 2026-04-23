@@ -2,28 +2,7 @@
 
 import { useState } from "react";
 import { RIAD_ROOMS, ALL_ROOMS, BOOKING_SOURCES, getSourceColor, getSourceTextColor } from "@/lib/constants";
-
-// TODO: move to types/booking.ts
-interface Booking {
-  id: string;
-  guestName: string;
-  room: string;
-  property: string;
-  checkIn: string;
-  checkOut: string;
-  nights: number;
-  source: string;
-  status: string;
-  email?: string;
-  phone?: string;
-  rowIndex?: number;
-  firstName?: string;
-  lastName?: string;
-  country?: string;
-  language?: string;
-  notes?: string;
-  arrivalTime?: string;
-}
+import type { Booking } from "@/types/booking";
 
 interface ViewEditBookingModalProps {
   booking: Booking;
