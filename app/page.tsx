@@ -711,8 +711,8 @@ export default function HomePage() {
                 >
                   {Array.from({ length: 24 }, (_, i) => {
                     const today = new Date();
-                    const year = today.getFullYear() + Math.floor((today.getMonth() + i - 6) / 12);
-                    const month = ((today.getMonth() + i - 6) % 12 + 12) % 12;
+                    const year = today.getFullYear() + Math.floor((today.getMonth() + i) / 12);
+                    const month = (today.getMonth() + i) % 12;
                     const label = new Date(year, month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
                     const isSelected = datePickerMonth.year === year && datePickerMonth.month === month;
                     return (
