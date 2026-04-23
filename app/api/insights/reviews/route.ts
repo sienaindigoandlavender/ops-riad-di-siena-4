@@ -275,8 +275,11 @@ export async function GET() {
       return !isNaN(d.getTime()) && d >= cutoffDate;
     });
 
-    // Calculate all analytics using filtered reviews
-    const issues = extractIssues(filteredReviews);
+    // Issues use ALL reviews for accurate trend comparison
+    // (recent 12mo vs previous 12mo, regardless of display cutoff)
+    const issues = extractIssues(reviews);
+
+    // Everything else uses filtered reviews (Jan 2025+)
     const monthlyRatings = calculateMonthlyRatings(filteredReviews);
     const sentiment = analyzeSentiment(filteredReviews);
     const occupancy = await getOccupancyData();
