@@ -287,7 +287,7 @@ export default function HomePage() {
               {/* Burger menu */}
               <button
                 onClick={() => setShowNav(true)}
-                className="ml-2 w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-full hover:bg-linen transition-colors"
+                className="md:hidden ml-2 w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-full hover:bg-linen transition-colors"
                 aria-label="Open navigation"
               >
                 <span className="block w-[18px] h-[1.5px] bg-ink-primary" />
