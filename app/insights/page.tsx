@@ -261,7 +261,7 @@ export default function InsightsPage() {
               </button>
               <div className="text-right">
                 <p className="text-[32px] font-serif text-gold">{stats.overallAverage.toFixed(1)}</p>
-                <a href="/reviews" className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary hover:text-ink-primary transition-colors underline">{stats.totalReviews} reviews</a>
+                <p className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary">{stats.totalReviews} reviews</p>
                 {(() => {
                   // Projected score: if the last 12 months' average quality
                   // continues, where does the 36-month weighted score trend?
