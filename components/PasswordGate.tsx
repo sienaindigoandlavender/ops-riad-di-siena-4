@@ -68,7 +68,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
 
       {/* Password form */}
       <div className="relative z-10 w-full max-w-sm mx-4 fade-rise">
-        <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg p-8">
+        <div className="bg-white/95 backdrop-blur-sm shadow-lg p-10">
           {/* Logo/Title */}
           <div className="text-center mb-8">
             <h1 className="font-serif text-[22px] font-normal text-ink-primary tracking-wide">
@@ -89,7 +89,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                   }}
                   placeholder="Password"
                   autoFocus
-                  className={`w-full px-4 py-3 pr-12 text-[14px] text-ink-primary bg-cream border rounded-[10px] focus:outline-none focus:ring-2 transition-all duration-300 ease-gentle placeholder:text-ink-tertiary ${
+                  className={`w-full px-4 py-3 pr-12 text-[14px] text-ink-primary bg-cream border focus:outline-none transition-all duration-200 placeholder:text-ink-tertiary ${
                     error
                       ? "border-brick focus:ring-brick/20"
                       : "border-border-subtle focus:ring-accent/15 focus:border-accent"
@@ -124,7 +124,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
 
             <button
               type="submit"
-              className="w-full py-3 bg-accent text-cream text-[13px] font-medium rounded-[10px] hover:bg-accent-strong transition-all duration-300 ease-gentle shadow-sm hover:shadow-md active:translate-y-px"
+              className="w-full py-3 bg-accent text-cream text-[12px] border border-ink-primary hover:bg-white hover:text-ink-primary transition-all duration-200"
             >
               Enter
             </button>
