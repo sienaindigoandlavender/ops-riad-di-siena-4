@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import AppHeader from "@/components/AppHeader";
 
 interface Booking {
   Booking_ID: string;
@@ -153,6 +154,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-cream">
+      <AppHeader />
       {/* Header */}
       <header className="border-b border-border-subtle py-5 px-6">
         <div className="container mx-auto flex items-center justify-between">

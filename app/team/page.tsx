@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import PasswordGate from "@/components/PasswordGate";
 import PoliceRegistrationForm from "@/components/PoliceRegistrationForm";
 import TodaySummaryStrip from "@/components/TodaySummaryStrip";
+import AppHeader from "@/components/AppHeader";
 
 interface GuestSummary {
   booking_id: string;
@@ -880,16 +881,11 @@ See you soon!
   return (
     <PasswordGate>
     <div className="min-h-screen bg-cream pb-16">
-      {/* Header */}
-      <div className="bg-cream border-b border-border-subtle px-6 py-5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-4">
-            <p className="text-[11px] font-light uppercase tracking-[0.08em] text-ink-tertiary">Riad di Siena</p>
-            <nav className="flex items-center gap-4 ml-4 pl-4 border-l border-border-subtle">
-              <Link href="/admin" className="text-[11px] font-light text-ink-tertiary hover:text-ink-primary transition-colors">Admin</Link>
-              <Link href="/insights" className="text-[11px] font-light text-ink-tertiary hover:text-ink-primary transition-colors">Insights</Link>
-            </nav>
-          </div>
+      <AppHeader />
+
+      {/* Date + Search bar */}
+      <div className="bg-cream border-b border-border-subtle px-6 py-3">
+        <div className="flex items-center justify-between">
           
           {/* Search button */}
           <div className="relative" ref={searchRef}>

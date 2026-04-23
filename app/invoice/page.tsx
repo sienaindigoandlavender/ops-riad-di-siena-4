@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import PasswordGate from "@/components/PasswordGate";
+import AppHeader from "@/components/AppHeader";
 import Link from "next/link";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -316,6 +317,7 @@ function InvoicePage() {
   // ═══════════════════════════════════════════════════════════
   if(mode==="pick") return(
     <div className="min-h-screen bg-cream">
+      <AppHeader />
       <header className="border-b border-border-subtle bg-cream">
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
           <Link href="/" className="text-[13px] text-ink-tertiary hover:text-ink-secondary transition-colors">← Dashboard</Link>

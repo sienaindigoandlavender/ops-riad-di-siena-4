@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import PasswordGate from "@/components/PasswordGate";
+import AppHeader from "@/components/AppHeader";
 
 interface Review {
   id: number;
@@ -106,23 +106,18 @@ export default function ReviewsPage() {
   return (
     <PasswordGate>
       <div className="min-h-screen bg-white">
-        {/* Header */}
-        <div className="border-b border-border-subtle">
-          <div className="px-6 py-5 flex items-center justify-between">
-            <div className="flex items-baseline gap-3">
-              <Link href="/" className="text-[11px] font-light text-ink-tertiary hover:text-ink-primary transition-colors tracking-[0.04em] normal-case">
-                ← Back
-              </Link>
-              <h1 className="text-[15px] font-medium text-ink-primary tracking-[0.04em] normal-case">REVIEWS</h1>
-            </div>
-            <button
-              onClick={handleImport}
-              disabled={importing}
-              className="text-[11px] px-4 h-[34px] border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary active:scale-[0.97] transition-all duration-150 disabled:opacity-50"
-            >
-              {importing ? "Importing..." : "Import from CSV"}
-            </button>
-          </div>
+        <AppHeader />
+
+        {/* Sub-header */}
+        <div className="border-b border-border-subtle px-6 py-3 flex items-center justify-between">
+          <h2 className="text-[12px] font-light text-ink-secondary uppercase tracking-[0.08em]">Reviews</h2>
+          <button
+            onClick={handleImport}
+            disabled={importing}
+            className="text-[11px] px-4 h-[34px] border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary active:scale-[0.97] transition-all duration-150 disabled:opacity-50"
+          >
+            {importing ? "Importing..." : "Import from CSV"}
+          </button>
         </div>
 
         {/* Stats strip */}
