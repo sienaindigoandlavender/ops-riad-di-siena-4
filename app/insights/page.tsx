@@ -242,10 +242,7 @@ export default function InsightsPage() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <Link href="/admin" className="text-[11px] uppercase tracking-[0.1em] text-ink-tertiary hover:text-ink-secondary">
-                ← Back to Admin
-              </Link>
-              <h1 className="text-[28px] font-serif text-ink-primary mt-1">Review Insights</h1>
+              <h1 className="text-[28px] font-serif text-ink-primary">Review Insights</h1>
               <p className="text-[11px] font-light text-ink-tertiary tracking-[0.04em] mt-1 normal-case">Based on guest reviews from January 2025 onward</p>
             </div>
             <div className="flex items-center gap-6">
@@ -316,7 +313,7 @@ export default function InsightsPage() {
               { id: "overview", label: "Overview" },
               { id: "issues", label: "Issues Checklist" },
               { id: "trends", label: "3-Year Trends" },
-              { id: "correlation", label: "Rating vs Occupancy" },
+              { id: "correlation", label: "Occupancy" },
               { id: "adr", label: "Average Daily Rate" },
             ].map(tab => (
               <button
@@ -645,134 +642,128 @@ export default function InsightsPage() {
           </div>
         )}
 
-        {/* Correlation Tab */}
+        {/* Occupancy Tab */}
         {activeTab === "correlation" && (
           <div className="space-y-6">
-            {/* Key Finding */}
-            <div className={`p-6 rounded-lg border ${
-              Math.abs(stats.correlation.coefficient) < 0.3
-                ? "bg-sage/10 border-sage/30"
-                : "bg-gold/10 border-gold/30"
-            }`}>
-              <h2 className="text-[15px] font-medium text-ink-primary mb-2">Key Finding</h2>
-              <p className="text-[14px] text-ink-body mb-3">
-                The correlation between your review ratings and occupancy is{" "}
-                <strong className={Math.abs(stats.correlation.coefficient) < 0.3 ? "text-forest" : "text-gold"}>
-                  {stats.correlation.interpretation}
-                </strong>{" "}
-                (r = {stats.correlation.coefficient.toFixed(3)}).
-              </p>
-              {Math.abs(stats.correlation.coefficient) < 0.3 && (
-                <p className="text-[13px] text-forest">
-                  ✓ <strong>This proves that small rating fluctuations do NOT significantly impact your bookings.</strong>{" "}
-                  Your occupancy is driven by other factors like seasonality, pricing, and location — not minor review variations.
-                </p>
-              )}
-              {Math.abs(stats.correlation.coefficient) >= 0.3 && Math.abs(stats.correlation.coefficient) < 0.7 && (
-                <p className="text-[13px] text-gold">
-                  There is some relationship between ratings and occupancy, but other factors play a larger role.
-                </p>
-              )}
-            </div>
-
-            {/* Scatter Plot Visualization */}
+            {/* 3-Year Occupancy Chart */}
             <section className="bg-cream rounded-lg border border-border-subtle p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">
-                Rating vs Occupancy (Monthly Data)
-              </h2>
-              <div className="relative h-80 border-l-2 border-b-2 border-border ml-8 mb-8">
-                {/* Y-axis label */}
-                <span className="absolute -left-8 top-1/2 -rotate-90 text-[10px] text-ink-tertiary whitespace-nowrap">
-                  Nights Booked
-                </span>
-                {/* X-axis label */}
-                <span className="absolute bottom-[-24px] left-1/2 text-[10px] text-ink-tertiary">
-                  Average Rating
-                </span>
-                
-                {/* Plot points */}
-                {stats.correlation.data.map((point, idx) => {
-                  const x = ((point.avgRating - 7) / 3) * 100; // Scale 7-10 to 0-100%
-                  const y = (point.occupancyNights / maxNights) * 100;
-                  
-                  return (
-                    <div
-                      key={idx}
-                      className="absolute w-3 h-3 bg-gold/100 rounded-full transform -translate-x-1/2 -translate-y-1/2 hover:bg-gold hover:scale-150 transition-all group"
-                      style={{
-                        left: `${x}%`,
-                        bottom: `${y}%`,
-                      }}
-                    >
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-ink-primary text-cream text-[10px] px-2 py-1 rounded whitespace-nowrap z-10">
-                        {point.month}: {point.avgRating.toFixed(1)} rating, {point.occupancyNights} nights
+              <div className="flex items-baseline justify-between mb-6">
+                <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary">Monthly Occupancy Rate</h2>
+                <p className="text-[10px] font-light text-ink-tertiary normal-case">6 rooms · max ~180 room-nights/month</p>
+              </div>
+              <div className="h-64 flex items-end gap-[2px]">
+                {(() => {
+                  const TOTAL_ROOMS = 6;
+                  const data = (stats.correlation?.data || []).slice(-36);
+                  return data.map((point, idx) => {
+                    const daysInMonth = new Date(
+                      parseInt(point.month.split("-")[0]),
+                      parseInt(point.month.split("-")[1]),
+                      0
+                    ).getDate();
+                    const maxNightsInMonth = TOTAL_ROOMS * daysInMonth;
+                    const rate = Math.min(100, Math.round((point.occupancyNights / maxNightsInMonth) * 100));
+                    const isHighSeason = rate >= 70;
+                    const isLowSeason = rate < 40;
+                    const color = isHighSeason ? "bg-sage" : isLowSeason ? "bg-gold/80" : "bg-ink-tertiary/40";
+                    const isJan = point.month.endsWith("-01");
+
+                    return (
+                      <div key={point.month} className="flex-1 flex flex-col items-center group relative">
+                        <div
+                          className={`w-full ${color} rounded-t transition-all hover:brightness-90`}
+                          style={{ height: `${Math.max(2, rate * 2.4)}px` }}
+                        />
+                        {/* Tooltip */}
+                        <div className="absolute bottom-full mb-2 hidden group-hover:block bg-ink-primary text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10">
+                          {point.month}: {rate}% ({point.occupancyNights} nights)
+                        </div>
+                        {/* Year labels */}
+                        {isJan && (
+                          <span className="text-[9px] text-ink-tertiary mt-1">
+                            {point.month.substring(0, 4)}
+                          </span>
+                        )}
                       </div>
-                    </div>
-                  );
-                })}
-                
-                {/* Grid lines */}
-                <div className="absolute inset-0 grid grid-cols-4 grid-rows-4">
-                  {[...Array(16)].map((_, i) => (
-                    <div key={i} className="border-r border-t border-border-subtle" />
-                  ))}
+                    );
+                  });
+                })()}
+              </div>
+              <div className="flex items-center gap-4 mt-4 text-[10px]">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-sage"></div>
+                  <span className="text-ink-tertiary">High season (≥70%)</span>
                 </div>
-                
-                {/* X-axis ticks */}
-                <div className="absolute -bottom-5 left-0 right-0 flex justify-between text-[10px] text-ink-tertiary">
-                  <span>7.0</span>
-                  <span>8.0</span>
-                  <span>9.0</span>
-                  <span>10.0</span>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-ink-tertiary/40"></div>
+                  <span className="text-ink-tertiary">Mid season</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-gold/80"></div>
+                  <span className="text-ink-tertiary">Low season (&lt;40%)</span>
                 </div>
               </div>
             </section>
 
-            {/* Data Table */}
+            {/* Year-over-Year Occupancy Comparison */}
             <section className="bg-cream rounded-lg border border-border-subtle p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Monthly Data</h2>
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Year-over-Year Occupancy</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {(() => {
+                  const TOTAL_ROOMS = 6;
+                  const data = stats.correlation?.data || [];
+                  const years: Record<string, { nights: number; months: number }> = {};
+                  data.forEach((p) => {
+                    const yr = p.month.substring(0, 4);
+                    if (!years[yr]) years[yr] = { nights: 0, months: 0 };
+                    years[yr].nights += p.occupancyNights;
+                    years[yr].months += 1;
+                  });
+                  return Object.entries(years).sort().map(([year, d]) => {
+                    const avgMonthlyCapacity = TOTAL_ROOMS * 30;
+                    const avgRate = d.months > 0 ? Math.round((d.nights / (d.months * avgMonthlyCapacity)) * 100) : 0;
+                    return (
+                      <div key={year} className="text-center p-4 bg-parchment rounded-lg">
+                        <p className="text-[13px] text-ink-secondary mb-2">{year}</p>
+                        <p className="text-[32px] font-serif text-ink-primary">{avgRate}%</p>
+                        <p className="text-[11px] text-ink-tertiary">{d.nights.toLocaleString()} nights · {d.months} months</p>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            </section>
+
+            {/* Monthly Data Table */}
+            <section className="bg-cream rounded-lg border border-border-subtle p-6">
+              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Last 12 Months</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-[13px]">
                   <thead>
                     <tr className="border-b border-border-subtle">
                       <th className="text-left py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-ink-secondary">Month</th>
-                      <th className="text-right py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-ink-secondary">Avg Rating</th>
-                      <th className="text-right py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-ink-secondary">Nights Booked</th>
+                      <th className="text-right py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-ink-secondary">Nights</th>
+                      <th className="text-right py-2 px-3 text-[11px] uppercase tracking-[0.05em] text-ink-secondary">Occupancy</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {stats.correlation.data.slice(-12).map((row, idx) => (
-                      <tr key={idx} className="border-b border-border-subtle hover:bg-parchment">
-                        <td className="py-2 px-3 text-ink-body">{row.month}</td>
-                        <td className="py-2 px-3 text-right text-ink-body">{row.avgRating.toFixed(2)}</td>
-                        <td className="py-2 px-3 text-right text-ink-body">{row.occupancyNights}</td>
-                      </tr>
-                    ))}
+                    {(stats.correlation?.data || []).slice(-12).reverse().map((row, idx) => {
+                      const daysInMonth = new Date(
+                        parseInt(row.month.split("-")[0]),
+                        parseInt(row.month.split("-")[1]),
+                        0
+                      ).getDate();
+                      const rate = Math.min(100, Math.round((row.occupancyNights / (6 * daysInMonth)) * 100));
+                      return (
+                        <tr key={idx} className="border-b border-border-subtle hover:bg-parchment">
+                          <td className="py-2 px-3 text-ink-body">{row.month}</td>
+                          <td className="py-2 px-3 text-right text-ink-body">{row.occupancyNights}</td>
+                          <td className="py-2 px-3 text-right text-ink-body">{rate}%</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
-              </div>
-            </section>
-
-            {/* Statistical Explanation */}
-            <section className="bg-parchment rounded-lg border border-border-subtle p-6">
-              <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-3">Understanding the Correlation</h2>
-              <div className="text-[13px] text-ink-secondary space-y-2">
-                <p>
-                  <strong>Correlation coefficient (r):</strong> {stats.correlation.coefficient.toFixed(3)}
-                </p>
-                <p>
-                  <strong>Interpretation:</strong>
-                </p>
-                <ul className="list-disc list-inside pl-2 space-y-1">
-                  <li>r = 0: No relationship</li>
-                  <li>|r| &lt; 0.3: Weak relationship</li>
-                  <li>0.3 ≤ |r| &lt; 0.7: Moderate relationship</li>
-                  <li>|r| ≥ 0.7: Strong relationship</li>
-                </ul>
-                <p className="mt-3 text-ink-secondary italic">
-                  A weak correlation suggests that other factors (seasonality, pricing, marketing, overall market conditions) 
-                  drive your occupancy more than review ratings.
-                </p>
               </div>
             </section>
           </div>
