@@ -286,7 +286,11 @@ export default function GuestsPage() {
                             )}
                             {needsAttention && !isConfirmed && (
                               <span className="px-2 py-0.5 bg-gold/10 text-gold text-[11px] font-semibold rounded">
-                                {daysUntil} day{daysUntil !== 1 ? "s" : ""}
+                                {daysUntil === 0
+                                  ? "Today"
+                                  : daysUntil === 1
+                                  ? "Tomorrow"
+                                  : `${daysUntil} days`}
                               </span>
                             )}
                             {isConfirmed && (
