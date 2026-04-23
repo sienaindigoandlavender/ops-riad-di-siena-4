@@ -82,7 +82,7 @@ function TaxPaymentContent() {
               purchase_units: [{
                 description: `City Tax - ${booking.guestName} - ${booking.id}`,
                 amount: {
-                  value: booking.cityTax.toFixed(2),
+                  value: (booking.cityTax || 0).toFixed(2),
                   currency_code: "EUR",
                 },
               }],
@@ -181,7 +181,7 @@ function TaxPaymentContent() {
           </p>
           <div className="mt-6 pt-6 border-t border-border-subtle">
             <p className="text-[12px] text-ink-tertiary">
-              {booking.guestName} • €{booking.cityTax.toFixed(2)}
+              {booking.guestName} • €{(booking.cityTax || 0).toFixed(2)}
             </p>
           </div>
         </div>
@@ -242,7 +242,7 @@ function TaxPaymentContent() {
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-semibold text-gold">€{booking.cityTax.toFixed(2)}</p>
+                <p className="text-2xl font-semibold text-gold">€{(booking.cityTax || 0).toFixed(2)}</p>
               </div>
             </div>
             

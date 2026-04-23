@@ -212,7 +212,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* City Tax Stats */}
-            {taxStats && (
+            {taxStats?.daily && taxStats?.monthly && (
               <div className="mb-12 p-6 bg-gold/10 rounded-lg border border-gold/30">
                 <div className="flex items-center gap-2 mb-4">
                   <svg className="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -264,7 +264,7 @@ export default function AdminDashboard() {
             )}
 
             {/* Monthly Revenue */}
-            {revenueStats && (
+            {revenueStats?.bySource && revenueStats?.history && (
               <div className="mb-12 p-6 bg-sage/10 rounded-lg border border-sage/30">
                 <div className="flex items-center gap-2 mb-4">
                   <svg className="w-5 h-5 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">

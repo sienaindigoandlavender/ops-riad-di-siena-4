@@ -204,7 +204,7 @@ export default function StaffingPage() {
       {/* Guest List Modal */}
       {selectedDay && (
         <div 
-          className="fixed inset-0 bg-parchment0 flex items-center justify-center p-4 z-50"
+          className="fixed inset-0 bg-parchment flex items-center justify-center p-4 z-50"
           onClick={() => setSelectedDay(null)}
         >
           <div 

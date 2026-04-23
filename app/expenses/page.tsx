@@ -393,7 +393,7 @@ export default function ExpensesPage() {
           <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-subtle">
             <p className="text-[11px] uppercase tracking-[0.08em] text-ink-secondary">{summary?.count} expenses</p>
             <p className="text-[24px] font-serif text-ink-body">
-              {summary?.total.toLocaleString()} <span className="text-[14px] text-ink-tertiary">DH</span>
+              {(summary?.total ?? 0).toLocaleString()} <span className="text-[14px] text-ink-tertiary">DH</span>
             </p>
           </div>
         </div>
