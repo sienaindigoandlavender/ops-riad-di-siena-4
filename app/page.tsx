@@ -33,24 +33,23 @@ interface ImportResults {
   source?: string;
 }
 
-// Helper to get color with flexible matching
+// Booking source colors — muted premium palette
 const getSourceColor = (source: string): string => {
   const s = (source || "").trim().toLowerCase();
-  if (s.includes("blackout") || s.includes("blocked")) return "bg-[#5C4F45]";
-  if (s.includes("airbnb")) return "bg-[#C9A5A0]";
-  if (s.includes("booking")) return "bg-[#A8BDC8]";
-  if (s.includes("website")) return "bg-[#C4A574]";
-  // WhatsApp, Direct, Email, Other get sage
-  return "bg-[#9DA88F]";
+  if (s.includes("blackout") || s.includes("blocked")) return "bg-[#3D3832]";
+  if (s.includes("airbnb")) return "bg-[#CEAEA8]";
+  if (s.includes("booking")) return "bg-[#A2B4BF]";
+  if (s.includes("website")) return "bg-[#C5AD84]";
+  return "bg-[#A3AD95]";
 };
 
 const getSourceTextColor = (source: string): string => {
   const s = (source || "").trim().toLowerCase();
-  if (s.includes("blackout") || s.includes("blocked")) return "text-ink-inverse";
-  if (s.includes("airbnb")) return "text-[#6B4E3D]";
-  if (s.includes("booking")) return "text-[#4A5C66]";
-  if (s.includes("website")) return "text-[#5C4220]";
-  return "text-[#4A5440]";
+  if (s.includes("blackout") || s.includes("blocked")) return "text-[#E8E4DF]";
+  if (s.includes("airbnb")) return "text-[#4A3530]";
+  if (s.includes("booking")) return "text-[#2E3E47]";
+  if (s.includes("website")) return "text-[#3E3318]";
+  return "text-[#2E3A28]";
 };
 
 // Parse individual room names from a booking
@@ -650,29 +649,29 @@ export default function HomePage() {
     <div className="min-h-screen bg-cream">
       {/* Header */}
       <div className="bg-cream border-b border-border-subtle">
-        <div className="px-4 py-4 md:px-8 md:py-6">
+        <div className="px-4 py-5 md:px-10 md:py-6">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="font-serif text-[18px] md:text-[22px] text-ink-primary">Riad di Siena</h1>
-              <p className="text-[11px] text-ink-tertiary mt-0.5">Operations Dashboard</p>
+            <div className="flex items-baseline gap-3">
+              <h1 className="text-[15px] md:text-[16px] font-medium text-ink-primary tracking-[0.04em]">RIAD DI SIENA</h1>
+              <p className="text-[11px] text-ink-tertiary tracking-[0.03em] hidden sm:block">Operations</p>
             </div>
 
             {/* Import Buttons */}
             <div className="flex items-center gap-2 md:gap-3">
               <button
                 onClick={() => openImportModal("booking")}
-                className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 bg-[#A8BDC8]/20 hover:bg-[#A8BDC8]/30 text-[#4A5C66] rounded-lg transition-colors text-[12px] md:text-[13px] font-medium"
+                className="flex items-center gap-1.5 px-3 md:px-4 py-2 border border-border hover:border-ink-tertiary text-ink-secondary hover:text-ink-primary transition-colors text-[11px]"
               >
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
                 <span className="hidden sm:inline">Import</span> Booking.com
               </button>
               <button
                 onClick={() => openImportModal("airbnb")}
-                className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 bg-[#C9A5A0]/20 hover:bg-[#C9A5A0]/30 text-[#6B4E3D] rounded-lg transition-colors text-[12px] md:text-[13px] font-medium"
+                className="flex items-center gap-1.5 px-3 md:px-4 py-2 border border-border hover:border-ink-tertiary text-ink-secondary hover:text-ink-primary transition-colors text-[11px]"
               >
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
                 <span className="hidden sm:inline">Import</span> Airbnb
@@ -683,10 +682,10 @@ export default function HomePage() {
       </div>
 
       {/* Calendar Navigation */}
-      <div className="bg-cream border-b border-border-subtle px-4 md:px-8 py-3 md:py-4">
+      <div className="bg-cream border-b border-border-subtle px-4 md:px-10 py-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 md:gap-3">
-            {/* Month dropdown - Airbnb style */}
+          <div className="flex items-center gap-1 md:gap-2">
+            {/* Month dropdown */}
             <div className="relative" ref={datePickerRef}>
               <button
                 onClick={() => {
@@ -695,12 +694,12 @@ export default function HomePage() {
                   }
                   setShowDatePicker(!showDatePicker);
                 }}
-                className="flex items-center gap-2 px-3 py-2 border border-border-subtle rounded-lg hover:bg-bone transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 border border-border-subtle hover:border-border transition-colors text-[12px]"
               >
-                <span className="text-[14px] font-medium text-ink-primary">
+                <span className="font-medium text-ink-primary normal-case tracking-normal">
                   {new Date(datePickerMonth.year, datePickerMonth.month, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
                 </span>
-                <svg className={`w-3.5 h-3.5 text-ink-tertiary transition-transform ${showDatePicker ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className={`w-3 h-3 text-ink-tertiary transition-transform ${showDatePicker ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -739,7 +738,7 @@ export default function HomePage() {
             {/* Today button */}
             <button
               onClick={goToToday}
-              className="px-4 py-2 text-[13px] font-medium text-ink-body border border-border-subtle rounded-lg hover:bg-parchment transition-colors"
+              className="px-3 py-1.5 text-[11px] text-ink-secondary border border-border-subtle hover:border-border transition-colors"
             >
               Today
             </button>
@@ -779,27 +778,27 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* Legend - hidden on mobile */}
-          <div className="hidden md:flex items-center gap-4 text-[11px]">
+          {/* Legend */}
+          <div className="hidden md:flex items-center gap-5 text-[10px] tracking-[0.04em]">
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#A8BDC8]"></div>
-              <span className="text-ink-secondary">Booking.com</span>
+              <div className="w-2.5 h-2.5 bg-[#A2B4BF]"></div>
+              <span className="text-ink-tertiary normal-case">Booking.com</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#C9A5A0]"></div>
-              <span className="text-ink-secondary">Airbnb</span>
+              <div className="w-2.5 h-2.5 bg-[#CEAEA8]"></div>
+              <span className="text-ink-tertiary normal-case">Airbnb</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#C4A574]"></div>
-              <span className="text-ink-secondary">Website</span>
+              <div className="w-2.5 h-2.5 bg-[#C5AD84]"></div>
+              <span className="text-ink-tertiary normal-case">Website</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#9DA88F]"></div>
-              <span className="text-ink-secondary">Direct</span>
+              <div className="w-2.5 h-2.5 bg-[#A3AD95]"></div>
+              <span className="text-ink-tertiary normal-case">Direct</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-[#5C4F45]"></div>
-              <span className="text-ink-secondary">Blocked</span>
+              <div className="w-2.5 h-2.5 bg-[#3D3832]"></div>
+              <span className="text-ink-tertiary normal-case">Blocked</span>
             </div>
           </div>
         </div>
@@ -882,20 +881,20 @@ export default function HomePage() {
                           if (booking) {
                             const s = (booking.source || "").trim().toLowerCase();
                             if (s.includes("blackout") || s.includes("blocked")) {
-                              bgClass = "bg-[#5C4F45]/20";
+                              bgClass = "bg-[#3D3832]/25";
                               textClass = "text-ink-secondary";
                             } else if (s.includes("airbnb")) {
-                              bgClass = "bg-[#C9A5A0]/40";
-                              textClass = "text-[#6B4E3D]";
+                              bgClass = "bg-[#CEAEA8]/45";
+                              textClass = "text-[#4A3530]";
                             } else if (s.includes("booking")) {
-                              bgClass = "bg-[#A8BDC8]/40";
-                              textClass = "text-[#4A5C66]";
+                              bgClass = "bg-[#A2B4BF]/45";
+                              textClass = "text-[#2E3E47]";
                             } else if (s.includes("website")) {
-                              bgClass = "bg-[#C4A574]/40";
-                              textClass = "text-[#5C4220]";
+                              bgClass = "bg-[#C5AD84]/45";
+                              textClass = "text-[#3E3318]";
                             } else {
-                              bgClass = "bg-[#9DA88F]/40";
-                              textClass = "text-[#4A5440]";
+                              bgClass = "bg-[#A3AD95]/45";
+                              textClass = "text-[#2E3A28]";
                             }
                           }
 
@@ -935,17 +934,17 @@ export default function HomePage() {
 
         {/* Mobile legend */}
         <div className="flex items-center justify-center gap-3 pt-2 text-[10px]">
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#A8BDC8]/40"></div><span className="text-ink-tertiary">Booking</span></div>
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#C9A5A0]/40"></div><span className="text-ink-tertiary">Airbnb</span></div>
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#C4A574]/40"></div><span className="text-ink-tertiary">Website</span></div>
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#9DA88F]/40"></div><span className="text-ink-tertiary">Direct</span></div>
-          <div className="flex items-center gap-1"><div className="w-2.5 h-2.5 rounded-sm bg-[#5C4F45]/20"></div><span className="text-ink-tertiary">Blocked</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#A2B4BF]/50"></div><span className="text-ink-tertiary">Booking</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#CEAEA8]/50"></div><span className="text-ink-tertiary">Airbnb</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#C5AD84]/50"></div><span className="text-ink-tertiary">Website</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#A3AD95]/50"></div><span className="text-ink-tertiary">Direct</span></div>
+          <div className="flex items-center gap-1"><div className="w-2 h-2 bg-[#3D3832]/40"></div><span className="text-ink-tertiary">Blocked</span></div>
         </div>
       </div>
 
       {/* Calendar Grid - Desktop only */}
-      <div className="hidden md:block p-8">
-        <div className="bg-cream rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+      <div className="hidden md:block px-10 py-6">
+        <div className="bg-cream border border-border-subtle overflow-hidden">
           <div ref={scrollRef} className="overflow-x-auto">
             <table className="w-full border-collapse min-w-[1400px] table-fixed">
               <thead>
@@ -974,7 +973,7 @@ export default function HomePage() {
                 {/* The Riad */}
                 <tr>
                   <td colSpan={dates.length + 1} className="bg-bone px-3 py-2 border-b border-border-subtle">
-                    <span className="text-[10px] font-medium text-ink-secondary uppercase tracking-wide">The Riad</span>
+                    <span className="text-[10px] font-medium text-ink-tertiary tracking-[0.1em]">THE RIAD</span>
                   </td>
                 </tr>
                 {RIAD_ROOMS.map((room) => (
@@ -1011,8 +1010,8 @@ export default function HomePage() {
                           >
                             {isStart && booking ? (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} rounded px-2 py-1 text-[11px] font-medium truncate cursor-pointer hover:opacity-90 transition-opacity`}
-                                style={{ minHeight: "36px" }}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2 py-1.5 text-[11px] font-medium truncate cursor-pointer hover:brightness-95 transition-all`}
+                                style={{ minHeight: "38px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedBooking(booking);
@@ -1041,7 +1040,7 @@ export default function HomePage() {
                 {/* The Douaria */}
                 <tr>
                   <td colSpan={dates.length + 1} className="bg-bone px-3 py-2 border-b border-border-subtle">
-                    <span className="text-[10px] font-medium text-ink-secondary uppercase tracking-wide">The Douaria</span>
+                    <span className="text-[10px] font-medium text-ink-tertiary tracking-[0.1em]">THE DOUARIA</span>
                   </td>
                 </tr>
                 {DOUARIA_ROOMS.map((room) => (
@@ -1078,8 +1077,8 @@ export default function HomePage() {
                           >
                             {isStart && booking ? (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} rounded px-2 py-1 text-[11px] font-medium truncate cursor-pointer hover:opacity-90 transition-opacity`}
-                                style={{ minHeight: "36px" }}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2 py-1.5 text-[11px] font-medium truncate cursor-pointer hover:brightness-95 transition-all`}
+                                style={{ minHeight: "38px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedBooking(booking);

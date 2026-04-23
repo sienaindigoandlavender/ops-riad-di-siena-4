@@ -639,7 +639,11 @@ See you soon!
       if (json.error) {
         setError(json.error);
       } else {
-        setData(json);
+        setData({
+          date: json.date || date,
+          checkIns: json.checkIns || json.checkingIn || [],
+          checkOuts: json.checkOuts || json.checkingOut || [],
+        });
         setError(null);
       }
     } catch {

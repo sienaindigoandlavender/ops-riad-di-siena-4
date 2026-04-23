@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllGuests, MasterGuest } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function normalizePhone(phone: string | number | undefined): string {
   if (!phone) return "";
   let cleaned = String(phone).replace(/[^\d+]/g, "");

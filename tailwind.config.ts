@@ -9,74 +9,67 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Zara-minimal neutrals (pure white + near-black)
-        sand: "#FFFFFF",
+        // Premium neutrals
+        sand: "#FAFAF8",
         cream: "#FFFFFF",
-        parchment: "#FAFAFA",
-        linen: "#F5F5F5",
-        bone: "#F7F7F7",
+        parchment: "#FAFAF8",
+        linen: "#F4F4F2",
+        bone: "#F7F7F5",
         background: "#FFFFFF",
-        foreground: "#000000",
+        foreground: "#111111",
         ink: {
-          DEFAULT: "#1A1A1A",
-          primary: "#000000",
-          body: "#1A1A1A",
-          secondary: "#666666",
-          tertiary: "#999999",
+          DEFAULT: "#2C2C2C",
+          primary: "#111111",
+          body: "#2C2C2C",
+          secondary: "#717171",
+          tertiary: "#A0A0A0",
           inverse: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#000000",
-          soft: "#F5F5F5",
+          DEFAULT: "#111111",
+          soft: "#F4F4F2",
           strong: "#000000",
         },
-        // Pastel booking source colors — preserved
-        sage: "#9DA88F",
-        gold: "#C4A574",
-        dusty: "#A8BDC8",
-        rose: "#C9A5A0",
-        forest: "#5C4220",
-        brick: "#B07A6F",
-        success: "#9DA88F",
-        warning: "#C4A574",
-        danger: "#B07A6F",
-        info: "#A8BDC8",
+        // Premium muted booking source colors
+        sage: "#8A9A80",
+        gold: "#B5976A",
+        dusty: "#8B9DAD",
+        rose: "#B8918B",
+        forest: "#4A5C3E",
+        brick: "#A07060",
+        success: "#8A9A80",
+        warning: "#B5976A",
+        danger: "#A07060",
+        info: "#8B9DAD",
         border: {
-          subtle: "#EEEEEE",
-          DEFAULT: "#D4D4D4",
-          strong: "#999999",
+          subtle: "#EAEAE8",
+          DEFAULT: "#D5D5D3",
+          strong: "#A0A09E",
         },
         muted: {
-          DEFAULT: "#F5F5F5",
-          foreground: "#666666",
+          DEFAULT: "#F4F4F2",
+          foreground: "#717171",
         },
       },
       fontFamily: {
-        // Serif aliased to sans — Zara minimalism has no serifs
-        serif: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
-        sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        serif: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
       fontSize: {
-        base: ["0.875rem", { lineHeight: "1.5" }],
+        base: ["0.8125rem", { lineHeight: "1.5" }],
       },
       boxShadow: {
-        // Minimal, subtle shadows only
         xs: "0 1px 2px rgba(0, 0, 0, 0.03)",
-        sm: "0 1px 2px rgba(0, 0, 0, 0.04)",
-        md: "0 2px 4px rgba(0, 0, 0, 0.04)",
+        sm: "0 1px 3px rgba(0, 0, 0, 0.04)",
+        md: "0 2px 6px rgba(0, 0, 0, 0.05)",
         lg: "0 4px 12px rgba(0, 0, 0, 0.06)",
         xl: "0 8px 24px rgba(0, 0, 0, 0.08)",
       },
       borderRadius: {
-        // Sharp corners — Zara aesthetic
-        sm: "0",
-        md: "0",
-        lg: "0",
-        xl: "0",
-      },
-      letterSpacing: {
-        // Tight tracking for uppercase labels
-        wider: "0.1em",
+        sm: "2px",
+        md: "3px",
+        lg: "4px",
+        xl: "6px",
       },
       transitionTimingFunction: {
         gentle: "cubic-bezier(0.22, 1, 0.36, 1)",
@@ -88,17 +81,17 @@ const config: Config = {
       },
       keyframes: {
         "fade-rise": {
-          from: { opacity: "0", transform: "translateY(8px)" },
+          from: { opacity: "0", transform: "translateY(6px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
         breathe: {
-          "0%, 100%": { opacity: "0.6", transform: "scale(1)" },
-          "50%": { opacity: "1", transform: "scale(1.04)" },
+          "0%, 100%": { opacity: "0.4" },
+          "50%": { opacity: "0.8" },
         },
       },
       animation: {
-        "fade-rise": "fade-rise 300ms cubic-bezier(0.22, 1, 0.36, 1) both",
-        breathe: "breathe 2s cubic-bezier(0.22, 1, 0.36, 1) infinite",
+        "fade-rise": "fade-rise 250ms cubic-bezier(0.22, 1, 0.36, 1) both",
+        breathe: "breathe 2s ease-in-out infinite",
       },
     },
   },
