@@ -266,10 +266,19 @@ export async function GET() {
     const csvContent = fs.readFileSync(csvPath, "utf-8");
     const reviews = parseCSV(csvContent);
     
-    // Calculate all analytics
-    const issues = extractIssues(reviews);
-    const monthlyRatings = calculateMonthlyRatings(reviews);
-    const sentiment = analyzeSentiment(reviews);
+    // Filter reviews to Jan 2025 onward only
+    const cutoffDate = new Date("2025-01-01");
+    const filteredReviews = reviews.filter(r => {
+      const dateStr = r["Review date"];
+      if (!dateStr) return false;
+      const d = new Date(dateStr);
+      return !isNaN(d.getTime()) && d >= cutoffDate;
+    });
+
+    // Calculate all analytics using filtered reviews
+    const issues = extractIssues(filteredReviews);
+    const monthlyRatings = calculateMonthlyRatings(filteredReviews);
+    const sentiment = analyzeSentiment(filteredReviews);
     const occupancy = await getOccupancyData();
     
     // Calculate correlation between ratings and occupancy
@@ -301,11 +310,28 @@ export async function GET() {
       correlation = denominator !== 0 ? numerator / denominator : 0;
     }
     
-    // Overall stats
-    const allScores = reviews.map(r => parseFloat(r["Review score"])).filter(s => !isNaN(s));
-    const overallAvg = allScores.reduce((a, b) => a + b, 0) / allScores.length;
-    
-    // Score distribution
+    // Overall stats — weighted by recency (Booking.com model)
+    const now = new Date();
+    const reviewsWithScores = filteredReviews
+      .map(r => ({ score: parseFloat(r["Review score"]), date: r["Review date"] }))
+      .filter(r => !isNaN(r.score) && r.score > 0 && r.date);
+
+    let overallAvg = 0;
+    if (reviewsWithScores.length > 0) {
+      let totalWeight = 0;
+      let weightedSum = 0;
+      for (const r of reviewsWithScores) {
+        const d = new Date(r.date);
+        const ageInMonths = (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24 * 30);
+        const weight = Math.max(0.1, 1 - (ageInMonths / 36) * 0.9);
+        weightedSum += r.score * weight;
+        totalWeight += weight;
+      }
+      overallAvg = weightedSum / totalWeight;
+    }
+
+    // Score distribution (filtered reviews only)
+    const allScores = reviewsWithScores.map(r => r.score);
     const distribution = { "10": 0, "9": 0, "8": 0, "7": 0, "below7": 0 };
     allScores.forEach(score => {
       if (score === 10) distribution["10"]++;
@@ -316,7 +342,7 @@ export async function GET() {
     });
     
     return NextResponse.json({
-      totalReviews: reviews.length,
+      totalReviews: filteredReviews.length,
       overallAverage: overallAvg,
       distribution,
       issues,

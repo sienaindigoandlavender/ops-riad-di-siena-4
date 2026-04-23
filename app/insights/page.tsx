@@ -575,8 +575,8 @@ export default function InsightsPage() {
             {/* Year-over-Year Comparison */}
             <section className="bg-cream rounded-lg border border-border-subtle p-6">
               <h2 className="text-[11px] uppercase tracking-[0.1em] text-ink-secondary mb-4">Year-over-Year Comparison</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[2023, 2024, 2025, 2026].map(year => {
+              <div className="grid grid-cols-2 gap-4">
+                {[2025, 2026].map(year => {
                   const yearMonths = stats.monthlyRatings.filter(m => m.month.startsWith(year.toString()));
                   // Weight each month's avgScore by its review count so the
                   // year average reflects actual reviews, not monthly averages
