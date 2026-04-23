@@ -920,7 +920,7 @@ export default function HomePage() {
                                 }
                               }}
                               className={`
-                                w-full aspect-square flex items-center justify-center text-[12px] active:scale-95 transition-transform
+                                w-full aspect-square flex items-center justify-center text-[12px] active:scale-95 active:bg-linen transition-all duration-150
                                 ${bgClass} ${textClass}
                                 ${isToday && !booking ? "ring-1 ring-ink-primary text-ink-primary font-semibold" : ""}
                                 ${isToday && booking ? "ring-1 ring-accent font-bold" : ""}
@@ -1033,7 +1033,7 @@ export default function HomePage() {
                           >
                             {isStart && booking ? (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] transition-all flex flex-col justify-center`}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center`}
                                 style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -1042,8 +1042,7 @@ export default function HomePage() {
                                 }}
                               >
                                 <div className="truncate">{booking.guestName}</div>
-                                <div className="text-[10px] opacity-75">{booking.nights}n</div>
-                              </div>
+                                                              </div>
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink-tertiary">
@@ -1100,7 +1099,7 @@ export default function HomePage() {
                           >
                             {isStart && booking ? (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] transition-all flex flex-col justify-center`}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center`}
                                 style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -1109,8 +1108,7 @@ export default function HomePage() {
                                 }}
                               >
                                 <div className="truncate">{booking.guestName}</div>
-                                <div className="text-[10px] opacity-75">{booking.nights}n</div>
-                              </div>
+                                                              </div>
                             ) : !booking && (
                               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink-tertiary">
@@ -1965,6 +1963,7 @@ We look forward to welcoming you! ✨`
               <a href="/team" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Team</a>
               <a href="/expenses" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Expenses</a>
               <a href="/insights" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Insights</a>
+              <a href="/reviews" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Reviews</a>
               <a href="/invoice" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Invoices</a>
               <a href="/admin" className="block py-3 text-[12px] text-ink-secondary font-light uppercase tracking-[0.08em] hover:text-ink-primary border-b border-border-subtle transition-colors">Admin</a>
             </div>

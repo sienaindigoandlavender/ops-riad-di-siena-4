@@ -21,8 +21,8 @@ const config: Config = {
           DEFAULT: "#2C2C2C",
           primary: "#111111",
           body: "#2C2C2C",
-          secondary: "#717171",
-          tertiary: "#A0A0A0",
+          secondary: "#555555",
+          tertiary: "#808080",
           inverse: "#FFFFFF",
         },
         accent: {
