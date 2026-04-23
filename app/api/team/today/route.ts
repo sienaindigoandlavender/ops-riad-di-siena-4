@@ -24,34 +24,31 @@ export async function GET(request: NextRequest) {
       return g.check_in <= today && g.check_out >= today;
     });
 
-    // Categorize
-    const checkingIn = active.filter((g) => g.check_in === today);
-    const checkingOut = active.filter((g) => g.check_out === today);
-    const staying = active.filter((g) => g.check_in < today && g.check_out > today);
+    const checkIns = active.filter((g) => g.check_in === today);
+    const checkOuts = active.filter((g) => g.check_out === today);
 
     const formatGuest = (g: MasterGuest) => ({
-      id: g.id,
-      booking_id: g.booking_id,
-      name: `${g.first_name || ""} ${g.last_name || ""}`.trim(),
+      booking_id: g.booking_id || "",
+      guest_name: `${g.first_name || ""} ${g.last_name || ""}`.trim() || "Guest",
+      room: g.room || "",
+      property: g.property || "",
+      arrival_time: g.arrival_time_confirmed || g.arrival_time_stated || "",
+      check_in: g.check_in || "",
+      check_out: g.check_out || "",
+      nights: g.nights || 0,
+      guests: g.guests || 0,
+      channel: g.source || "",
+      special_requests: g.special_requests || "",
+      notes: g.notes || "",
       phone: normalizePhone(g.phone),
-      property: g.property,
-      room: g.room,
-      checkIn: g.check_in,
-      checkOut: g.check_out,
-      nights: g.nights,
-      guests: g.guests,
-      source: g.source,
-      specialRequests: g.special_requests,
-      arrivalTime: g.arrival_time_stated || g.arrival_time_confirmed,
-      country: g.country,
+      email: g.email || "",
+      city_tax_paid: g.city_tax_paid || "",
     });
 
     return NextResponse.json({
       date: today,
-      checkingIn: checkingIn.map(formatGuest),
-      checkingOut: checkingOut.map(formatGuest),
-      staying: staying.map(formatGuest),
-      totalOccupied: active.length,
+      checkIns: checkIns.map(formatGuest),
+      checkOuts: checkOuts.map(formatGuest),
     });
   } catch (error) {
     console.error("Team today error:", error);
