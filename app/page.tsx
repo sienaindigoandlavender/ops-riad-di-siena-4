@@ -397,7 +397,7 @@ export default function HomePage() {
           </div>
 
           {/* Import buttons (desktop — moved from header) */}
-          <div className="hidden md:flex items-center gap-2 mr-4">
+          <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => openImportModal("booking")}
               className="flex items-center gap-1.5 px-3 h-[34px] border border-border hover:border-ink-tertiary text-ink-secondary hover:text-ink-primary transition-colors text-[11px]"
@@ -418,29 +418,6 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* Legend */}
-          <div className="hidden md:flex items-center gap-4 h-[34px] text-[10px]">
-            <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] rounded-full bg-[#A2B4BF]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Booking.com</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] rounded-full bg-[#CEAEA8]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Airbnb</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] rounded-full bg-[#C5AD84]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Website</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] rounded-full bg-[#A3AD95]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Direct</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-[7px] h-[7px] rounded-full bg-[#3D3832]"></div>
-              <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Blocked</span>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -761,6 +738,30 @@ export default function HomePage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+
+        {/* Legend */}
+        <div className="flex items-center gap-4 pt-3 text-[10px]">
+          <div className="flex items-center gap-1.5">
+            <div className="w-[7px] h-[7px] rounded-full bg-[#A2B4BF]"></div>
+            <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Booking.com</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-[7px] h-[7px] rounded-full bg-[#CEAEA8]"></div>
+            <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Airbnb</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-[7px] h-[7px] rounded-full bg-[#C5AD84]"></div>
+            <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Website</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-[7px] h-[7px] rounded-full bg-[#A3AD95]"></div>
+            <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Direct</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-[7px] h-[7px] rounded-full bg-[#3D3832]"></div>
+            <span className="text-ink-tertiary normal-case tracking-[0.02em] font-light">Blocked</span>
           </div>
         </div>
       </div>
