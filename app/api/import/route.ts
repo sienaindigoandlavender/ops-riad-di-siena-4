@@ -768,50 +768,6 @@ export async function POST(request: NextRequest) {
       await insertGuests(toAdd);
     }
 
-    // Detect cancellations: existing future bookings from this source
-    // that are NOT in the incoming CSV should be marked cancelled
-    const incomingBookingIds = new Set<string>();
-    for (const row of rows) {
-      const transformed = source === "booking.com"
-        ? transformBookingComRow(row)
-        : transformAirbnbRow(row);
-      if (transformed.booking_id) {
-        incomingBookingIds.add(transformed.booking_id.trim());
-      }
-    }
-
-    const today = new Date().toISOString().split("T")[0];
-    const sourceLabel = source === "booking.com" ? "Booking.com" : "Airbnb";
-
-    const stale: { bookingId: string; guest: MasterGuest }[] = [];
-    existingByBookingId.forEach((guest, bookingId) => {
-      const guestSource = (guest.source || "").toLowerCase();
-      const matchesSource =
-        (source === "airbnb" && guestSource.includes("airbnb")) ||
-        (source === "booking.com" && guestSource.includes("booking"));
-
-      if (!matchesSource) return;
-
-      const status = (guest.status || "").toLowerCase();
-      if (status === "cancelled" || status === "canceled") return;
-
-      const checkIn = guest.check_in ? String(guest.check_in).split("T")[0] : "";
-      if (!checkIn || checkIn < today) return;
-
-      if (!incomingBookingIds.has(bookingId)) {
-        stale.push({ bookingId, guest });
-      }
-    });
-
-    for (const { bookingId, guest } of stale) {
-      const checkIn = guest.check_in ? String(guest.check_in).split("T")[0] : "";
-      await updateGuestByBookingId(bookingId, { status: "cancelled" });
-      results.cancelled++;
-      results.changes.push(
-        `Cancelled (missing from ${sourceLabel} export): ${guest.first_name} ${guest.last_name} - ${checkIn} (${bookingId})`
-      );
-    }
-
     return NextResponse.json({
       success: true,
       source,
