@@ -823,11 +823,6 @@ See you soon!
     return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   };
 
-  const formatShortDate = (dateStr: string): string => {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
-  };
-
   // Generate calendar months
   const generateCalendarMonths = () => {
     const months: { year: number; month: number; days: (number | null)[] }[] = [];
@@ -914,24 +909,20 @@ See you soon!
               {isToday(selectedDate) ? (
                 <p className="text-[20px] font-medium text-ink-primary normal-case tracking-normal">Today</p>
               ) : (
-                <p className="text-[20px] font-medium text-ink-primary normal-case tracking-normal">{formatShortDate(selectedDate)}</p>
+                <p className="text-[20px] font-medium text-ink-primary normal-case tracking-normal">{formatDate(selectedDate)}</p>
               )}
-              <p className="text-[11px] text-ink-tertiary mt-0.5 flex items-center justify-center gap-1 font-light normal-case tracking-normal">
-                {formatDate(selectedDate)}
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </p>
             </button>
 
             {!isToday(selectedDate) && (
-              <button
-                type="button"
-                onClick={handleToday}
-                className="text-[10px] text-ink-tertiary hover:text-ink-secondary underline mt-1 font-light normal-case tracking-normal"
-              >
-                Back to today
-              </button>
+              <div className="mt-1">
+                <button
+                  type="button"
+                  onClick={handleToday}
+                  className="text-[10px] text-ink-tertiary hover:text-ink-secondary underline font-light normal-case tracking-normal"
+                >
+                  Back to today
+                </button>
+              </div>
             )}
 
             {/* Calendar dropdown */}
