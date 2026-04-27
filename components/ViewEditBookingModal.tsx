@@ -162,7 +162,7 @@ export default function ViewEditBookingModal({ booking, onClose, onSaved }: View
   };
 
   return (
-    <div className="fixed inset-0 bg-black/35 backdrop-blur-[2px] flex items-center justify-center z-50 modal-overlay">
+    <div className="fixed inset-0 bg-black/15 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay">
       <div className="bg-white shadow-lg w-full max-w-lg mx-4 modal-panel">
         <div className="p-6 border-b border-border-subtle">
           <div className="flex items-center justify-between">

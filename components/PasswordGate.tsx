@@ -44,7 +44,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div
           className="w-1.5 h-1.5 rounded-full bg-ink-tertiary"
-          style={{ animation: "breathe 2s ease-in-out infinite" }}
+          style={{ animation: "breathe 2s cubic-bezier(0.22, 1, 0.36, 1) infinite" }}
         />
       </div>
     );
@@ -67,7 +67,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/30" />
 
       {/* Login card */}
       <div className="relative z-10 w-full max-w-[360px] mx-5 mb-8 fade-rise">

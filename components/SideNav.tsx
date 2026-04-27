@@ -132,7 +132,7 @@ export default function SideNav({ onClose }: SideNavProps) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/20 z-50 modal-overlay" onClick={onClose} />
+      <div className="fixed inset-0 bg-black/10 z-50 modal-overlay" onClick={onClose} />
       <nav
         className="fixed top-0 right-0 h-full w-72 bg-white z-50 flex flex-col"
         style={{ animation: "slide-in-right 200ms cubic-bezier(0.22, 1, 0.36, 1) both" }}

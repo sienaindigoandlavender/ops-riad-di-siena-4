@@ -116,7 +116,7 @@ export default function NewBookingModal({ initialRoom, initialDate, onClose, onS
   };
 
   return (
-    <div className="fixed inset-0 bg-black/35 backdrop-blur-[2px] flex items-center justify-center z-50 modal-overlay">
+    <div className="fixed inset-0 bg-black/15 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay">
       <div className="bg-white shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col overflow-hidden modal-panel">
         {/* Source color strip */}
         <div className={`h-1 w-full ${getSourceColor(newBookingForm.isBlackout ? "blocked" : newBookingForm.source)} transition-colors duration-300`} />
