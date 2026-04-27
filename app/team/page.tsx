@@ -467,6 +467,7 @@ export default function TeamPage() {
   const [manualTime, setManualTime] = useState("");
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<"arrivals" | "inhouse" | "departures">("arrivals");
+  const didInitialTabPickRef = useRef(false);
 
   // Notes editing
   const [editingNotesId, setEditingNotesId] = useState<string | null>(null);
@@ -710,6 +711,17 @@ See you soon!
     fetchData(selectedDate);
     fetchTaxStats(selectedDate);
   }, [selectedDate, fetchData, fetchTaxStats]);
+
+  // Smart default tab on first load: if arrivals is empty but another bucket
+  // has guests, jump to it so the user lands on something useful.
+  useEffect(() => {
+    if (!data || didInitialTabPickRef.current) return;
+    didInitialTabPickRef.current = true;
+    if (data.checkIns.length === 0) {
+      if (data.inHouse.length > 0) setActiveTab("inhouse");
+      else if (data.checkOuts.length > 0) setActiveTab("departures");
+    }
+  }, [data]);
 
   // Search functionality
   const handleSearch = useCallback(async (query: string) => {
@@ -1083,18 +1095,24 @@ See you soon!
         </div>
       )}
 
-      {/* Summary strip + tab switcher */}
-      <TodaySummaryStrip
-        date={selectedDate}
-        counts={{ arrivals: data.checkIns.length, inHouse: data.inHouse.length, departures: data.checkOuts.length }}
-        onStatTap={setActiveTab}
-        activeTab={activeTab}
-      />
+      {/* Summary strip + tab switcher (mobile only) */}
+      <div className="md:hidden">
+        <TodaySummaryStrip
+          date={selectedDate}
+          counts={{ arrivals: data.checkIns.length, inHouse: data.inHouse.length, departures: data.checkOuts.length }}
+          onStatTap={setActiveTab}
+          activeTab={activeTab}
+        />
+      </div>
 
-      <div className="px-4 py-4">
+      <div className="px-4 py-4 md:grid md:grid-cols-3 md:gap-6 md:max-w-7xl md:mx-auto md:w-full">
         {/* Arrivals */}
-        {activeTab === "arrivals" && (
-          <section>
+        <section className={`${activeTab === "arrivals" ? "block" : "hidden"} md:block`}>
+          <div className="hidden md:flex items-baseline gap-2 pb-3 border-b border-border-subtle mb-4">
+            <span className="text-[10px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Arrivals</span>
+            <span className="text-[15px] font-medium text-ink-primary">{data.checkIns.length}</span>
+          </div>
+          <div>
             {data.checkIns.length === 0 ? (
               <p className="text-ink-tertiary text-[13px] py-8 font-light normal-case tracking-normal">No arrivals today</p>
             ) : (
@@ -1127,12 +1145,16 @@ See you soon!
                 ))}
               </div>
             )}
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* In-house */}
-        {activeTab === "inhouse" && (
-          <section>
+        <section className={`${activeTab === "inhouse" ? "block" : "hidden"} md:block`}>
+          <div className="hidden md:flex items-baseline gap-2 pb-3 border-b border-border-subtle mb-4">
+            <span className="text-[10px] font-light uppercase tracking-[0.1em] text-ink-tertiary">In-house</span>
+            <span className="text-[15px] font-medium text-ink-primary">{data.inHouse.length}</span>
+          </div>
+          <div>
             {data.inHouse.length === 0 ? (
               <p className="text-ink-tertiary text-[13px] py-8 font-light normal-case tracking-normal">No guests in-house today</p>
             ) : (
@@ -1252,12 +1274,16 @@ See you soon!
                 })}
               </div>
             )}
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* Departures */}
-        {activeTab === "departures" && (
-          <section>
+        <section className={`${activeTab === "departures" ? "block" : "hidden"} md:block`}>
+          <div className="hidden md:flex items-baseline gap-2 pb-3 border-b border-border-subtle mb-4">
+            <span className="text-[10px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Departures</span>
+            <span className="text-[15px] font-medium text-ink-primary">{data.checkOuts.length}</span>
+          </div>
+          <div>
             {data.checkOuts.length === 0 ? (
               <p className="text-ink-tertiary text-[13px] py-8 font-light normal-case tracking-normal">No departures today</p>
             ) : (
@@ -1290,8 +1316,8 @@ See you soon!
                 ))}
               </div>
             )}
-          </section>
-        )}
+          </div>
+        </section>
       </div>
 
       {/* Footer - City Tax Summary */}
