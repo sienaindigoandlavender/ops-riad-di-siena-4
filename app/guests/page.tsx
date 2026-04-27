@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import AppHeader from "@/components/AppHeader";
-import LoadingScreen from "@/components/LoadingScreen";
+import InlineLoader from "@/components/InlineLoader";
 
 interface Guest {
   booking_id: string;
@@ -181,7 +181,7 @@ export default function GuestsPage() {
 
       <main className="max-w-5xl mx-auto px-6 py-8">
         {loading ? (
-          <LoadingScreen />
+          <InlineLoader />
         ) : (
           <>
             {/* Tabs */}
