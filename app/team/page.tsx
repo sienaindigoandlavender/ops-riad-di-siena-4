@@ -169,13 +169,7 @@ function GuestCard({
             </p>
           </div>
 
-          {/* Time display */}
-          {!isCheckIn && (
-            <div className="text-right shrink-0">
-              <p className="font-medium text-[24px] text-ink-primary leading-none">11:00</p>
-              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mt-1">Check-out by</p>
-            </div>
-          )}
+          {/* Time display (arrivals only) */}
           {isCheckIn && (
             <>
               {guest.arrival_time ? (
@@ -307,10 +301,12 @@ function GuestCard({
       <div className="px-5 py-3 border-t border-border-subtle">
         <div className="flex items-end justify-between">
           <div className="flex gap-6">
-            <div>
-              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Nights</p>
-              <p className="text-[14px] font-medium text-ink-primary">{guest.nights}</p>
-            </div>
+            {!isCheckIn && (
+              <div>
+                <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Nights</p>
+                <p className="text-[14px] font-medium text-ink-primary">{guest.nights}</p>
+              </div>
+            )}
             <div>
               <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Guests</p>
               <p className="text-[14px] font-medium text-ink-primary">{guest.guests}</p>
