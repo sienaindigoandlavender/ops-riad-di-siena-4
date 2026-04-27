@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import LoadingScreen from "@/components/LoadingScreen";
+import InlineLoader from "@/components/InlineLoader";
 import AppHeader from "@/components/AppHeader";
 
 interface Booking {
@@ -397,7 +397,7 @@ function BookingsContent() {
 
       <main className="container mx-auto px-6 py-8">
         {loading ? (
-          <LoadingScreen />
+          <InlineLoader />
         ) : bookings.length === 0 ? (
           <div className="text-center py-20 text-[13px] text-ink-tertiary">
             No bookings found.

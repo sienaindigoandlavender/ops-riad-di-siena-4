@@ -176,12 +176,7 @@ export default function InsightsPage() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-[#faf9f7] flex items-center justify-center">
-      <AppHeader />
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (!stats) {

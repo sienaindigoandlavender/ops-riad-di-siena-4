@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import AppHeader from "@/components/AppHeader";
-import LoadingScreen from "@/components/LoadingScreen";
+import InlineLoader from "@/components/InlineLoader";
 
 interface Booking {
   Booking_ID: string;
@@ -187,7 +187,7 @@ export default function AdminDashboard() {
 
       <main className="container mx-auto px-6 py-10 max-w-4xl">
         {loading ? (
-          <LoadingScreen />
+          <InlineLoader />
         ) : (
           <>
             {/* Quick Stats */}
