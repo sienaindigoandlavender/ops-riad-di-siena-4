@@ -169,13 +169,7 @@ function GuestCard({
             </p>
           </div>
 
-          {/* Time display */}
-          {!isCheckIn && (
-            <div className="text-right shrink-0">
-              <p className="font-medium text-[24px] text-ink-primary leading-none">11:00</p>
-              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary mt-1">Check-out by</p>
-            </div>
-          )}
+          {/* Time display (arrivals only) */}
           {isCheckIn && (
             <>
               {guest.arrival_time ? (
