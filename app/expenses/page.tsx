@@ -6,6 +6,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import AppHeader from "@/components/AppHeader";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useToast } from "@/components/ToastProvider";
 
 // Categories that are sensitive (excluded from operations report)
 // Categories that only admin sees (excluded from Operations PDF report)
@@ -65,11 +66,13 @@ const CATEGORIES = [
 ];
 
 export default function ExpensesPage() {
+  const toast = useToast();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [summary, setSummary] = useState<Summary | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [confirmingDeleteId, setConfirmingDeleteId] = useState<string | null>(null);
   const [filterMonth, setFilterMonth] = useState<string>("");
   const [filterCategory, setFilterCategory] = useState<string>("");
   
@@ -119,10 +122,10 @@ export default function ExpensesPage() {
         setFormReceiptUrl(data.url);
         setFormReceiptName(file.name);
       } else {
-        alert(data.error || "Upload failed");
+        toast.error(data.error || "Upload failed");
       }
     } catch (error) {
-      alert("Upload failed");
+      toast.error("Upload failed");
     } finally {
       setUploading(false);
     }
@@ -156,18 +159,16 @@ export default function ExpensesPage() {
         // Refresh list
         await fetchExpenses();
       } else {
-        alert("Failed to save expense");
+        toast.error("Failed to save expense");
       }
     } catch (error) {
-      alert("Failed to save expense");
+      toast.error("Failed to save expense");
     } finally {
       setSaving(false);
     }
   }
 
   async function handleDelete(expense_id: string) {
-    if (!confirm("Delete this expense?")) return;
-
     try {
       const res = await fetch(`/api/expenses?id=${expense_id}`, {
         method: "DELETE",
@@ -176,10 +177,22 @@ export default function ExpensesPage() {
       if (res.ok) {
         await fetchExpenses();
       } else {
-        alert("Failed to delete");
+        toast.error("Failed to delete");
       }
     } catch (error) {
-      alert("Failed to delete");
+      toast.error("Failed to delete");
+    }
+  }
+
+  function requestDelete(expense_id: string) {
+    if (confirmingDeleteId === expense_id) {
+      setConfirmingDeleteId(null);
+      handleDelete(expense_id);
+    } else {
+      setConfirmingDeleteId(expense_id);
+      window.setTimeout(() => {
+        setConfirmingDeleteId((current) => (current === expense_id ? null : current));
+      }, 3000);
     }
   }
 
@@ -604,13 +617,17 @@ export default function ExpensesPage() {
                         </td>
                         <td className="px-2 py-3">
                           <button
-                            onClick={() => handleDelete(expense.expense_id)}
-                            className="text-ink-tertiary hover:text-brick transition-colors"
-                            title="Delete"
+                            onClick={() => requestDelete(expense.expense_id)}
+                            className={`transition-colors ${confirmingDeleteId === expense.expense_id ? "text-brick" : "text-ink-tertiary hover:text-brick"}`}
+                            title={confirmingDeleteId === expense.expense_id ? "Tap to confirm" : "Delete"}
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
+                            {confirmingDeleteId === expense.expense_id ? (
+                              <span className="text-[10px] font-light tracking-wide normal-case">Confirm?</span>
+                            ) : (
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            )}
                           </button>
                         </td>
                       </tr>

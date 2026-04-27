@@ -289,7 +289,7 @@ function BookingsContent() {
   const SortHeader = ({ field, children }: { field: SortField; children: React.ReactNode }) => (
     <th
       onClick={() => handleSort(field)}
-      className="text-left p-4 text-[10px] uppercase tracking-[0.08em] text-ink-tertiary font-semibold cursor-pointer hover:text-ink-primary select-none"
+      className="text-left p-4 text-[10px] uppercase tracking-[0.08em] text-ink-tertiary font-medium cursor-pointer hover:text-ink-primary select-none"
     >
       <div className="flex items-center gap-1">
         {children}
@@ -416,7 +416,7 @@ function BookingsContent() {
                     <SortHeader field="Guests">Guests</SortHeader>
                     <SortHeader field="Total">Total</SortHeader>
                     <SortHeader field="Status">Status</SortHeader>
-                    <th className="text-right p-4 text-[10px] uppercase tracking-[0.08em] text-ink-tertiary font-semibold">
+                    <th className="text-right p-4 text-[10px] uppercase tracking-[0.08em] text-ink-tertiary font-medium">
                       Actions
                     </th>
                   </tr>
@@ -445,7 +445,7 @@ function BookingsContent() {
                       <td className="p-4 text-[13px] text-ink-primary">{booking.guests}</td>
                       <td className="p-4 text-[13px] font-medium text-ink-primary">€{booking.total}</td>
                       <td className="p-4">
-                        <span className={`text-[10px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full ${statusColors[booking.status || "pending"] || "bg-linen text-ink-body"}`}>
+                        <span className={`text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full ${statusColors[booking.status || "pending"] || "bg-linen text-ink-body"}`}>
                           {booking.status || "pending"}
                         </span>
                       </td>
@@ -479,7 +479,7 @@ function BookingsContent() {
       {/* Detail Modal */}
       {selectedBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setSelectedBooking(null)} />
+          <div className="absolute inset-0 bg-black/15 backdrop-blur-sm" onClick={() => setSelectedBooking(null)} />
           <div className="relative bg-cream rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-cream border-b border-border-subtle p-5 flex items-center justify-between rounded-t-lg">
               <h2 className="font-serif text-[18px] text-ink-primary">Booking Details</h2>
@@ -567,7 +567,7 @@ function BookingsContent() {
               <div className="grid grid-cols-2 gap-5">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.08em] text-ink-tertiary mb-1">Status</p>
-                  <span className={`text-[10px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full ${statusColors[selectedBooking.status || "pending"]}`}>
+                  <span className={`text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full ${statusColors[selectedBooking.status || "pending"]}`}>
                     {selectedBooking.status || "pending"}
                   </span>
                 </div>

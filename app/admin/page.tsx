@@ -388,7 +388,7 @@ export default function AdminDashboard() {
             {/* Recent Bookings */}
             {recentBookings.length > 0 && (
               <div className="border-t border-border-subtle pt-10">
-                <p className="text-[11px] uppercase tracking-[0.08em] font-semibold text-ink-tertiary mb-5">Recent Bookings</p>
+                <p className="text-[11px] uppercase tracking-[0.08em] font-medium text-ink-tertiary mb-5">Recent Bookings</p>
                 <div className="space-y-2">
                   {recentBookings.map((booking) => (
                     <div 
@@ -419,7 +419,7 @@ export default function AdminDashboard() {
 
             {/* Property Quick Links */}
             <div className="border-t border-border-subtle pt-10 mt-10">
-              <p className="text-[11px] uppercase tracking-[0.08em] font-semibold text-ink-tertiary mb-5">Filter by Property</p>
+              <p className="text-[11px] uppercase tracking-[0.08em] font-medium text-ink-tertiary mb-5">Filter by Property</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <Link
                   href="/admin/bookings?property=riad"

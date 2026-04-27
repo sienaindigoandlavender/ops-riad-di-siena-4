@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { RIAD_ROOMS, ALL_ROOMS, BOOKING_SOURCES, getSourceColor } from "@/lib/constants";
+import { useToast } from "@/components/ToastProvider";
 
 const toDateStr = (date: Date): string => {
   const year = date.getFullYear();
@@ -18,6 +19,7 @@ interface NewBookingModalProps {
 }
 
 export default function NewBookingModal({ initialRoom, initialDate, onClose, onSaved }: NewBookingModalProps) {
+  const toast = useToast();
   const [newBookingForm, setNewBookingForm] = useState({
     firstName: "",
     lastName: "",
@@ -59,12 +61,12 @@ export default function NewBookingModal({ initialRoom, initialDate, onClose, onS
 
   const saveNewBooking = async () => {
     if (!newBookingForm.checkIn || !newBookingForm.checkOut) {
-      alert("Please select check-in and check-out dates");
+      toast.error("Please select check-in and check-out dates");
       return;
     }
 
     if (!newBookingForm.isBlackout && !newBookingForm.firstName) {
-      alert("Please enter guest name");
+      toast.error("Please enter guest name");
       return;
     }
 
@@ -105,18 +107,18 @@ export default function NewBookingModal({ initialRoom, initialDate, onClose, onS
         onClose();
       } else {
         const errorData = await res.json();
-        alert("Failed to save booking: " + (errorData.error || "Unknown error"));
+        toast.error("Failed to save booking: " + (errorData.error || "Unknown error"));
       }
     } catch (error) {
       console.error("Error saving booking:", error);
-      alert("Failed to save booking");
+      toast.error("Failed to save booking");
     } finally {
       setSavingBooking(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/35 backdrop-blur-[2px] flex items-center justify-center z-50 modal-overlay">
+    <div className="fixed inset-0 bg-black/15 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay">
       <div className="bg-white shadow-lg w-full max-w-md mx-4 max-h-[90vh] flex flex-col overflow-hidden modal-panel">
         {/* Source color strip */}
         <div className={`h-1 w-full ${getSourceColor(newBookingForm.isBlackout ? "blocked" : newBookingForm.source)} transition-colors duration-300`} />

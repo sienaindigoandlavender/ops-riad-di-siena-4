@@ -524,10 +524,10 @@ export default function HomePage() {
                                 }
                               }}
                               className={`
-                                w-full aspect-square flex items-center justify-center text-[12px] active:scale-95 active:bg-linen transition-all duration-150
+                                w-full aspect-square flex items-center justify-center text-[12px] active:scale-[0.99] active:bg-linen transition-all duration-300 ease-out
                                 ${bgClass} ${textClass}
-                                ${isToday && !booking ? "ring-1 ring-ink-primary text-ink-primary font-semibold" : ""}
-                                ${isToday && booking ? "ring-1 ring-accent font-bold" : ""}
+                                ${isToday && !booking ? "ring-1 ring-ink-primary text-ink-primary font-medium" : ""}
+                                ${isToday && booking ? "ring-1 ring-accent font-medium" : ""}
                                 ${booking ? "font-medium" : ""}
                               `}
                             >
@@ -561,7 +561,7 @@ export default function HomePage() {
       {/* Mobile FAB: Add booking */}
       <button
         onClick={() => handleCellClick(RIAD_ROOMS[0], new Date())}
-        className="md:hidden fixed bottom-6 right-6 z-40 w-12 h-12 bg-ink-primary text-white flex items-center justify-center shadow-lg active:scale-95 transition-transform"
+        className="md:hidden fixed bottom-6 right-6 z-40 w-12 h-12 bg-ink-primary text-white flex items-center justify-center shadow-lg active:scale-[0.99] transition-transform duration-300 ease-out"
         aria-label="New booking"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -640,7 +640,7 @@ export default function HomePage() {
                                 const isPast = booking.checkOut && booking.checkOut.split("T")[0] < toDateStr(new Date());
                                 return (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center ${isPast ? "opacity-35" : ""}`}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.97] active:brightness-[0.95] transition-all duration-300 ease-out flex flex-col justify-center ${isPast ? "opacity-35" : ""}`}
                                 style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -710,7 +710,7 @@ export default function HomePage() {
                                 const isPast = booking.checkOut && booking.checkOut.split("T")[0] < toDateStr(new Date());
                                 return (
                               <div
-                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.96] active:scale-[0.98] active:brightness-[0.92] transition-all duration-150 flex flex-col justify-center ${isPast ? "opacity-35" : ""}`}
+                                className={`${getSourceColor(booking.source)} ${getSourceTextColor(booking.source)} px-2.5 py-[7px] text-[11px] font-medium cursor-pointer hover:brightness-[0.97] active:brightness-[0.95] transition-all duration-300 ease-out flex flex-col justify-center ${isPast ? "opacity-35" : ""}`}
                                 style={{ minHeight: "40px" }}
                                 onClick={(e) => {
                                   e.stopPropagation();

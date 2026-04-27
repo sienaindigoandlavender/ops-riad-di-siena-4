@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { RIAD_ROOMS, ALL_ROOMS, BOOKING_SOURCES, getSourceColor, getSourceTextColor } from "@/lib/constants";
 import type { Booking } from "@/types/booking";
+import { useToast } from "@/components/ToastProvider";
 
 interface ViewEditBookingModalProps {
   booking: Booking;
@@ -11,7 +12,9 @@ interface ViewEditBookingModalProps {
 }
 
 export default function ViewEditBookingModal({ booking, onClose, onSaved }: ViewEditBookingModalProps) {
+  const toast = useToast();
   const [isEditing, setIsEditing] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [editForm, setEditForm] = useState({
     firstName: "",
     lastName: "",
@@ -52,12 +55,12 @@ export default function ViewEditBookingModal({ booking, onClose, onSaved }: View
 
   const saveEditedBooking = async () => {
     if (booking.rowIndex === undefined) {
-      alert("Cannot update booking - missing row index");
+      toast.error("Cannot update booking — missing row index");
       return;
     }
 
     if (!editForm.firstName || !editForm.checkIn || !editForm.checkOut) {
-      alert("Please fill in required fields (name, check-in, check-out)");
+      toast.error("Please fill in name, check-in, and check-out");
       return;
     }
 
@@ -113,28 +116,31 @@ export default function ViewEditBookingModal({ booking, onClose, onSaved }: View
         onClose();
       } else {
         const errorData = await res.json();
-        alert("Failed to update booking: " + (errorData.error || "Unknown error"));
+        toast.error("Failed to update booking: " + (errorData.error || "Unknown error"));
       }
     } catch (error) {
       console.error("Error updating booking:", error);
-      alert("Failed to update booking");
+      toast.error("Failed to update booking");
     } finally {
       setSavingBooking(false);
     }
   };
 
-  const deleteBooking = async () => {
+  const requestDelete = () => {
     if (booking.rowIndex === undefined) {
-      alert("Cannot delete booking - missing row index");
+      toast.error("Cannot delete booking — missing row index");
       return;
     }
+    if (!confirmingDelete) {
+      setConfirmingDelete(true);
+      window.setTimeout(() => setConfirmingDelete((c) => (c ? false : c)), 4000);
+      return;
+    }
+    setConfirmingDelete(false);
+    void deleteBooking();
+  };
 
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete the booking for ${booking.guestName}?`
-    );
-
-    if (!confirmDelete) return;
-
+  const deleteBooking = async () => {
     setDeletingBooking(true);
 
     try {
@@ -151,18 +157,18 @@ export default function ViewEditBookingModal({ booking, onClose, onSaved }: View
         onClose();
       } else {
         const errorData = await res.json();
-        alert("Failed to delete booking: " + (errorData.error || "Unknown error"));
+        toast.error("Failed to delete booking: " + (errorData.error || "Unknown error"));
       }
     } catch (error) {
       console.error("Error deleting booking:", error);
-      alert("Failed to delete booking");
+      toast.error("Failed to delete booking");
     } finally {
       setDeletingBooking(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/35 backdrop-blur-[2px] flex items-center justify-center z-50 modal-overlay">
+    <div className="fixed inset-0 bg-black/15 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay">
       <div className="bg-white shadow-lg w-full max-w-lg mx-4 modal-panel">
         <div className="p-6 border-b border-border-subtle">
           <div className="flex items-center justify-between">
@@ -569,11 +575,15 @@ We look forward to welcoming you! ✨`
           ) : (
             <>
               <button
-                onClick={deleteBooking}
+                onClick={requestDelete}
                 disabled={deletingBooking}
-                className="px-4 py-2 text-[13px] font-medium text-brick hover:bg-brick/10 rounded-lg transition-colors disabled:opacity-50"
+                className={`px-4 py-2 text-[13px] font-medium rounded-lg transition-colors disabled:opacity-50 ${
+                  confirmingDelete
+                    ? "bg-brick/10 text-brick"
+                    : "text-brick hover:bg-brick/10"
+                }`}
               >
-                {deletingBooking ? "Deleting..." : "Delete"}
+                {deletingBooking ? "Deleting..." : confirmingDelete ? "Tap to confirm" : "Delete"}
               </button>
               <button
                 onClick={startEditing}

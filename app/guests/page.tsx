@@ -196,7 +196,7 @@ export default function GuestsPage() {
               >
                 Today
                 {todayGuests.length > 0 && (
-                  <span className="ml-2 px-2 py-0.5 bg-dusty/10 text-dusty text-[11px] font-semibold rounded-full">
+                  <span className="ml-2 px-2 py-0.5 bg-dusty/10 text-dusty text-[11px] font-medium rounded-full">
                     {todayGuests.length}
                   </span>
                 )}
@@ -214,7 +214,7 @@ export default function GuestsPage() {
               >
                 Need Action
                 {needActionGuests.length > 0 && (
-                  <span className="ml-2 px-2 py-0.5 bg-gold/10 text-gold text-[11px] font-semibold rounded-full">
+                  <span className="ml-2 px-2 py-0.5 bg-gold/10 text-gold text-[11px] font-medium rounded-full">
                     {needActionGuests.length}
                   </span>
                 )}
@@ -286,7 +286,7 @@ export default function GuestsPage() {
                               <span className="text-[13px] text-ink-tertiary">{guest.country}</span>
                             )}
                             {needsAttention && !isConfirmed && (
-                              <span className="px-2 py-0.5 bg-gold/10 text-gold text-[11px] font-semibold rounded">
+                              <span className="px-2 py-0.5 bg-gold/10 text-gold text-[11px] font-medium rounded">
                                 {daysUntil === 0
                                   ? "Today"
                                   : daysUntil === 1
@@ -295,7 +295,7 @@ export default function GuestsPage() {
                               </span>
                             )}
                             {isConfirmed && (
-                              <span className="px-2 py-0.5 bg-sage/10 text-forest text-[11px] font-semibold rounded">
+                              <span className="px-2 py-0.5 bg-sage/10 text-forest text-[11px] font-medium rounded">
                                 Confirmed
                               </span>
                             )}

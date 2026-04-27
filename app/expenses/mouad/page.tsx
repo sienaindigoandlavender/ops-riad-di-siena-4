@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useToast } from "@/components/ToastProvider";
 import AppHeader from "@/components/AppHeader";
 
 const STAFF_CATEGORIES = [
@@ -27,6 +28,7 @@ interface Expense {
 }
 
 export default function MouadExpensesPage() {
+  const toast = useToast();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -78,10 +80,10 @@ export default function MouadExpensesPage() {
         setFormReceiptUrl(data.url);
         setFormReceiptName(file.name);
       } else {
-        alert(data.error || "Upload failed");
+        toast.error(data.error || "Upload failed");
       }
     } catch (error) {
-      alert("Upload failed");
+      toast.error("Upload failed");
     } finally {
       setUploading(false);
     }
@@ -120,10 +122,10 @@ export default function MouadExpensesPage() {
         setTimeout(() => setSuccess(false), 3000);
         await fetchExpenses();
       } else {
-        alert("Failed to save expense");
+        toast.error("Failed to save expense");
       }
     } catch (error) {
-      alert("Failed to save expense");
+      toast.error("Failed to save expense");
     } finally {
       setSaving(false);
     }
