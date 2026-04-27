@@ -120,7 +120,7 @@ export default function PoliceRegistrationForm({
 
             {/* Guest 1 Documents */}
             <div className="space-y-3">
-              <h3 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-secondary flex items-center gap-2">
+              <h3 className="text-[11px] font-medium uppercase tracking-[0.08em] text-ink-secondary flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full bg-linen flex items-center justify-center text-[10px] font-bold">1</span>
                 Guest 1
               </h3>
@@ -209,7 +209,7 @@ export default function PoliceRegistrationForm({
             {/* Guest 2 Documents */}
             {showGuest2 && (
               <div className="space-y-3 pt-3 border-t border-border-subtle">
-                <h3 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-secondary flex items-center gap-2">
+                <h3 className="text-[11px] font-medium uppercase tracking-[0.08em] text-ink-secondary flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-linen flex items-center justify-center text-[10px] font-bold">2</span>
                   Guest 2
                 </h3>

@@ -526,8 +526,8 @@ export default function HomePage() {
                               className={`
                                 w-full aspect-square flex items-center justify-center text-[12px] active:scale-[0.99] active:bg-linen transition-all duration-300 ease-out
                                 ${bgClass} ${textClass}
-                                ${isToday && !booking ? "ring-1 ring-ink-primary text-ink-primary font-semibold" : ""}
-                                ${isToday && booking ? "ring-1 ring-accent font-bold" : ""}
+                                ${isToday && !booking ? "ring-1 ring-ink-primary text-ink-primary font-medium" : ""}
+                                ${isToday && booking ? "ring-1 ring-accent font-medium" : ""}
                                 ${booking ? "font-medium" : ""}
                               `}
                             >
