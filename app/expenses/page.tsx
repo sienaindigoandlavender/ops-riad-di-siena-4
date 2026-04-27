@@ -323,12 +323,7 @@ export default function ExpensesPage() {
   const filteredTotal = filteredExpenses.reduce((sum, e) => sum + e.amount_dh, 0);
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-[#faf9f7] flex items-center justify-center">
-      <AppHeader />
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (

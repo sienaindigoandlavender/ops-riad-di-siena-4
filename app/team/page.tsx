@@ -867,11 +867,7 @@ See you soon!
 
   // Loading state
   if (!data) {
-    return (
-      <div className="min-h-screen bg-cream flex items-center justify-center">
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
