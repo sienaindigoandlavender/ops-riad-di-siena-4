@@ -47,8 +47,8 @@ export default function TodaySummaryStrip({ date, counts: propCounts, onStatTap,
           key={key}
           onClick={() => onStatTap?.(key)}
           disabled={!onStatTap}
-          className={`flex-1 min-w-[100px] h-[48px] flex items-center justify-center gap-2 transition-all duration-150 relative shrink-0 ${
-            onStatTap ? "cursor-pointer hover:bg-parchment active:scale-[0.97]" : "cursor-default"
+          className={`flex-1 min-w-[100px] h-[48px] flex items-center justify-center gap-2 transition-all duration-300 ease-out relative shrink-0 ${
+            onStatTap ? "cursor-pointer hover:bg-parchment active:scale-[0.99]" : "cursor-default"
           }`}
         >
           <span className="text-[10px] font-light uppercase tracking-[0.08em] text-ink-tertiary">{label}</span>
