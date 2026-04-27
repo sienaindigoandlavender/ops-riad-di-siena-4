@@ -282,8 +282,8 @@ export default function InsightsPage() {
           <nav className="flex gap-8">
             {[
               { id: "overview", label: "Overview" },
-              { id: "issues", label: "Issues Checklist" },
-              { id: "trends", label: "3-Year Trends" },
+              { id: "issues", label: "Issues" },
+              { id: "trends", label: "Trends" },
               { id: "correlation", label: "Occupancy" },
             ].map(tab => (
               <button
