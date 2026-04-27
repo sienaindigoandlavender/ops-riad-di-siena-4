@@ -307,10 +307,12 @@ function GuestCard({
       <div className="px-5 py-3 border-t border-border-subtle">
         <div className="flex items-end justify-between">
           <div className="flex gap-6">
-            <div>
-              <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Nights</p>
-              <p className="text-[14px] font-medium text-ink-primary">{guest.nights}</p>
-            </div>
+            {!isCheckIn && (
+              <div>
+                <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Nights</p>
+                <p className="text-[14px] font-medium text-ink-primary">{guest.nights}</p>
+              </div>
+            )}
             <div>
               <p className="text-[9px] font-light uppercase tracking-[0.1em] text-ink-tertiary">Guests</p>
               <p className="text-[14px] font-medium text-ink-primary">{guest.guests}</p>
