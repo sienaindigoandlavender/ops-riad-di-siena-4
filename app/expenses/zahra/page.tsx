@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import AppHeader from "@/components/AppHeader";
+import { useToast } from "@/components/ToastProvider";
 
 const STAFF_CATEGORIES = [
   "Breakfast Box",
@@ -31,6 +32,7 @@ interface Expense {
 }
 
 export default function ZahraExpensesPage() {
+  const toast = useToast();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -82,10 +84,10 @@ export default function ZahraExpensesPage() {
         setFormReceiptUrl(data.url);
         setFormReceiptName(file.name);
       } else {
-        alert(data.error || "Upload failed");
+        toast.error(data.error || "Upload failed");
       }
     } catch (error) {
-      alert("Upload failed");
+      toast.error("Upload failed");
     } finally {
       setUploading(false);
     }
@@ -124,10 +126,10 @@ export default function ZahraExpensesPage() {
         setTimeout(() => setSuccess(false), 3000);
         await fetchExpenses();
       } else {
-        alert("Failed to save expense");
+        toast.error("Failed to save expense");
       }
     } catch (error) {
-      alert("Failed to save expense");
+      toast.error("Failed to save expense");
     } finally {
       setSaving(false);
     }
