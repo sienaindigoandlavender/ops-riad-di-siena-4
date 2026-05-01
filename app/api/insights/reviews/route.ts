@@ -313,13 +313,18 @@ async function getOccupancyData(): Promise<Map<string, { bookings: number; night
 
 export async function GET() {
   try {
-    // Read Booking.com CSV
-    const csvPath = path.join(process.cwd(), "data", "reviews.csv");
+    // Prefer the most recently uploaded CSV. On Vercel the upload route writes
+    // to /tmp; locally it writes to data/. Either way, fall back to the
+    // bundled data/reviews.csv if no upload is present.
+    const isVercel = process.env.VERCEL === "1";
+    const uploadDir = isVercel ? "/tmp" : path.join(process.cwd(), "data");
+    const uploadedPath = path.join(uploadDir, "reviews.csv");
+    const bundledPath = path.join(process.cwd(), "data", "reviews.csv");
+    const csvPath = fs.existsSync(uploadedPath) ? uploadedPath : bundledPath;
     const csvContent = fs.readFileSync(csvPath, "utf-8");
     const reviews: any[] = parseCSV(csvContent);
 
     // Also read manually added reviews (Airbnb etc, entered via booking form)
-    const isVercel = process.env.VERCEL === "1";
     const manualDir = isVercel ? "/tmp" : path.join(process.cwd(), "data");
     const manualPath = path.join(manualDir, "manual_reviews.csv");
     if (fs.existsSync(manualPath)) {
