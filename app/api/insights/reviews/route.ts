@@ -391,6 +391,8 @@ export async function GET() {
       .map(r => ({ score: parseFloat(r["Review score"]), date: r["Review date"] }))
       .filter(r => !isNaN(r.score) && r.score > 0 && r.date);
 
+    const ageWeight = (ageMonths: number) => Math.max(0.1, 1 - (ageMonths / 36) * 0.9);
+
     let overallAvg = 0;
     if (reviewsWithScores.length > 0) {
       let totalWeight = 0;
@@ -398,11 +400,43 @@ export async function GET() {
       for (const r of reviewsWithScores) {
         const d = new Date(r.date);
         const ageInMonths = (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24 * 30);
-        const weight = Math.max(0.1, 1 - (ageInMonths / 36) * 0.9);
+        const weight = ageWeight(ageInMonths);
         weightedSum += r.score * weight;
         totalWeight += weight;
       }
       overallAvg = weightedSum / totalWeight;
+    }
+
+    // Projected score: forward-simulate 12 months at last-12-month quality
+    // and review volume, then recompute the weighted average.
+    const recentReviews = reviewsWithScores.filter(r => {
+      const d = new Date(r.date);
+      const ageInMonths = (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24 * 30);
+      return ageInMonths <= 12;
+    });
+    const last12Count = recentReviews.length;
+    const last12Avg = last12Count > 0
+      ? recentReviews.reduce((s, r) => s + r.score, 0) / last12Count
+      : 0;
+
+    let projectedAvg = overallAvg;
+    if (last12Count >= 10 && last12Avg > 0) {
+      let weightedSum = 0;
+      let totalWeight = 0;
+      for (const r of reviewsWithScores) {
+        const d = new Date(r.date);
+        const ageInMonths = (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24 * 30);
+        const w = ageWeight(ageInMonths + 12);
+        weightedSum += r.score * w;
+        totalWeight += w;
+      }
+      for (let i = 0; i < last12Count; i++) {
+        const ageInMonths = (i / last12Count) * 12;
+        const w = ageWeight(ageInMonths);
+        weightedSum += last12Avg * w;
+        totalWeight += w;
+      }
+      projectedAvg = weightedSum / totalWeight;
     }
 
     // Score distribution (filtered reviews only)
@@ -419,6 +453,7 @@ export async function GET() {
     return NextResponse.json({
       totalReviews: filteredReviews.length,
       overallAverage: overallAvg,
+      projectedAverage: projectedAvg,
       distribution,
       issues,
       highlights,
