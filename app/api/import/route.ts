@@ -674,6 +674,9 @@ export async function POST(request: NextRequest) {
     };
 
     const toAdd: Partial<MasterGuest>[] = [];
+    const csvBookingIds = new Set<string>();
+    let minCheckInMs: number | null = null;
+    let maxCheckInMs: number | null = null;
 
     for (const row of rows) {
       try {
@@ -692,6 +695,15 @@ export async function POST(request: NextRequest) {
           results.skipped++;
           results.errors.push(`Invalid booking ID format: "${bookingId.substring(0, 30)}..." - skipped`);
           continue;
+        }
+
+        csvBookingIds.add(bookingId);
+        if (transformed.check_in) {
+          const t = new Date(transformed.check_in).getTime();
+          if (!isNaN(t)) {
+            if (minCheckInMs === null || t < minCheckInMs) minCheckInMs = t;
+            if (maxCheckInMs === null || t > maxCheckInMs) maxCheckInMs = t;
+          }
         }
 
         // Skip new cancelled bookings
@@ -766,6 +778,27 @@ export async function POST(request: NextRequest) {
     // Batch insert new bookings
     if (toAdd.length > 0) {
       await insertGuests(toAdd);
+    }
+
+    // Detect cancellations: Airbnb's CSV export omits cancelled reservations
+    // entirely rather than marking them, so any existing Airbnb booking whose
+    // check-in falls inside the imported date range but isn't in the CSV has
+    // been cancelled. The date-range scope protects against partial uploads.
+    if (source === "airbnb" && csvBookingIds.size > 0 && minCheckInMs !== null && maxCheckInMs !== null) {
+      for (const guest of existingGuests) {
+        if (guest.source !== "Airbnb") continue;
+        if (guest.status === "cancelled") continue;
+        if (!guest.booking_id || !guest.check_in) continue;
+        if (csvBookingIds.has(guest.booking_id.trim())) continue;
+        const t = new Date(guest.check_in).getTime();
+        if (isNaN(t) || t < minCheckInMs || t > maxCheckInMs) continue;
+        await updateGuestByBookingId(guest.booking_id, {
+          status: "cancelled",
+          updated_at: new Date().toISOString(),
+        } as Partial<MasterGuest>);
+        results.cancelled++;
+        results.changes.push(`Cancelled (missing from CSV): ${guest.first_name ?? ""} ${guest.last_name ?? ""} - ${guest.check_in} (${guest.booking_id})`);
+      }
     }
 
     return NextResponse.json({
