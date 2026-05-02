@@ -781,23 +781,31 @@ export async function POST(request: NextRequest) {
     }
 
     // Detect cancellations: Airbnb's CSV export omits cancelled reservations
-    // entirely rather than marking them, so any existing Airbnb booking whose
-    // check-in falls inside the imported date range but isn't in the CSV has
-    // been cancelled. The date-range scope protects against partial uploads.
-    if (source === "airbnb" && csvBookingIds.size > 0 && minCheckInMs !== null && maxCheckInMs !== null) {
-      for (const guest of existingGuests) {
-        if (guest.source !== "Airbnb") continue;
-        if (guest.status === "cancelled") continue;
-        if (!guest.booking_id || !guest.check_in) continue;
-        if (csvBookingIds.has(guest.booking_id.trim())) continue;
-        const t = new Date(guest.check_in).getTime();
-        if (isNaN(t) || t < minCheckInMs || t > maxCheckInMs) continue;
-        await updateGuestByBookingId(guest.booking_id, {
-          status: "cancelled",
-          updated_at: new Date().toISOString(),
-        } as Partial<MasterGuest>);
-        results.cancelled++;
-        results.changes.push(`Cancelled (missing from CSV): ${guest.first_name ?? ""} ${guest.last_name ?? ""} - ${guest.check_in} (${guest.booking_id})`);
+    // entirely rather than marking them. The lower scope bound is min(today,
+    // csvMin) — a cancellation is missing from the CSV by definition, so it
+    // can't influence the CSV's min check-in, and an "upcoming" export starts
+    // from the earliest *remaining* reservation. Anchoring to today catches
+    // future cancellations that would otherwise fall just below the CSV's min.
+    if (source === "airbnb" && csvBookingIds.size > 0 && maxCheckInMs !== null) {
+      const todayMs = new Date(new Date().toISOString().slice(0, 10)).getTime();
+      const lowerMs = minCheckInMs !== null ? Math.min(todayMs, minCheckInMs) : todayMs;
+      if (maxCheckInMs >= lowerMs) {
+        const csvIdsLower = new Set<string>();
+        csvBookingIds.forEach(id => csvIdsLower.add(id.toLowerCase()));
+        for (const guest of existingGuests) {
+          if ((guest.source || "").toLowerCase() !== "airbnb") continue;
+          if ((guest.status || "").toLowerCase() === "cancelled") continue;
+          if (!guest.booking_id || !guest.check_in) continue;
+          if (csvIdsLower.has(guest.booking_id.trim().toLowerCase())) continue;
+          const t = new Date(guest.check_in).getTime();
+          if (isNaN(t) || t < lowerMs || t > maxCheckInMs) continue;
+          await updateGuestByBookingId(guest.booking_id, {
+            status: "cancelled",
+            updated_at: new Date().toISOString(),
+          } as Partial<MasterGuest>);
+          results.cancelled++;
+          results.changes.push(`Cancelled (missing from CSV): ${guest.first_name ?? ""} ${guest.last_name ?? ""} - ${guest.check_in} (${guest.booking_id})`);
+        }
       }
     }
 
