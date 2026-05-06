@@ -57,29 +57,16 @@ export default function PasswordGate({ children }: PasswordGateProps) {
   }
 
   return (
-    <div className="min-h-screen min-h-[100dvh] relative flex items-start justify-center pt-[25vh] sm:pt-0 sm:items-center overflow-y-auto">
-      {/* Blurred background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('https://res.cloudinary.com/drstfu5yr/image/upload/v1735000000/riad-di-siena/courtyard.jpg')`,
-          filter: "blur(20px) saturate(0.8)",
-          transform: "scale(1.1)",
-        }}
-      />
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/30" />
-
+    <div className="min-h-screen min-h-[100dvh] relative flex items-start justify-center pt-[25vh] sm:pt-0 sm:items-center overflow-y-auto bg-white">
       {/* Login card */}
       <div className="relative z-10 w-full max-w-[360px] mx-5 mb-8 fade-rise">
-        <div className="bg-white/95 backdrop-blur-sm shadow-md px-8 py-10 sm:px-10 sm:py-12">
+        <div className="bg-white shadow-md px-8 py-10 sm:px-10 sm:py-12 border border-[#EAEAE8]">
           {/* Title */}
           <div className="text-center mb-8">
-            <h1 className="text-[20px] sm:text-[22px] font-medium text-ink-primary tracking-[0.03em] leading-relaxed pt-1 normal-case">
+            <h1 className="text-[20px] sm:text-[22px] font-medium text-black tracking-[0.03em] leading-relaxed pt-1 normal-case">
               Riad di Siena
             </h1>
-            <p className="text-[11px] text-ink-tertiary tracking-[0.06em] mt-2 mb-1 font-light">OPERATIONS</p>
+            <p className="text-[11px] text-[#2C2C2C] tracking-[0.06em] mt-2 mb-1 font-normal">OPERATIONS</p>
           </div>
 
           <form onSubmit={handleSubmit}>
@@ -94,10 +81,10 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                   }}
                   placeholder="Password"
                   autoFocus
-                  className={`w-full h-[44px] px-4 pr-12 text-[14px] text-ink-primary bg-white border transition-all duration-200 placeholder:text-ink-tertiary normal-case tracking-normal ${
+                  className={`w-full h-[44px] px-4 pr-12 text-[14px] text-black bg-white border transition-all duration-200 placeholder:text-[#555555] normal-case tracking-normal ${
                     error
                       ? "border-brick focus:border-brick focus:ring-1 focus:ring-brick/20"
-                      : "border-border focus:border-ink-primary focus:ring-1 focus:ring-ink-primary/10"
+                      : "border-[#A0A09E] focus:border-black focus:ring-1 focus:ring-black/10"
                   } focus:outline-none`}
                 />
                 <button
@@ -107,7 +94,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
                     e.preventDefault();
                     setShowPassword(!showPassword);
                   }}
-                  className="absolute right-0 top-0 w-[44px] h-[44px] flex items-center justify-center text-ink-tertiary hover:text-ink-secondary transition-colors touch-manipulation"
+                  className="absolute right-0 top-0 w-[44px] h-[44px] flex items-center justify-center text-[#2C2C2C] hover:text-black transition-colors touch-manipulation"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
@@ -129,7 +116,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
 
             <button
               type="submit"
-              className="w-full h-[48px] bg-ink-primary text-white text-[12px] tracking-[0.08em] hover:bg-black transition-colors duration-200"
+              className="w-full h-[48px] bg-black text-white text-[12px] font-medium tracking-[0.08em] hover:bg-[#222222] transition-colors duration-200"
             >
               ENTER
             </button>
