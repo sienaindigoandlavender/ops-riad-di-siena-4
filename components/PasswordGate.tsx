@@ -15,13 +15,15 @@ export default function PasswordGate({ children }: PasswordGateProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    // Persist auth for 30 days using localStorage + expiry timestamp
-    const stored = localStorage.getItem("ops_auth_expires");
+    // Bump this when the password changes to invalidate existing sessions
+    const AUTH_KEY = "ops_auth_expires_v2";
+    // Clear any prior-version key so old sessions are logged out
+    localStorage.removeItem("ops_auth_expires");
+    const stored = localStorage.getItem(AUTH_KEY);
     if (stored && parseInt(stored) > Date.now()) {
       setIsAuthenticated(true);
     } else {
-      // Clean up expired entry
-      if (stored) localStorage.removeItem("ops_auth_expires");
+      if (stored) localStorage.removeItem(AUTH_KEY);
       setIsAuthenticated(false);
     }
   }, []);
@@ -30,7 +32,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
     e.preventDefault();
     if (password === CORRECT_PASSWORD) {
       const expiryMs = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
-      localStorage.setItem("ops_auth_expires", String(expiryMs));
+      localStorage.setItem("ops_auth_expires_v2", String(expiryMs));
       setIsAuthenticated(true);
       setError(false);
     } else {
