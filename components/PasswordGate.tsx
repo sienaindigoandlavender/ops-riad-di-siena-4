@@ -6,7 +6,7 @@ interface PasswordGateProps {
   children: React.ReactNode;
 }
 
-const CORRECT_PASSWORD = process.env.NEXT_PUBLIC_OPS_PASSWORD || "c0usc0us*2344";
+const CORRECT_PASSWORD = process.env.NEXT_PUBLIC_OPS_PASSWORD || "bryani&1815";
 
 export default function PasswordGate({ children }: PasswordGateProps) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
