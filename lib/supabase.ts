@@ -41,6 +41,7 @@ export interface MasterGuest {
   city_tax_paid: string;
   notes: string;
   philosophy_acknowledged: boolean;
+  disclaimer_acknowledged: boolean;
   created_at: string;
   updated_at: string;
 }
