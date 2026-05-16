@@ -40,6 +40,7 @@ export interface MasterGuest {
   midstay_checkin: string;
   city_tax_paid: string;
   notes: string;
+  philosophy_acknowledged: boolean;
   created_at: string;
   updated_at: string;
 }
