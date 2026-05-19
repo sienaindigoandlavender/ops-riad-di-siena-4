@@ -32,7 +32,11 @@ export default function ViewEditBookingModal({ booking, onClose, onSaved }: View
   });
   const [savingBooking, setSavingBooking] = useState(false);
   const [deletingBooking, setDeletingBooking] = useState(false);
+  const [cancellingBooking, setCancellingBooking] = useState(false);
+  const [confirmingCancel, setConfirmingCancel] = useState(false);
   const [includePaymentLink, setIncludePaymentLink] = useState(false);
+
+  const isAlreadyCancelled = (booking.status || "").toLowerCase() === "cancelled";
 
   const startEditing = () => {
     setEditForm({
@@ -138,6 +142,41 @@ export default function ViewEditBookingModal({ booking, onClose, onSaved }: View
     }
     setConfirmingDelete(false);
     void deleteBooking();
+  };
+
+  const requestCancel = () => {
+    if (!confirmingCancel) {
+      setConfirmingCancel(true);
+      window.setTimeout(() => setConfirmingCancel((c) => (c ? false : c)), 4000);
+      return;
+    }
+    setConfirmingCancel(false);
+    void cancelBooking();
+  };
+
+  const cancelBooking = async () => {
+    setCancellingBooking(true);
+    try {
+      const res = await fetch(`/api/admin/bookings/${booking.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "cancelled" }),
+      });
+
+      if (res.ok) {
+        toast.success("Reservation cancelled");
+        await onSaved();
+        onClose();
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        toast.error("Failed to cancel: " + (errorData.error || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+      toast.error("Failed to cancel booking");
+    } finally {
+      setCancellingBooking(false);
+    }
   };
 
   const deleteBooking = async () => {
@@ -574,17 +613,36 @@ We look forward to welcoming you! ✨`
             </>
           ) : (
             <>
-              <button
-                onClick={requestDelete}
-                disabled={deletingBooking}
-                className={`px-4 py-2 text-[13px] font-medium rounded-lg transition-colors disabled:opacity-50 ${
-                  confirmingDelete
-                    ? "bg-brick/10 text-brick"
-                    : "text-brick hover:bg-brick/10"
-                }`}
-              >
-                {deletingBooking ? "Deleting..." : confirmingDelete ? "Tap to confirm" : "Delete"}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={requestDelete}
+                  disabled={deletingBooking || cancellingBooking}
+                  className={`px-4 py-2 text-[13px] font-medium rounded-lg transition-colors disabled:opacity-50 ${
+                    confirmingDelete
+                      ? "bg-brick/10 text-brick"
+                      : "text-brick hover:bg-brick/10"
+                  }`}
+                >
+                  {deletingBooking ? "Deleting..." : confirmingDelete ? "Tap to confirm" : "Delete"}
+                </button>
+                {!isAlreadyCancelled && (
+                  <button
+                    onClick={requestCancel}
+                    disabled={cancellingBooking || deletingBooking}
+                    className={`px-4 py-2 text-[13px] font-medium rounded-lg transition-colors disabled:opacity-50 ${
+                      confirmingCancel
+                        ? "bg-brick/10 text-brick"
+                        : "text-ink-secondary hover:bg-parchment"
+                    }`}
+                  >
+                    {cancellingBooking
+                      ? "Cancelling..."
+                      : confirmingCancel
+                      ? "Tap to confirm cancel"
+                      : "Cancel reservation"}
+                  </button>
+                )}
+              </div>
               <button
                 onClick={startEditing}
                 className="px-6 py-2 bg-accent text-cream text-[13px] font-medium rounded-lg hover:bg-accent-strong transition-colors"
