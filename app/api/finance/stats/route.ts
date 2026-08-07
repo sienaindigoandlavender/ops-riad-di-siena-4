@@ -153,6 +153,7 @@ export async function GET() {
     // Occupancy % by month (full-month divisor) and a realized YTD headline.
     const occupancyMonthly: Record<string, number[]> = {};
     const occupancyByYear: Record<string, number> = {};
+    const revparByYear: Record<string, number> = {};
 
     for (const yStr of Array.from(years)) {
       const y = Number(yStr);
@@ -179,6 +180,12 @@ export async function GET() {
         : (soldByYearMonth[yStr] || []).reduce((a, b) => a + b, 0);
       const avail = TOTAL_ROOMS * elapsedDays;
       occupancyByYear[yStr] = avail > 0 ? (realizedSold / avail) * 100 : 0;
+
+      // RevPAR = total room revenue ÷ available room-nights (same basis as
+      // the realized occupancy above, so occupancy and RevPAR reconcile).
+      const yc = byYear[yStr];
+      const totalRev = yc ? yc.direct.revenue + yc.airbnb.revenue + yc.booking.revenue : 0;
+      revparByYear[yStr] = avail > 0 ? totalRev / avail : 0;
     }
 
     const sortedYears = Array.from(years).sort();
@@ -191,6 +198,7 @@ export async function GET() {
       cityTaxByYear,
       occupancyByYear,
       occupancyMonthly,
+      revparByYear,
       today: todayFloor.toISOString().slice(0, 10),
       generatedAt: new Date().toISOString(),
     });
