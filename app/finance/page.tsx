@@ -22,6 +22,7 @@ interface FinanceStats {
   cityTaxByYear: Record<string, number>;
   occupancyByYear: Record<string, number>;
   occupancyMonthly: Record<string, number[]>;
+  revparByYear: Record<string, number>;
   today: string;
   generatedAt: string;
 }
@@ -176,8 +177,11 @@ export default function FinancePage() {
   const adr = yearTotals.nights > 0 ? yearTotals.total / yearTotals.nights : 0;
   const avgBooking = yearTotals.bookings > 0 ? yearTotals.total / yearTotals.bookings : 0;
   const occupancy = stats?.occupancyByYear[year] || 0;
+  const revpar = stats?.revparByYear[year] || 0;
+  const alos = yearTotals.bookings > 0 ? yearTotals.nights / yearTotals.bookings : 0;
   const rooms = stats?.rooms || 6;
   const pct = (v: number) => (yearTotals.total > 0 ? (v / yearTotals.total) * 100 : 0);
+  const directPct = pct(yearTotals.direct);
 
   return (
     <div className="min-h-screen bg-cream">
@@ -399,6 +403,18 @@ export default function FinancePage() {
               <div className="p-4 bg-cream border border-border-subtle rounded-lg">
                 <p className="font-serif text-[24px] tracking-[-0.02em] text-ink-primary">{eur2.format(adr)}</p>
                 <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em] mt-1">ADR</p>
+              </div>
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg">
+                <p className="font-serif text-[24px] tracking-[-0.02em] text-ink-primary">{eur2.format(revpar)}</p>
+                <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em] mt-1">RevPAR</p>
+              </div>
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg">
+                <p className="font-serif text-[24px] tracking-[-0.02em] text-ink-primary">{directPct.toFixed(0)}%</p>
+                <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em] mt-1">Direct share</p>
+              </div>
+              <div className="p-4 bg-cream border border-border-subtle rounded-lg">
+                <p className="font-serif text-[24px] tracking-[-0.02em] text-ink-primary">{alos.toFixed(1)}</p>
+                <p className="text-[11px] text-ink-tertiary uppercase tracking-[0.08em] mt-1">Avg nights / stay</p>
               </div>
               <div className="p-4 bg-cream border border-border-subtle rounded-lg">
                 <p className="font-serif text-[24px] tracking-[-0.02em] text-ink-primary">{yearTotals.nights}</p>
