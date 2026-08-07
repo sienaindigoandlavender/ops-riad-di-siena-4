@@ -49,6 +49,9 @@ export default function FinancePage() {
   const [error, setError] = useState<string | null>(null);
   const [year, setYear] = useState<string>("");
   const [showAddBooking, setShowAddBooking] = useState(false);
+  const [showImport, setShowImport] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [importMsg, setImportMsg] = useState<{ type: "ok" | "error"; text: string } | null>(null);
 
   const loadStats = async () => {
     try {
@@ -73,6 +76,31 @@ export default function FinancePage() {
     loadStats().finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleAirbnbImport = async (file: File) => {
+    setImporting(true);
+    setImportMsg(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/finance/import-airbnb", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) {
+        setImportMsg({ type: "error", text: data.error || "Import failed" });
+        return;
+      }
+      const r = data.results;
+      setImportMsg({
+        type: "ok",
+        text: `${r.reservations} reservations · €${Math.round(r.totalNet).toLocaleString("en-GB")} net · ${r.added} new, ${r.updated} updated`,
+      });
+      await loadStats();
+    } catch {
+      setImportMsg({ type: "error", text: "Import failed" });
+    } finally {
+      setImporting(false);
+    }
+  };
 
   const currentYear = String(new Date().getFullYear());
   const currentMonth0 = new Date().getMonth();
@@ -176,6 +204,12 @@ export default function FinancePage() {
                   </button>
                 ))}
               </div>
+              <button
+                onClick={() => { setShowImport(true); setImportMsg(null); }}
+                className="px-3.5 py-1.5 border border-border text-ink-body text-[12px] font-medium rounded-md hover:border-border-strong transition-colors whitespace-nowrap"
+              >
+                Import Airbnb
+              </button>
               <button
                 onClick={() => setShowAddBooking(true)}
                 className="px-3.5 py-1.5 bg-accent text-cream text-[12px] font-medium rounded-md hover:bg-accent-strong transition-colors whitespace-nowrap"
@@ -397,6 +431,72 @@ export default function FinancePage() {
             await loadStats();
           }}
         />
+      )}
+
+      {showImport && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/10" onClick={() => !importing && setShowImport(false)} />
+          <div className="relative bg-cream border border-border-subtle rounded-lg w-full max-w-md p-7 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-serif text-[18px] tracking-[-0.02em]">Import Airbnb earnings</h2>
+              <button
+                onClick={() => !importing && setShowImport(false)}
+                className="text-ink-tertiary hover:text-ink-primary transition-colors"
+                aria-label="Close"
+              >
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M4 4l8 8M12 4l-8 8" />
+                </svg>
+              </button>
+            </div>
+
+            <p className="text-[12px] text-ink-tertiary leading-relaxed mb-5">
+              Airbnb → Transaction history → set your date range → Export CSV. This is the earnings file (net payouts),
+              not the reservations export. It backfills history and true net revenue.
+            </p>
+
+            <label
+              className={`block border-2 border-dashed border-border rounded-lg p-8 text-center transition-colors ${
+                importing ? "opacity-50 pointer-events-none" : "cursor-pointer hover:border-border-strong"
+              }`}
+            >
+              <input
+                type="file"
+                accept=".csv"
+                className="hidden"
+                disabled={importing}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) handleAirbnbImport(f);
+                  e.target.value = "";
+                }}
+              />
+              {importing ? (
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-6 h-6 border-2 border-border border-t-black rounded-full animate-spin" />
+                  <span className="text-[13px] text-ink-secondary">Processing…</span>
+                </div>
+              ) : (
+                <>
+                  <p className="text-[13px] text-ink-body mb-1">Drop the earnings CSV or click to select</p>
+                  <p className="text-[11px] text-ink-tertiary">EUR reservation rows are netted per booking</p>
+                </>
+              )}
+            </label>
+
+            {importMsg && (
+              <div
+                className={`mt-4 p-3 rounded-lg text-[12px] ${
+                  importMsg.type === "ok"
+                    ? "bg-sage/10 border border-sage/30 text-forest"
+                    : "bg-brick/10 border border-brick/30 text-brick"
+                }`}
+              >
+                {importMsg.text}
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
