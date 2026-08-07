@@ -49,7 +49,7 @@ export default function FinancePage() {
   const [error, setError] = useState<string | null>(null);
   const [year, setYear] = useState<string>("");
   const [showAddBooking, setShowAddBooking] = useState(false);
-  const [showImport, setShowImport] = useState(false);
+  const [importSource, setImportSource] = useState<null | "airbnb" | "booking">(null);
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState<{ type: "ok" | "error"; text: string } | null>(null);
 
@@ -77,13 +77,14 @@ export default function FinancePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleAirbnbImport = async (file: File) => {
+  const handleImport = async (file: File, source: "airbnb" | "booking") => {
     setImporting(true);
     setImportMsg(null);
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const res = await fetch("/api/finance/import-airbnb", { method: "POST", body: fd });
+      const endpoint = source === "airbnb" ? "/api/finance/import-airbnb" : "/api/finance/import-booking";
+      const res = await fetch(endpoint, { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) {
         setImportMsg({ type: "error", text: data.error || "Import failed" });
@@ -205,10 +206,16 @@ export default function FinancePage() {
                 ))}
               </div>
               <button
-                onClick={() => { setShowImport(true); setImportMsg(null); }}
-                className="px-3.5 py-1.5 border border-border text-ink-body text-[12px] font-medium rounded-md hover:border-border-strong transition-colors whitespace-nowrap"
+                onClick={() => { setImportSource("airbnb"); setImportMsg(null); }}
+                className="px-3 py-1.5 border border-border text-ink-body text-[12px] font-medium rounded-md hover:border-border-strong transition-colors whitespace-nowrap"
               >
                 Import Airbnb
+              </button>
+              <button
+                onClick={() => { setImportSource("booking"); setImportMsg(null); }}
+                className="px-3 py-1.5 border border-border text-ink-body text-[12px] font-medium rounded-md hover:border-border-strong transition-colors whitespace-nowrap"
+              >
+                Import Booking
               </button>
               <button
                 onClick={() => setShowAddBooking(true)}
@@ -433,14 +440,16 @@ export default function FinancePage() {
         />
       )}
 
-      {showImport && (
+      {importSource && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/10" onClick={() => !importing && setShowImport(false)} />
+          <div className="absolute inset-0 bg-black/10" onClick={() => !importing && setImportSource(null)} />
           <div className="relative bg-cream border border-border-subtle rounded-lg w-full max-w-md p-7 shadow-lg">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-serif text-[18px] tracking-[-0.02em]">Import Airbnb earnings</h2>
+              <h2 className="font-serif text-[18px] tracking-[-0.02em]">
+                {importSource === "airbnb" ? "Import Airbnb earnings" : "Import Booking.com statements"}
+              </h2>
               <button
-                onClick={() => !importing && setShowImport(false)}
+                onClick={() => !importing && setImportSource(null)}
                 className="text-ink-tertiary hover:text-ink-primary transition-colors"
                 aria-label="Close"
               >
@@ -451,8 +460,9 @@ export default function FinancePage() {
             </div>
 
             <p className="text-[12px] text-ink-tertiary leading-relaxed mb-5">
-              Airbnb → Transaction history → set your date range → Export CSV. This is the earnings file (net payouts),
-              not the reservations export. It backfills history and true net revenue.
+              {importSource === "airbnb"
+                ? "Airbnb → Transaction history → set your date range → Export CSV. This is the earnings file (net payouts), not the reservations export."
+                : "Booking.com Extranet → Finance → Reservation statements → pick the period → Download CSV. These carry the true net after commission."}
             </p>
 
             <label
@@ -467,7 +477,7 @@ export default function FinancePage() {
                 disabled={importing}
                 onChange={(e) => {
                   const f = e.target.files?.[0];
-                  if (f) handleAirbnbImport(f);
+                  if (f && importSource) handleImport(f, importSource);
                   e.target.value = "";
                 }}
               />
@@ -478,8 +488,8 @@ export default function FinancePage() {
                 </div>
               ) : (
                 <>
-                  <p className="text-[13px] text-ink-body mb-1">Drop the earnings CSV or click to select</p>
-                  <p className="text-[11px] text-ink-tertiary">EUR reservation rows are netted per booking</p>
+                  <p className="text-[13px] text-ink-body mb-1">Drop the CSV or click to select</p>
+                  <p className="text-[11px] text-ink-tertiary">Net revenue is calculated per booking</p>
                 </>
               )}
             </label>
