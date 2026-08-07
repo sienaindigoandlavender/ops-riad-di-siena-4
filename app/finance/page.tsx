@@ -57,18 +57,20 @@ export default function FinancePage() {
     try {
       const res = await fetch("/api/finance/stats");
       const data: FinanceStats = await res.json();
-      if ((data as unknown as { error?: string }).error) {
-        setError("Could not load finance data.");
+      if (!res.ok || (data as unknown as { error?: string }).error) {
+        const d = data as unknown as { error?: string; details?: string };
+        setError(d.details ? `${d.error || "Error"} — ${d.details}` : d.error || "Could not load finance data.");
         return;
       }
+      setError(null);
       setStats(data);
       setYear((prev) => {
         if (prev) return prev;
         const thisYear = String(new Date().getFullYear());
         return data.years?.includes(thisYear) ? thisYear : data.years?.[data.years.length - 1] || thisYear;
       });
-    } catch {
-      setError("Could not load finance data.");
+    } catch (e) {
+      setError(`Could not load finance data. ${e instanceof Error ? e.message : ""}`.trim());
     }
   };
 
@@ -190,8 +192,8 @@ export default function FinancePage() {
               <p className="text-[11px] text-ink-tertiary">Revenue &amp; occupancy</p>
             </div>
           </div>
-          {stats && stats.years.length > 0 && (
-            <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3">
+            {stats && stats.years.length > 0 && (
               <div className="flex items-center gap-1">
                 {stats.years.map((y) => (
                   <button
@@ -205,26 +207,26 @@ export default function FinancePage() {
                   </button>
                 ))}
               </div>
-              <button
-                onClick={() => { setImportSource("airbnb"); setImportMsg(null); }}
-                className="px-3 py-1.5 border border-border text-ink-body text-[12px] font-medium rounded-md hover:border-border-strong transition-colors whitespace-nowrap"
-              >
-                Import Airbnb
-              </button>
-              <button
-                onClick={() => { setImportSource("booking"); setImportMsg(null); }}
-                className="px-3 py-1.5 border border-border text-ink-body text-[12px] font-medium rounded-md hover:border-border-strong transition-colors whitespace-nowrap"
-              >
-                Import Booking
-              </button>
-              <button
-                onClick={() => setShowAddBooking(true)}
-                className="px-3.5 py-1.5 bg-accent text-cream text-[12px] font-medium rounded-md hover:bg-accent-strong transition-colors whitespace-nowrap"
-              >
-                + Direct booking
-              </button>
-            </div>
-          )}
+            )}
+            <button
+              onClick={() => { setImportSource("airbnb"); setImportMsg(null); }}
+              className="px-3 py-1.5 border border-border text-ink-body text-[12px] font-medium rounded-md hover:border-border-strong transition-colors whitespace-nowrap"
+            >
+              Import Airbnb
+            </button>
+            <button
+              onClick={() => { setImportSource("booking"); setImportMsg(null); }}
+              className="px-3 py-1.5 border border-border text-ink-body text-[12px] font-medium rounded-md hover:border-border-strong transition-colors whitespace-nowrap"
+            >
+              Import Booking
+            </button>
+            <button
+              onClick={() => setShowAddBooking(true)}
+              className="px-3.5 py-1.5 bg-accent text-cream text-[12px] font-medium rounded-md hover:bg-accent-strong transition-colors whitespace-nowrap"
+            >
+              + Direct booking
+            </button>
+          </div>
         </div>
       </header>
 
