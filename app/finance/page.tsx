@@ -39,7 +39,7 @@ const eur0 = new Intl.NumberFormat("en-GB", { style: "currency", currency: "EUR"
 const eur2 = new Intl.NumberFormat("en-GB", { style: "currency", currency: "EUR", maximumFractionDigits: 2 });
 
 function yearRevenue(stats: FinanceStats, y: string): number {
-  const c = stats.byYear[y];
+  const c = stats.byYear?.[y];
   if (!c) return 0;
   return c.direct.revenue + c.airbnb.revenue + c.booking.revenue;
 }
@@ -111,8 +111,8 @@ export default function FinancePage() {
 
   const yearTotals = useMemo(() => {
     const empty = { direct: 0, airbnb: 0, booking: 0, total: 0, nights: 0, bookings: 0 };
-    if (!stats || !year || !stats.byYear[year]) return empty;
-    const y = stats.byYear[year];
+    if (!stats || !year || !stats.byYear?.[year]) return empty;
+    const y = stats.byYear[year]!;
     const direct = y.direct.revenue, airbnb = y.airbnb.revenue, booking = y.booking.revenue;
     return {
       direct, airbnb, booking,
@@ -133,7 +133,7 @@ export default function FinancePage() {
 
     const isCurrent = year === currentYear;
     const sumThrough = (y: string, upto0: number) => {
-      const m = stats.monthly[y] || {};
+      const m = stats.monthly?.[y] || {};
       let s = 0;
       for (let i = 0; i <= upto0; i++) {
         const k = String(i + 1).padStart(2, "0");
@@ -156,8 +156,8 @@ export default function FinancePage() {
   }, [stats, year, currentYear, currentMonth0]);
 
   const monthlyData = useMemo(() => {
-    const months = stats?.monthly[year] || {};
-    const occ = stats?.occupancyMonthly[year] || new Array(12).fill(0);
+    const months = stats?.monthly?.[year] || {};
+    const occ = stats?.occupancyMonthly?.[year] || new Array(12).fill(0);
     return MONTHS.map((label, i) => {
       const key = String(i + 1).padStart(2, "0");
       const m = months[key] || { direct: 0, airbnb: 0, booking: 0 };
@@ -176,8 +176,8 @@ export default function FinancePage() {
 
   const adr = yearTotals.nights > 0 ? yearTotals.total / yearTotals.nights : 0;
   const avgBooking = yearTotals.bookings > 0 ? yearTotals.total / yearTotals.bookings : 0;
-  const occupancy = stats?.occupancyByYear[year] || 0;
-  const revpar = stats?.revparByYear[year] || 0;
+  const occupancy = stats?.occupancyByYear?.[year] || 0;
+  const revpar = stats?.revparByYear?.[year] || 0;
   const alos = yearTotals.bookings > 0 ? yearTotals.nights / yearTotals.bookings : 0;
   const rooms = stats?.rooms || 6;
   const pct = (v: number) => (yearTotals.total > 0 ? (v / yearTotals.total) * 100 : 0);
