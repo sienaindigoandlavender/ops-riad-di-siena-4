@@ -1,173 +1,247 @@
-import { NextResponse } from "next/server";
-import { getAllGuests, MasterGuest } from "@/lib/supabase";
+import { NextRequest, NextResponse } from "next/server";
+import {
+  getAllGuests,
+  insertGuests,
+  updateGuestByBookingId,
+  MasterGuest,
+} from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-// ── Sellable inventory ───────────────────────────────────────────────
-// Rooms available to sell, used as the occupancy denominator.
-// Jewel Box is Jacqueline's own room but is released now and then — mostly
-// for direct reservations outside Booking.com / Airbnb — so it counts as
-// inventory. Remove it here only if it's fully off the market.
-const SELLABLE_ROOMS = [
-  "Hidden Gem",   // The Riad
-  "Jewel Box",    // The Riad — occasionally released for direct stays
-  "Trésor Caché", // The Riad
-  "Bliss",        // The Douaria
-  "Joy",          // The Douaria
-  "Love",         // The Douaria
+// ─────────────────────────────────────────────────────────────────────
+// Airbnb Transaction History ("earnings") importer.
+//
+// This is a DIFFERENT file from the Reservations export handled by /import.
+// It contains payouts, adjustments, cancellation fees and multiple rows per
+// reservation, across several currencies. We keep only EUR revenue rows,
+// net them per confirmation code, and upsert into master_guests as the
+// canonical (net) Airbnb revenue. No cancellation sweep — this is history,
+// not a clean forward list.
+// ─────────────────────────────────────────────────────────────────────
+
+// Transaction "Type" values that represent money we keep (all summed, so
+// negative adjustments reduce the net for that reservation).
+const REVENUE_TYPES = new Set([
+  "Reservation",
+  "Resolution Adjustment",
+  "Resolution Payout",
+  "Adjustment",
+  "Cancellation Fee",
+  "Cancellation Fee Refund",
+  "Paid Photography Adjustment",
+]);
+
+const ROOM_MAPPINGS: { pattern: RegExp; room: string; property: string }[] = [
+  { pattern: /hidden\s*gem/i, room: "Hidden Gem", property: "The Riad" },
+  { pattern: /tresor|trésor/i, room: "Trésor Caché", property: "The Riad" },
+  { pattern: /jewel\s*box/i, room: "Jewel Box", property: "The Riad" },
+  { pattern: /\blove\b/i, room: "Love", property: "The Douaria" },
+  { pattern: /\bjoy\b/i, room: "Joy", property: "The Douaria" },
+  { pattern: /\bbliss\b/i, room: "Bliss", property: "The Douaria" },
 ];
-const TOTAL_ROOMS = SELLABLE_ROOMS.length;
 
-type Channel = "direct" | "airbnb" | "booking";
-
-function classifyChannel(source: string): Channel {
-  const s = (source || "").trim().toLowerCase();
-  if (s.includes("airbnb")) return "airbnb";
-  if (s.includes("booking")) return "booking";
-  return "direct";
+function mapListing(listing: string): { property: string; room: string } {
+  if (!listing) return { property: "The Riad", room: "" };
+  for (const m of ROOM_MAPPINGS) {
+    if (m.pattern.test(listing)) return { property: m.property, room: m.room };
+  }
+  const lower = listing.toLowerCase();
+  if (lower.includes("annex") || lower.includes("douaria")) return { property: "The Douaria", room: "" };
+  return { property: "The Riad", room: "" };
 }
 
-/** Parse "YYYY-MM-DD" or "M/D/YYYY" into a Date (local, midnight). */
-function parseDate(raw: string): Date | null {
-  if (!raw) return null;
-  const d = new Date(raw);
-  return isNaN(d.getTime()) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+/** MM/DD/YYYY → YYYY-MM-DD. */
+function toISO(dateStr: string): string {
+  if (!dateStr) return "";
+  const us = dateStr.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (us) return `${us[3]}-${us[1].padStart(2, "0")}-${us[2].padStart(2, "0")}`;
+  const d = new Date(dateStr);
+  return isNaN(d.getTime()) ? "" : d.toISOString().slice(0, 10);
 }
 
-interface ChannelTotals {
-  revenue: number;
+function parseCSV(text: string): { headers: string[]; rows: Record<string, string>[] } {
+  const parseRow = (line: string): string[] => {
+    const out: string[] = [];
+    let cur = "";
+    let inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') {
+        if (inQ && line[i + 1] === '"') { cur += '"'; i++; }
+        else inQ = !inQ;
+      } else if (c === "," && !inQ) {
+        out.push(cur);
+        cur = "";
+      } else {
+        cur += c;
+      }
+    }
+    out.push(cur);
+    return out.map((s) => s.trim());
+  };
+
+  // Strip BOM, split on newlines, drop blank lines.
+  const clean = text.replace(/^\uFEFF/, "");
+  const lines = clean.split(/\r?\n/).filter((l) => l.trim().length > 0);
+  if (lines.length < 2) return { headers: [], rows: [] };
+
+  const headers = parseRow(lines[0]);
+  const rows = lines.slice(1).map((line) => {
+    const vals = parseRow(line);
+    const obj: Record<string, string> = {};
+    headers.forEach((h, i) => (obj[h] = vals[i] ?? ""));
+    return obj;
+  });
+  return { headers, rows };
+}
+
+interface AggRecord {
+  net: number;
+  gross: number;
+  check_in: string;
+  check_out: string;
   nights: number;
-  bookings: number;
-}
-const emptyChannel = (): ChannelTotals => ({ revenue: 0, nights: 0, bookings: 0 });
-
-function daysInYear(y: number): number {
-  return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0 ? 366 : 365;
-}
-function daysInMonth(y: number, m0: number): number {
-  return new Date(y, m0 + 1, 0).getDate();
+  listing: string;
+  guest: string;
+  hasReservation: boolean;
 }
 
-export async function GET() {
+export async function POST(request: NextRequest) {
   try {
-    const guests = await getAllGuests();
+    const formData = await request.formData();
+    const file = formData.get("file") as File | null;
+    if (!file) return NextResponse.json({ error: "No file provided" }, { status: 400 });
 
-    const bookings = guests.filter((g: MasterGuest) => {
-      const src = (g.source || "").toLowerCase();
-      if (src === "blocked" || src === "blackout") return false;
-      if ((g.status || "").toLowerCase() === "cancelled") return false;
-      if (!g.check_in) return false;
-      return true;
-    });
+    const text = await file.text();
+    const { headers, rows } = parseCSV(text);
 
-    const byYear: Record<string, Record<Channel, ChannelTotals>> = {};
-    const monthly: Record<string, Record<string, Record<Channel, number>>> = {};
-    const cityTaxByYear: Record<string, number> = {};
-    const years = new Set<string>();
+    // Validate this really is the transaction-history export.
+    const hset = new Set(headers.map((h) => h.toLowerCase()));
+    const looksRight =
+      hset.has("type") && hset.has("confirmation code") && hset.has("amount") && hset.has("currency");
+    if (!looksRight) {
+      return NextResponse.json(
+        {
+          error:
+            "This doesn't look like an Airbnb transaction/earnings export. Expected columns include Type, Confirmation code, Amount, Currency. For the reservations export, use the Import page instead.",
+          detectedHeaders: headers.slice(0, 12),
+        },
+        { status: 400 }
+      );
+    }
 
-    // Occupancy is measured in room-nights distributed across the actual
-    // calendar. soldByYearMonth[year][m0] = nights physically occupied that month.
-    const soldByYearMonth: Record<string, number[]> = {};
-    // Realized nights = nights that fall on or before "today" (for YTD occupancy).
-    const realizedSoldByYear: Record<string, number> = {};
+    // Aggregate EUR revenue rows by confirmation code.
+    const agg = new Map<string, AggRecord>();
+    let skippedNonEur = 0;
+    let payoutRows = 0;
 
-    const today = new Date();
-    const todayFloor = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    for (const r of rows) {
+      const type = (r["Type"] || "").trim();
+      const currency = (r["Currency"] || "").trim().toUpperCase();
+      if (type === "Payout") { payoutRows++; continue; }
+      if (!REVENUE_TYPES.has(type)) continue;
+      if (currency !== "EUR") { skippedNonEur++; continue; }
 
-    for (const b of bookings) {
-      const checkIn = parseDate(b.check_in);
-      if (!checkIn) continue;
+      const code = (r["Confirmation code"] || "").trim();
+      if (!code) continue; // adjustments with no code can't be placed on a stay
 
-      const year = String(checkIn.getFullYear());
-      const monthKey = String(checkIn.getMonth() + 1).padStart(2, "0");
-      const channel = classifyChannel(b.source);
-      const revenue = Number(b.total_eur) || 0;
-      const nights = Number(b.nights) || 0;
-      const cityTax = Number(b.city_tax) || 0;
+      const amount = parseFloat((r["Amount"] || "0").replace(/[^\d.-]/g, "")) || 0;
+      const gross = parseFloat((r["Gross earnings"] || "0").replace(/[^\d.-]/g, "")) || 0;
 
-      years.add(year);
-
-      // Revenue + bookings are recognised at check-in month (standard, simple).
-      if (!byYear[year]) {
-        byYear[year] = { direct: emptyChannel(), airbnb: emptyChannel(), booking: emptyChannel() };
+      let rec = agg.get(code);
+      if (!rec) {
+        rec = { net: 0, gross: 0, check_in: "", check_out: "", nights: 0, listing: "", guest: "", hasReservation: false };
+        agg.set(code, rec);
       }
-      byYear[year][channel].revenue += revenue;
-      byYear[year][channel].nights += nights;
-      byYear[year][channel].bookings += 1;
+      rec.net += amount;
+      rec.gross += gross;
 
-      if (!monthly[year]) monthly[year] = {};
-      if (!monthly[year][monthKey]) monthly[year][monthKey] = { direct: 0, airbnb: 0, booking: 0 };
-      monthly[year][monthKey][channel] += revenue;
-
-      cityTaxByYear[year] = (cityTaxByYear[year] || 0) + cityTax;
-
-      // Occupancy: walk the actual nights (check-in .. check-out-1). Fall back
-      // to check-in + nights when check-out is missing.
-      let checkOut = parseDate(b.check_out);
-      if (!checkOut && nights > 0) {
-        checkOut = new Date(checkIn);
-        checkOut.setDate(checkOut.getDate() + nights);
-      }
-      if (checkOut && checkOut > checkIn) {
-        const cur = new Date(checkIn);
-        while (cur < checkOut) {
-          const yy = String(cur.getFullYear());
-          const mm = cur.getMonth();
-          years.add(yy);
-          if (!soldByYearMonth[yy]) soldByYearMonth[yy] = new Array(12).fill(0);
-          soldByYearMonth[yy][mm] += 1;
-          if (cur <= todayFloor) realizedSoldByYear[yy] = (realizedSoldByYear[yy] || 0) + 1;
-          cur.setDate(cur.getDate() + 1);
-        }
+      if (type === "Reservation") {
+        rec.hasReservation = true;
+        rec.check_in = toISO(r["Start date"] || "");
+        rec.check_out = toISO(r["End date"] || "");
+        rec.nights = parseInt(r["Nights"] || "0", 10) || 0;
+        rec.listing = r["Listing"] || "";
+        rec.guest = r["Guest"] || "";
       }
     }
 
-    // Occupancy % by month (full-month divisor) and a realized YTD headline.
-    const occupancyMonthly: Record<string, number[]> = {};
-    const occupancyByYear: Record<string, number> = {};
+    // Existing bookings keyed by confirmation code, so we upsert.
+    const existing = await getAllGuests();
+    const existingByCode = new Map<string, MasterGuest>();
+    existing.forEach((g) => {
+      if (g.booking_id) existingByCode.set(g.booking_id.trim(), g);
+    });
 
-    for (const yStr of Array.from(years)) {
-      const y = Number(yStr);
-      const sold = soldByYearMonth[yStr] || new Array(12).fill(0);
+    const toAdd: Partial<MasterGuest>[] = [];
+    const results = {
+      reservations: 0,
+      added: 0,
+      updated: 0,
+      skippedNoDates: 0,
+      skippedNonEur,
+      payoutRows,
+      totalNet: 0,
+      byYear: {} as Record<string, number>,
+    };
 
-      occupancyMonthly[yStr] = sold.map((n, m0) => {
-        const avail = TOTAL_ROOMS * daysInMonth(y, m0);
-        return avail > 0 ? (n / avail) * 100 : 0;
-      });
-
-      // Realized occupancy: nights through today ÷ rooms × elapsed days.
-      // Past years use the full year; current year uses days elapsed so the
-      // number reflects how full we've actually been, not a diluted annual figure.
-      const isCurrent = y === today.getFullYear();
-      let elapsedDays: number;
-      if (y < today.getFullYear()) elapsedDays = daysInYear(y);
-      else if (y > today.getFullYear()) elapsedDays = daysInYear(y);
-      else {
-        const start = new Date(y, 0, 1);
-        elapsedDays = Math.floor((todayFloor.getTime() - start.getTime()) / 86400000) + 1;
+    for (const [code, rec] of Array.from(agg.entries())) {
+      // Need a Reservation row (for dates) to place the stay; skip pure-adjustment codes.
+      if (!rec.hasReservation || !rec.check_in) {
+        results.skippedNoDates++;
+        continue;
       }
-      const realizedSold = isCurrent
-        ? realizedSoldByYear[yStr] || 0
-        : (soldByYearMonth[yStr] || []).reduce((a, b) => a + b, 0);
-      const avail = TOTAL_ROOMS * elapsedDays;
-      occupancyByYear[yStr] = avail > 0 ? (realizedSold / avail) * 100 : 0;
+
+      results.reservations++;
+      const net = Math.round(rec.net * 100) / 100;
+      results.totalNet += net;
+      const y = rec.check_in.slice(0, 4);
+      results.byYear[y] = (results.byYear[y] || 0) + net;
+
+      const { property, room } = mapListing(rec.listing);
+      const nameParts = rec.guest.trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
+
+      const existingRow = existingByCode.get(code);
+      if (existingRow) {
+        // Update only financial + stay fields — leave operational flags intact.
+        await updateGuestByBookingId(code, {
+          source: "Airbnb",
+          status: "confirmed",
+          check_in: rec.check_in || undefined,
+          check_out: rec.check_out || undefined,
+          nights: rec.nights || null,
+          property,
+          room,
+          total_eur: net,
+        });
+        results.updated++;
+      } else {
+        toAdd.push({
+          booking_id: code,
+          source: "Airbnb",
+          status: "confirmed",
+          first_name: firstName,
+          last_name: lastName,
+          property,
+          room,
+          check_in: rec.check_in || undefined,
+          check_out: rec.check_out || undefined,
+          nights: rec.nights || null,
+          total_eur: net,
+        });
+        results.added++;
+      }
     }
 
-    const sortedYears = Array.from(years).sort();
+    if (toAdd.length > 0) await insertGuests(toAdd);
 
-    return NextResponse.json({
-      years: sortedYears,
-      rooms: TOTAL_ROOMS,
-      byYear,
-      monthly,
-      cityTaxByYear,
-      occupancyByYear,
-      occupancyMonthly,
-      today: todayFloor.toISOString().slice(0, 10),
-      generatedAt: new Date().toISOString(),
-    });
+    results.totalNet = Math.round(results.totalNet * 100) / 100;
+
+    return NextResponse.json({ success: true, source: "airbnb-earnings", results });
   } catch (error) {
-    console.error("Finance stats error:", error);
-    return NextResponse.json({ error: "Failed to fetch finance stats" }, { status: 500 });
+    console.error("Airbnb earnings import error:", error);
+    return NextResponse.json({ error: "Import failed", details: String(error) }, { status: 500 });
   }
 }
