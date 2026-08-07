@@ -4,7 +4,7 @@ export const DOUARIA_ROOMS = ["Bliss", "Joy", "Love"];
 export const ALL_ROOMS = [...RIAD_ROOMS, ...DOUARIA_ROOMS];
 
 // Source options for new bookings
-export const BOOKING_SOURCES = ["Website", "WhatsApp", "Direct", "Email", "Airbnb", "Booking.com", "Other"];
+export const BOOKING_SOURCES = ["Website", "WhatsApp", "Direct", "Friends", "Email", "Airbnb", "Booking.com", "Other"];
 
 // Booking source colors — muted premium palette
 export const getSourceColor = (source: string): string => {
