@@ -123,6 +123,7 @@ interface GuestCardProps {
   sendDirectionsWhatsApp: (guest: GuestSummary) => void;
   onOpenPoliceForm: (guest: GuestSummary) => void;
   markTaxPaid: (guest: GuestSummary) => void;
+  sendTaxRequest: (guest: GuestSummary) => void;
   markingTaxId: string | null;
 }
 
@@ -147,6 +148,7 @@ function GuestCard({
   sendDirectionsWhatsApp,
   onOpenPoliceForm,
   markTaxPaid,
+  sendTaxRequest,
   markingTaxId,
 }: GuestCardProps) {
   const cityTax = calculateCityTax(guest);
@@ -339,7 +341,7 @@ function GuestCard({
 
       {/* Band 3b: Police + admin actions (check-ins only) */}
       {isCheckIn && (
-        <div className="px-5 py-3 border-t border-border-subtle">
+        <div className="px-5 py-3 border-t border-border-subtle flex flex-wrap gap-2">
           <button
             onClick={() => onOpenPoliceForm(guest)}
             className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary active:scale-[0.99] transition-all duration-300 ease-out font-light"
@@ -349,6 +351,18 @@ function GuestCard({
             </svg>
             Police Registration
           </button>
+
+          {calculateCityTax(guest) !== null && !guest.city_tax_paid && (
+            <button
+              onClick={() => sendTaxRequest(guest)}
+              className="inline-flex items-center gap-1.5 text-[11px] h-[36px] px-3 border border-border text-ink-secondary hover:text-ink-primary hover:border-ink-tertiary active:scale-[0.99] transition-all duration-300 ease-out font-light"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 8h6m-5 4h4m2 8l-3-2-3 2V6a2 2 0 012-2h2a2 2 0 012 2v14z" />
+              </svg>
+              Tax Request (€{calculateCityTax(guest)!.toFixed(2)})
+            </button>
+          )}
         </div>
       )}
 
@@ -567,8 +581,32 @@ See you soon!
     window.open(whatsappUrl, "_blank");
   }, []);
 
-  // Save manual arrival time
-  const saveManualTime = useCallback(async (guest: GuestSummary) => {
+  // Send a city-tax payment request via WhatsApp with a pre-filled PayPal link
+  const sendTaxRequest = useCallback((guest: GuestSummary) => {
+    const tax = calculateCityTax(guest);
+    if (tax === null || tax <= 0) return;
+    if (!guest.phone) {
+      alert("No phone number on file for this guest.");
+      return;
+    }
+    const amount = tax.toFixed(2);
+    const payLink = `https://www.paypal.com/paypalme/riaddisiena/${amount}EUR`;
+    const firstName = guest.guest_name.split(" ")[0];
+
+    const message = `Dear ${firstName},
+
+As required by Moroccan law, the city tax for your stay is €${amount} (€2.50 × ${guest.nights} ${guest.nights === 1 ? "night" : "nights"} × ${guest.guests} ${guest.guests === 1 ? "guest" : "guests"}).
+
+You can pay it here:
+${payLink}
+
+Thank you.
+— The Riad di Siena Team`;
+
+    const phoneNumber = guest.phone.replace(/[^0-9]/g, "");
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  }, []);
     if (!manualTime) return;
     setSaving(true);
     try {
@@ -1136,6 +1174,7 @@ See you soon!
                     sendDirectionsWhatsApp={sendDirectionsWhatsApp}
                     onOpenPoliceForm={setPoliceFormGuest}
                     markTaxPaid={markTaxPaid}
+                    sendTaxRequest={sendTaxRequest}
                     markingTaxId={markingTaxId}
                   />
                 ))}
@@ -1307,6 +1346,7 @@ See you soon!
                     sendDirectionsWhatsApp={sendDirectionsWhatsApp}
                     onOpenPoliceForm={setPoliceFormGuest}
                     markTaxPaid={markTaxPaid}
+                    sendTaxRequest={sendTaxRequest}
                     markingTaxId={markingTaxId}
                   />
                 ))}
