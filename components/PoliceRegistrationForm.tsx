@@ -26,6 +26,7 @@ export default function PoliceRegistrationForm({
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -35,8 +36,11 @@ export default function PoliceRegistrationForm({
     setter(file);
   };
 
-  // Upload one file to Cloudinary via the passport route; returns the secure URL.
-  const uploadOne = async (file: File | null, slot: string): Promise<string | null> => {
+  // Upload one file; returns both the URL (for reference) and the public_id (for deletion).
+  const uploadOne = async (
+    file: File | null,
+    slot: string
+  ): Promise<{ url: string; public_id: string } | null> => {
     if (!file) return null;
     const fd = new FormData();
     fd.append("file", file);
@@ -48,7 +52,7 @@ export default function PoliceRegistrationForm({
       throw new Error(msg.error || `Upload failed for ${slot}`);
     }
     const data = await res.json();
-    return data.url as string;
+    return { url: data.url as string, public_id: data.public_id as string };
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -71,18 +75,21 @@ export default function PoliceRegistrationForm({
         uploadOne(showGuest2 ? guest2StampFile : null, "g2-stamp"),
       ]);
 
-      // Persist the URLs onto the booking.
+      // Persist URLs + public_ids onto the booking.
       const saveRes = await fetch("/api/passport/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bookingId,
           urls: {
-            guest1_id: g1id,
-            guest1_stamp: g1stamp,
-            guest2_id: g2id,
-            guest2_stamp: g2stamp,
+            guest1_id: g1id?.url ?? null,
+            guest1_stamp: g1stamp?.url ?? null,
+            guest2_id: g2id?.url ?? null,
+            guest2_stamp: g2stamp?.url ?? null,
           },
+          public_ids: [g1id, g1stamp, g2id, g2stamp]
+            .filter(Boolean)
+            .map((f) => (f as { public_id: string }).public_id),
         }),
       });
       if (!saveRes.ok) {
@@ -96,6 +103,31 @@ export default function PoliceRegistrationForm({
     } catch (err) {
       setSaving(false);
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
+  };
+
+  // Permanently delete this booking's passport scans from Cloudinary + clear the record.
+  const handleDelete = async () => {
+    if (!confirm("Permanently delete all passport scans for this booking? This cannot be undone.")) {
+      return;
+    }
+    setError(null);
+    setDeleting(true);
+    try {
+      const res = await fetch("/api/passport/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookingId }),
+      });
+      if (!res.ok) {
+        const msg = await res.json().catch(() => ({}));
+        throw new Error(msg.detail || msg.error || "Failed to delete scans");
+      }
+      setDeleting(false);
+      onClose();
+    } catch (err) {
+      setDeleting(false);
+      setError(err instanceof Error ? err.message : "Delete failed. Please try again.");
     }
   };
 
@@ -120,14 +152,25 @@ export default function PoliceRegistrationForm({
             <h2 className="text-[15px] font-medium text-ink-primary">Police Registration</h2>
             <p className="text-[11px] text-ink-tertiary mt-0.5">Upload passport & entry stamp</p>
           </div>
-          <button
-            onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-parchment"
-          >
-            <svg className="w-5 h-5 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={deleting}
+              title="Permanently delete this booking's passport scans"
+              className="text-[11px] text-red-600 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded transition-colors disabled:opacity-50"
+            >
+              {deleting ? "Deleting…" : "Delete scans"}
+            </button>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-parchment"
+            >
+              <svg className="w-5 h-5 text-ink-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {saved ? (
