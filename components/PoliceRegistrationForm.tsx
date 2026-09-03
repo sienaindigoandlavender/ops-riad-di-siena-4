@@ -25,6 +25,7 @@ export default function PoliceRegistrationForm({
   const [guest2StampFile, setGuest2StampFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -34,22 +35,68 @@ export default function PoliceRegistrationForm({
     setter(file);
   };
 
+  // Upload one file to Cloudinary via the passport route; returns the secure URL.
+  const uploadOne = async (file: File | null, slot: string): Promise<string | null> => {
+    if (!file) return null;
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("bookingId", bookingId);
+    fd.append("slot", slot);
+    const res = await fetch("/api/passport/upload", { method: "POST", body: fd });
+    if (!res.ok) {
+      const msg = await res.json().catch(() => ({}));
+      throw new Error(msg.error || `Upload failed for ${slot}`);
+    }
+    const data = await res.json();
+    return data.url as string;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+    // Require at least Guest 1's passport page.
+    if (!guest1IdFile) {
+      setError("Guest 1 passport / ID page is required.");
+      return;
+    }
+
     setSaving(true);
+    try {
+      // Upload all provided files in parallel.
+      const [g1id, g1stamp, g2id, g2stamp] = await Promise.all([
+        uploadOne(guest1IdFile, "g1-id"),
+        uploadOne(guest1StampFile, "g1-stamp"),
+        uploadOne(showGuest2 ? guest2IdFile : null, "g2-id"),
+        uploadOne(showGuest2 ? guest2StampFile : null, "g2-stamp"),
+      ]);
 
-    // In a real implementation, you would upload files to cloud storage
-    // and save references to the database
-    // For now, we'll simulate a save
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Persist the URLs onto the booking.
+      const saveRes = await fetch("/api/passport/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId,
+          urls: {
+            guest1_id: g1id,
+            guest1_stamp: g1stamp,
+            guest2_id: g2id,
+            guest2_stamp: g2stamp,
+          },
+        }),
+      });
+      if (!saveRes.ok) {
+        const msg = await saveRes.json().catch(() => ({}));
+        throw new Error(msg.detail || msg.error || "Failed to save records");
+      }
 
-    setSaving(false);
-    setSaved(true);
-    
-    // Close after showing success
-    setTimeout(() => {
-      onClose();
-    }, 1500);
+      setSaving(false);
+      setSaved(true);
+      setTimeout(() => onClose(), 1500);
+    } catch (err) {
+      setSaving(false);
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
   };
 
   const formatDate = (dateStr: string) => {
@@ -293,6 +340,13 @@ export default function PoliceRegistrationForm({
                     </label>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Error */}
+            {error && (
+              <div className="text-[12px] text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {error}
               </div>
             )}
 
