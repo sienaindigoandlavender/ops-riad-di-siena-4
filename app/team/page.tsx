@@ -595,9 +595,11 @@ See you soon!
 
     const message = `Dear ${firstName},
 
-As required by Moroccan law, the city tax for your stay is €${amount} (€2.50 × ${guest.nights} ${guest.nights === 1 ? "night" : "nights"} × ${guest.guests} ${guest.guests === 1 ? "guest" : "guests"}).
+As required by Moroccan law, we collect a city tax for your stay.
 
-You can pay it here:
+City tax: €2.50 × ${guest.guests} ${guest.guests === 1 ? "guest" : "guests"} × ${guest.nights} ${guest.nights === 1 ? "night" : "nights"} = €${amount}
+
+Please pay exactly €${amount} here:
 ${payLink}
 
 Thank you.
@@ -607,6 +609,9 @@ Thank you.
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   }, []);
+
+  // Save manual arrival time
+  const saveManualTime = useCallback(async (guest: GuestSummary) => {
     if (!manualTime) return;
     setSaving(true);
     try {
