@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     let publicIds: string[] = [];
-    const raw = (guest as Record<string, unknown>).passport_public_ids;
+    const raw = (guest as unknown as Record<string, unknown>).passport_public_ids;
     if (typeof raw === "string" && raw.trim()) {
       try {
         const parsed = JSON.parse(raw);
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       passport_public_ids: null,
       passport_uploaded: false,
       passport_uploaded_at: null,
-    } as never);
+    } as unknown as Parameters<typeof updateGuestByBookingId>[1]);
 
     return NextResponse.json({ success: true, deleted: results });
   } catch (error: unknown) {
