@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       passport_uploaded_at: new Date().toISOString(),
     };
 
-    await updateGuestByBookingId(bookingId, updates as never);
+    await updateGuestByBookingId(bookingId, updates as unknown as Parameters<typeof updateGuestByBookingId>[1]);
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
