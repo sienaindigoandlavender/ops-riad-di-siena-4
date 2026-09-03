@@ -6,38 +6,40 @@ interface PasswordGateProps {
   children: React.ReactNode;
 }
 
-const CORRECT_PASSWORD = process.env.NEXT_PUBLIC_OPS_PASSWORD || "bryani&1815";
-
 export default function PasswordGate({ children }: PasswordGateProps) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    // Bump this when the password changes to invalidate existing sessions
-    const AUTH_KEY = "ops_auth_expires_v2";
-    // Clear any prior-version key so old sessions are logged out
-    localStorage.removeItem("ops_auth_expires");
-    const stored = localStorage.getItem(AUTH_KEY);
-    if (stored && parseInt(stored) > Date.now()) {
-      setIsAuthenticated(true);
-    } else {
-      if (stored) localStorage.removeItem(AUTH_KEY);
-      setIsAuthenticated(false);
-    }
+    // Ask the server whether we already have a valid session cookie.
+    fetch("/api/auth/check")
+      .then((r) => setIsAuthenticated(r.ok))
+      .catch(() => setIsAuthenticated(false));
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === CORRECT_PASSWORD) {
-      const expiryMs = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
-      localStorage.setItem("ops_auth_expires_v2", String(expiryMs));
-      setIsAuthenticated(true);
-      setError(false);
-    } else {
+    setSubmitting(true);
+    setError(false);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        setIsAuthenticated(true);
+      } else {
+        setError(true);
+        setPassword("");
+      }
+    } catch {
       setError(true);
-      setPassword("");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -116,9 +118,10 @@ export default function PasswordGate({ children }: PasswordGateProps) {
 
             <button
               type="submit"
-              className="w-full h-[48px] bg-black text-white text-[12px] font-medium tracking-[0.08em] hover:bg-[#222222] transition-colors duration-200"
+              disabled={submitting}
+              className="w-full h-[48px] bg-black text-white text-[12px] font-medium tracking-[0.08em] hover:bg-[#222222] transition-colors duration-200 disabled:opacity-50"
             >
-              ENTER
+              {submitting ? "…" : "ENTER"}
             </button>
           </form>
         </div>
